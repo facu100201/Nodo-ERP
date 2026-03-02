@@ -95,9 +95,9 @@ export const COLORES = {
   BG_MAIN: '#ffffff',
   BG_SOFT: '#f5efeb',
   HIGHLIGHT: '#c8d9e6',
-  SUCCESS: '#28a745',
+  SUCCESS: '#56a36b',
   DANGER: '#dc3545',
-  WARNING: '#ffc107',
+  WARNING: '#f2b705',
   INFO: '#17a2b8',
   LIGHT: '#f5efeb',
   DARK: '#2f4156'

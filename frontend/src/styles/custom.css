@@ -86,10 +86,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--erp-accent), var(--erp-accent-hover));
+  background: linear-gradient(135deg, var(--erp-primary), var(--erp-secondary));
   color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 10px rgba(47, 65, 86, 0.35);
 }
 
 .erp-sidebar__logo-text {
@@ -195,7 +195,7 @@
 }
 .erp-sidebar__link--active {
   background: var(--erp-sidebar-active-bg) !important;
-  color: var(--erp-accent) !important;
+  color: var(--erp-sidebar-text-active) !important;
   font-weight: 600;
 }
 
@@ -208,8 +208,8 @@
   width: 3px;
   height: 55%;
   border-radius: 0 3px 3px 0;
-  background: var(--erp-accent);
-  box-shadow: 0 0 8px rgba(245,158,11,0.45);
+  background: var(--erp-secondary);
+  box-shadow: 0 0 8px rgba(86,124,141,0.45);
 }
 
 /* Icono del enlace — siempre centrado en su cuadro */
@@ -224,7 +224,7 @@
   transition: background 0.15s ease;
 }
 .erp-sidebar__link--active .erp-sidebar__link-icon {
-  background: rgba(245,158,11,0.1);
+  background: rgba(86,124,141,0.18);
 }
 
 .erp-sidebar__link-label {
@@ -301,7 +301,7 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--erp-accent), var(--erp-accent-hover));
+  background: linear-gradient(135deg, var(--erp-primary), var(--erp-secondary));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -566,7 +566,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--erp-accent), var(--erp-accent-hover));
+  background: linear-gradient(135deg, var(--erp-primary), var(--erp-secondary));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -747,6 +747,16 @@
   background: var(--erp-glass-bg) !important;
   backdrop-filter: blur(var(--erp-glass-blur));
   -webkit-backdrop-filter: blur(var(--erp-glass-blur));
+}
+.stat-card .card-body {
+  padding: 0.9rem 1.1rem !important;
+}
+.stat-card .card-title {
+  font-size: 1.2rem;
+}
+.stat-card .card-subtitle,
+.stat-card small {
+  font-size: 0.8rem;
 }
 .stat-card:hover {
   transform: translateY(-4px);

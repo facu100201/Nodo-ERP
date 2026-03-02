@@ -1,56 +1,56 @@
 /**
  * Sistema de Diseño ERP 2026 — Glassmorphism + Dark Sidebar
  *
- * Primario #1e293b → sidebar, headers
+ * Primario #2f4156 → sidebar, headers
  * Secundario #567c8d → acentos secundarios
- * Acento #f59e0b → estados activos, indicadores
- * Fondo #f1f5f9 → área de trabajo
- * Glass: rgba(255,255,255,0.6) + backdrop-blur
+ * Acento #f2b705 → estados activos, indicadores / warning
+ * Fondo #f5efeb → área de trabajo
+ * Glass: #ffffff + backdrop-blur
  */
 :root {
   /* ─── Paleta principal ─── */
-  --erp-primary: #1e293b;
-  --erp-primary-light: #334155;
-  --erp-primary-hover: #475569;
+  --erp-primary: #2f4156;
+  --erp-primary-light: #3c4f65;
+  --erp-primary-hover: #263447;
   --erp-secondary: #567c8d;
-  --erp-accent: #f59e0b;
-  --erp-accent-hover: #d97706;
-  --erp-accent-soft: rgba(245, 158, 11, 0.12);
+  --erp-accent: #f2b705;
+  --erp-accent-hover: #d39c05;
+  --erp-accent-soft: rgba(242, 183, 5, 0.12);
 
   /* ─── Fondos ─── */
   --erp-bg-main: #ffffff;
-  --erp-bg-soft: #f1f5f9;
-  --erp-bg-page: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+  --erp-bg-soft: #f5efeb;
+  --erp-bg-page: #f5efeb;
   --erp-highlight: #c8d9e6;
 
   /* ─── Sidebar ─── */
-  --erp-sidebar-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  --erp-sidebar-bg: #2f4156;
   --erp-sidebar-width: 260px;
   --erp-sidebar-collapsed: 78px;
-  --erp-sidebar-text: rgba(255, 255, 255, 0.7);
+  --erp-sidebar-text: rgba(255, 255, 255, 0.72);
   --erp-sidebar-text-active: #ffffff;
-  --erp-sidebar-hover: rgba(255, 255, 255, 0.06);
-  --erp-sidebar-active-bg: rgba(245, 158, 11, 0.12);
-  --erp-sidebar-border: rgba(255, 255, 255, 0.06);
+  --erp-sidebar-hover: rgba(86, 124, 141, 0.35);
+  --erp-sidebar-active-bg: rgba(86, 124, 141, 0.35);
+  --erp-sidebar-border: #00000014;
 
   /* ─── Glassmorphism ─── */
-  --erp-glass-bg: rgba(255, 255, 255, 0.65);
-  --erp-glass-border: rgba(255, 255, 255, 0.35);
+  --erp-glass-bg: #ffffff;
+  --erp-glass-border: #00000014;
   --erp-glass-blur: 16px;
   --erp-glass-bg-dark: rgba(30, 41, 59, 0.4);
   --erp-glass-border-dark: rgba(255, 255, 255, 0.08);
   --erp-glass-blur-dark: 20px;
 
   /* ─── Bootstrap overrides ─── */
-  --bs-primary: #1e293b;
-  --bs-primary-rgb: 30, 41, 59;
+  --bs-primary: #2f4156;
+  --bs-primary-rgb: 47, 65, 86;
   --bs-secondary: #567c8d;
   --bs-secondary-rgb: 86, 124, 141;
   --bs-link-color: #567c8d;
   --bs-link-hover-color: #456a7a;
   --bs-link-color-rgb: 86, 124, 141;
-  --bs-border-color: rgba(203, 213, 225, 0.5);
-  --erp-border: rgba(203, 213, 225, 0.5);
+  --bs-border-color: #00000014;
+  --erp-border: #00000014;
 
   /* ─── Tabla ─── */
   --erp-table-header-bg: #1e293b;
@@ -64,18 +64,18 @@
   --erp-shadow-glow: 0 0 20px rgba(245, 158, 11, 0.15);
 
   /* ─── Semánticos ─── */
-  --erp-success: #10b981;
-  --erp-success-bg: rgba(16, 185, 129, 0.08);
-  --erp-success-border: rgba(16, 185, 129, 0.2);
-  --erp-success-text: #065f46;
+  --erp-success: #56a36b;
+  --erp-success-bg: rgba(86, 163, 107, 0.08);
+  --erp-success-border: rgba(86, 163, 107, 0.2);
+  --erp-success-text: #275336;
   --erp-danger: #ef4444;
   --erp-danger-bg: rgba(239, 68, 68, 0.08);
   --erp-danger-border: rgba(239, 68, 68, 0.2);
   --erp-danger-text: #991b1b;
-  --erp-warning: #f59e0b;
-  --erp-warning-bg: rgba(245, 158, 11, 0.08);
-  --erp-warning-border: rgba(245, 158, 11, 0.2);
-  --erp-warning-text: #92400e;
+  --erp-warning: #f2b705;
+  --erp-warning-bg: rgba(242, 183, 5, 0.08);
+  --erp-warning-border: rgba(242, 183, 5, 0.2);
+  --erp-warning-text: #7a5b02;
   --erp-info: #3b82f6;
   --erp-info-bg: rgba(59, 130, 246, 0.08);
   --erp-info-border: rgba(59, 130, 246, 0.2);
