@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
 import { facturacionService, salesService } from '../../services/apiService';
 import { Receipt, Plus, Globe, FileText, CreditCard, ShoppingCart, ClipboardList } from 'lucide-react';
 import './Facturacion.css';
@@ -135,7 +134,6 @@ function Facturacion() {
   };
 
   return (
-    <Layout>
       <div className="facturacion-container">
         <h1 className="page-title d-flex align-items-center gap-2">
           <Receipt size={28} />
@@ -442,7 +440,6 @@ function Facturacion() {
           </div>
         )}
       </div>
-    </Layout>
   );
 }
 

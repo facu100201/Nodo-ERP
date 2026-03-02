@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
 import { salesService, inventoryService } from '../../services/apiService';
 import { formatearMoneda } from '../../utils/helpers';
 import { COLORES } from '../../utils/constants';
@@ -78,7 +77,6 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <Layout>
         <div className="container-fluid">
           <div className="placeholder-glow mb-4">
             <div className="placeholder col-6 bg-secondary rounded" style={{height: '32px'}}></div>
@@ -98,17 +96,15 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      </Layout>
     );
   }
 
   return (
-    <Layout>
       <div className="w-100">
         {/* Header */}
         <div className="d-flex align-items-center gap-2 gap-md-3 mb-3 mb-md-4">
-          <BarChart3 className="text-primary" size={28} style={{minWidth: '28px'}} />
-          <h1 className="h2 h3-md fw-bold mb-0">Dashboard</h1>
+          <BarChart3 className="text-primary" size={30} style={{minWidth: '30px'}} />
+          <h1 className="page-title mb-0">Dashboard</h1>
         </div>
 
         {/* Tarjetas de estadísticas */}
@@ -195,10 +191,10 @@ function Dashboard() {
                 <div className="d-flex align-items-center gap-2">
                   <TrendingUp size={18} className="d-md-none" />
                   <TrendingUp size={20} className="d-none d-md-block" />
-                  <h5 className="mb-0 fw-bold small small-md">Tendencia de Ventas (7 días)</h5>
+                  <h5 className="mb-0 fw-bold small small-md card-chart-title">Tendencia de Ventas (7 días)</h5>
                 </div>
               </CardHeader>
-            <CardContent className="p-2 p-md-3">
+            <CardContent className="card-chart-body">
               <div className="d-md-none">
                 <ResponsiveContainer width="100%" height={250}>
                   <LineChart data={ventasUltimos7Dias}>
@@ -299,10 +295,10 @@ function Dashboard() {
                 <div className="d-flex align-items-center gap-2">
                   <BarChart3 size={18} className="d-md-none" />
                   <BarChart3 size={20} className="d-none d-md-block" />
-                  <h5 className="mb-0 fw-bold small small-md">Productos Más Vendidos</h5>
+                  <h5 className="mb-0 fw-bold small small-md card-chart-title">Productos Más Vendidos</h5>
                 </div>
               </CardHeader>
-            <CardContent className="p-2 p-md-3">
+            <CardContent className="card-chart-body">
               <div className="d-md-none">
                 <ResponsiveContainer width="100%" height={250}>
                   <BarChart data={productosMasVendidos}>
@@ -467,7 +463,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }
 

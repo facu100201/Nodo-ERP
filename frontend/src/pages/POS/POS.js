@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Layout from '../../components/Layout';
 import { posService, salesService } from '../../services/apiService';
 import { ShoppingCart, DollarSign, XCircle, Plus } from 'lucide-react';
 import './POS.css';
@@ -183,7 +182,6 @@ function POS() {
   };
 
   return (
-    <Layout>
       <div className="pos-container">
         <h1 className="page-title d-flex align-items-center gap-2">
           <ShoppingCart size={28} />
@@ -332,7 +330,6 @@ function POS() {
           </small>
         </div>
       </div>
-    </Layout>
   );
 }
 
