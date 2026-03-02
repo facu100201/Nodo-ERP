@@ -115,15 +115,15 @@ function Dashboard() {
         <div className="row g-3 g-md-4 mb-3 mb-md-4">
           <div className="col-12 col-sm-6 col-lg-3">
             <div className="card bg-primary text-white shadow-sm stat-card h-100">
-              <div className="card-body p-3 p-md-4">
+              <div className="card-body">
                 <div className="d-flex align-items-center gap-2 gap-md-3">
                   <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <DollarSign size={24} className="d-md-none" />
-                    <DollarSign size={32} className="d-none d-md-block" />
+                    <DollarSign size={20} className="d-md-none" />
+                    <DollarSign size={24} className="d-none d-md-block" />
                   </div>
                   <div className="flex-grow-1 min-w-0">
                     <h6 className="card-subtitle mb-1 opacity-75 small small-md">Ventas Hoy</h6>
-                    <h2 className="card-title fw-bold mb-0 h4 h3-md">{stats.todaySales}</h2>
+                    <h2 className="card-title fw-semibold mb-0 h4">{stats.todaySales}</h2>
                     <small className="opacity-75 d-none d-md-inline">+12% vs ayer</small>
                   </div>
                 </div>
@@ -133,15 +133,15 @@ function Dashboard() {
 
           <div className="col-12 col-sm-6 col-lg-3">
             <div className="card bg-success text-white shadow-sm stat-card h-100">
-              <div className="card-body p-3 p-md-4">
+              <div className="card-body">
                 <div className="d-flex align-items-center gap-2 gap-md-3">
                   <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <TrendingUp size={24} className="d-md-none" />
-                    <TrendingUp size={32} className="d-none d-md-block" />
+                    <TrendingUp size={20} className="d-md-none" />
+                    <TrendingUp size={24} className="d-none d-md-block" />
                   </div>
                   <div className="flex-grow-1 min-w-0">
                     <h6 className="card-subtitle mb-1 opacity-75 small small-md">Total Ventas</h6>
-                    <h2 className="card-title fw-bold mb-0 h4 h3-md">{stats.totalSales}</h2>
+                    <h2 className="card-title fw-semibold mb-0 h4">{stats.totalSales}</h2>
                     <small className="opacity-75 d-none d-md-inline">Últimos 30 días</small>
                   </div>
                 </div>
@@ -151,15 +151,15 @@ function Dashboard() {
 
           <div className="col-12 col-sm-6 col-lg-3">
             <div className="card bg-warning text-dark shadow-sm stat-card h-100">
-              <div className="card-body p-3 p-md-4">
+              <div className="card-body">
                 <div className="d-flex align-items-center gap-2 gap-md-3">
                   <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <AlertTriangle size={24} className="d-md-none" />
-                    <AlertTriangle size={32} className="d-none d-md-block" />
+                    <AlertTriangle size={20} className="d-md-none" />
+                    <AlertTriangle size={24} className="d-none d-md-block" />
                   </div>
                   <div className="flex-grow-1 min-w-0">
                     <h6 className="card-subtitle mb-1 opacity-75 small small-md">Stock Bajo</h6>
-                    <h2 className="card-title fw-bold mb-0 h4 h3-md">{stats.lowStockItems}</h2>
+                    <h2 className="card-title fw-semibold mb-0 h4">{stats.lowStockItems}</h2>
                     <small className="opacity-75 d-none d-md-inline">Requiere atención</small>
                   </div>
                 </div>
@@ -169,15 +169,15 @@ function Dashboard() {
 
           <div className="col-12 col-sm-6 col-lg-3">
             <div className="card bg-info text-white shadow-sm stat-card h-100">
-              <div className="card-body p-3 p-md-4">
+              <div className="card-body">
                 <div className="d-flex align-items-center gap-2 gap-md-3">
                   <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <Package size={24} className="d-md-none" />
-                    <Package size={32} className="d-none d-md-block" />
+                    <Package size={20} className="d-md-none" />
+                    <Package size={24} className="d-none d-md-block" />
                   </div>
                   <div className="flex-grow-1 min-w-0">
                     <h6 className="card-subtitle mb-1 opacity-75 small small-md">Productos</h6>
-                    <h2 className="card-title fw-bold mb-0 h4 h3-md">{stats.totalProducts}</h2>
+                    <h2 className="card-title fw-semibold mb-0 h4">{stats.totalProducts}</h2>
                     <small className="opacity-75 d-none d-md-inline">En catálogo</small>
                   </div>
                 </div>
@@ -203,8 +203,17 @@ function Dashboard() {
                 <ResponsiveContainer width="100%" height={250}>
                   <LineChart data={ventasUltimos7Dias}>
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                    <XAxis dataKey="dia" stroke={CHART.text} tick={{fontSize: 10}} />
-                    <YAxis stroke={CHART.text} tick={{fontSize: 10}} />
+                    <XAxis
+                      dataKey="dia"
+                      stroke={CHART.text}
+                      tick={{fontSize: 10}}
+                      label={{ value: 'Día', position: 'insideBottomRight', offset: -5 }}
+                    />
+                    <YAxis
+                      stroke={CHART.text}
+                      tick={{fontSize: 10}}
+                      label={{ value: 'Ganancia', angle: -90, position: 'insideLeft' }}
+                    />
                     <Tooltip 
                       contentStyle={{ 
                         backgroundColor: CHART.tooltipBg, 
@@ -218,11 +227,11 @@ function Dashboard() {
                     <Line 
                       type="monotone" 
                       dataKey="ventas" 
-                      stroke={COLORES.PRIMARY} 
+                      stroke={COLORES.SUCCESS} 
                       strokeWidth={2}
-                      dot={{ fill: COLORES.PRIMARY, r: 3 }}
+                      dot={{ fill: COLORES.SUCCESS, r: 3 }}
                       activeDot={{ r: 5 }}
-                      name="Ventas"
+                      name="Ganancia diaria"
                     />
                     <Line 
                       type="monotone" 
@@ -231,7 +240,7 @@ function Dashboard() {
                       strokeWidth={2}
                       strokeDasharray="5 5"
                       dot={false}
-                      name="Meta"
+                      name="Meta diaria"
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -240,8 +249,15 @@ function Dashboard() {
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={ventasUltimos7Dias}>
                   <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                  <XAxis dataKey="dia" stroke={CHART.text} />
-                  <YAxis stroke={CHART.text} />
+                  <XAxis
+                    dataKey="dia"
+                    stroke={CHART.text}
+                    label={{ value: 'Día', position: 'insideBottomRight', offset: -5 }}
+                  />
+                  <YAxis
+                    stroke={CHART.text}
+                    label={{ value: 'Ganancia', angle: -90, position: 'insideLeft' }}
+                  />
                   <Tooltip 
                     contentStyle={{ 
                       backgroundColor: CHART.tooltipBg, 
@@ -254,11 +270,11 @@ function Dashboard() {
                   <Line 
                     type="monotone" 
                     dataKey="ventas" 
-                    stroke={COLORES.PRIMARY} 
+                    stroke={COLORES.SUCCESS} 
                     strokeWidth={3}
-                    dot={{ fill: COLORES.PRIMARY, r: 5 }}
+                    dot={{ fill: COLORES.SUCCESS, r: 5 }}
                     activeDot={{ r: 8 }}
-                    name="Ventas"
+                    name="Ganancia diaria"
                   />
                   <Line 
                     type="monotone" 
@@ -267,7 +283,7 @@ function Dashboard() {
                     strokeWidth={2}
                     strokeDasharray="5 5"
                     dot={false}
-                    name="Meta"
+                    name="Meta diaria"
                   />
                 </LineChart>
                 </ResponsiveContainer>

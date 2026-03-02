@@ -32,8 +32,8 @@
   text-align: left;
   padding: 10px;
   border-bottom: 2px solid var(--erp-primary);
-  background: var(--erp-primary);
-  color: white;
+  background: #f5efeb;
+  color: #ffffff;
 }
 
 .pos-items-table td {
