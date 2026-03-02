@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { facturacionService, salesService } from '../../services/apiService';
-import { Receipt, Plus, Globe, FileText, CreditCard, ShoppingCart, ClipboardList } from 'lucide-react';
+import { Receipt, Plus, Globe, ShoppingCart, ClipboardList } from 'lucide-react';
 import './Facturacion.css';
 
 function Facturacion() {

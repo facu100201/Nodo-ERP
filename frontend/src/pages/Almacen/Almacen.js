@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productService, inventoryService } from '../../services/apiService';
-import { Package, ClipboardList, BarChart3, TrendingUp, Plus, Tag, FileUp } from 'lucide-react';
+import { Package, Plus, Tag, FileUp } from 'lucide-react';
 import './Almacen.css';
 
 function Almacen() {

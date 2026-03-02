@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { reportesService } from '../../services/apiService';
-import { BarChart3, Download, FileSpreadsheet, CheckCircle, Clock } from 'lucide-react';
+import { BarChart3, FileSpreadsheet, CheckCircle, Clock } from 'lucide-react';
 import './Reportes.css';
 
 function Reportes() {

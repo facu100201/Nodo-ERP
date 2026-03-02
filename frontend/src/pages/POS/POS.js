@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { posService, salesService } from '../../services/apiService';
-import { ShoppingCart, DollarSign, XCircle, Plus } from 'lucide-react';
+import { ShoppingCart, Plus } from 'lucide-react';
 import './POS.css';
 
 function POS() {

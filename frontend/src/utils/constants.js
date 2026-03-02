@@ -122,7 +122,7 @@ export const MENSAJES = {
   SESION_EXPIRADA: 'Tu sesión ha expirado, por favor inicia sesión nuevamente'
 };
 
-export default {
+const CONSTANTS = {
   ROLES,
   ESTADOS_VENTA,
   METODOS_PAGO,
@@ -138,3 +138,5 @@ export default {
   VALIDACIONES,
   MENSAJES
 };
+
+export default CONSTANTS;

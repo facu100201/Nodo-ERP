@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { cobranzaService } from '../../services/apiService';
-import { Wallet, RefreshCw, AlertTriangle, CheckCircle, CreditCard } from 'lucide-react';
+import { Wallet, CreditCard } from 'lucide-react';
 import './Cobranza.css';
 
 function Cobranza() {
