@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import Layout from './components/Layout';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import POS from './pages/POS/POS';
@@ -12,10 +13,9 @@ import Cobranza from './pages/Cobranza/Cobranza';
 import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
-// Componente para rutas protegidas
-function PrivateRoute({ children }) {
+function AppRoutes() {
   const { token, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -24,70 +24,31 @@ function PrivateRoute({ children }) {
       </div>
     );
   }
-  
-  return token ? children : <Navigate to="/login" />;
-}
 
-function AppRoutes() {
-  const { token } = useAuth();
+  // Área pública (no autenticado)
+  if (!token) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    );
+  }
 
+  // Área privada (autenticado) con Layout persistente
   return (
-    <Routes>
-      <Route 
-        path="/login" 
-        element={token ? <Navigate to="/dashboard" /> : <Login />} 
-      />
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/pos"
-        element={
-          <PrivateRoute>
-            <POS />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/almacen"
-        element={
-          <PrivateRoute>
-            <Almacen />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/reportes"
-        element={
-          <PrivateRoute>
-            <Reportes />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/facturacion"
-        element={
-          <PrivateRoute>
-            <Facturacion />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/cobranza"
-        element={
-          <PrivateRoute>
-            <Cobranza />
-          </PrivateRoute>
-        }
-      />
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/pos" element={<POS />} />
+        <Route path="/almacen" element={<Almacen />} />
+        <Route path="/reportes" element={<Reportes />} />
+        <Route path="/facturacion" element={<Facturacion />} />
+        <Route path="/cobranza" element={<Cobranza />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Layout>
   );
 }
 

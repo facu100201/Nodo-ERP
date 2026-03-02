@@ -25,20 +25,20 @@ code {
    ═══════════════════════════════════════ */
 .page-title {
   font-family: var(--erp-font);
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   color: var(--erp-text-on-light);
   margin-bottom: 1.75rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .section-title {
   font-family: var(--erp-font);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   color: var(--erp-text-on-light);
   margin-bottom: 1rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .text-center { text-align: center; }

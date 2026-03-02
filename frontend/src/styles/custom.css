@@ -755,6 +755,17 @@
   box-shadow: var(--erp-shadow-hover) !important;
 }
 
+/* Gráficas dentro de tarjetas: ocupar mejor el espacio */
+.card-chart-body {
+  padding: 0.5rem 0.9rem 1rem !important;
+}
+.card-chart-body .recharts-responsive-container {
+  width: 100% !important;
+}
+.card-chart-title {
+  letter-spacing: 0.04em;
+}
+
 /* ═══════════════════════════════════════
    CARD HOVER
    ═══════════════════════════════════════ */

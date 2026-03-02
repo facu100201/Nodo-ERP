@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
 import { productService, inventoryService } from '../../services/apiService';
 import { Package, ClipboardList, BarChart3, TrendingUp, Plus, Tag, FileUp } from 'lucide-react';
 import './Almacen.css';
@@ -148,7 +147,6 @@ function Almacen() {
   };
 
   return (
-    <Layout>
       <div className="almacen-container">
         <h1 className="page-title d-flex align-items-center gap-2">
           <Package size={28} />
@@ -341,7 +339,6 @@ function Almacen() {
           </div>
         )}
       </div>
-    </Layout>
   );
 }
 

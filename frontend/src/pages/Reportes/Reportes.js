@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from '../../components/Layout';
 import { reportesService } from '../../services/apiService';
 import { BarChart3, Download, FileSpreadsheet, CheckCircle, Clock } from 'lucide-react';
 import './Reportes.css';
@@ -77,7 +76,6 @@ function Reportes() {
   };
 
   return (
-    <Layout>
       <div className="reportes-container">
         <h1 className="page-title d-flex align-items-center gap-2">
           <BarChart3 size={28} />
@@ -290,7 +288,6 @@ function Reportes() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }
 

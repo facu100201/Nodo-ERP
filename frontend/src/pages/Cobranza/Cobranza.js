@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
 import { cobranzaService } from '../../services/apiService';
 import { Wallet, RefreshCw, AlertTriangle, CheckCircle, CreditCard } from 'lucide-react';
 import './Cobranza.css';
@@ -81,7 +80,6 @@ function Cobranza() {
   const totales = calcularTotales();
 
   return (
-    <Layout>
       <div className="cobranza-container">
         <h1 className="page-title d-flex align-items-center gap-2">
           <Wallet size={28} />
@@ -253,7 +251,6 @@ function Cobranza() {
           </div>
         )}
       </div>
-    </Layout>
   );
 }
 
