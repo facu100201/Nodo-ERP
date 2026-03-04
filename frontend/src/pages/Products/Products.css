@@ -19,7 +19,7 @@
 }
 
 .page-title {
-  font-size: 2rem;
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
   color: var(--erp-primary);
   margin: 0;
 }
@@ -42,7 +42,7 @@
   padding: 0.75rem 1rem;
   border: 2px solid var(--erp-border);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   transition: all 0.3s ease;
   background: var(--erp-bg-main);
 }
@@ -76,10 +76,10 @@
 }
 
 .table th {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
 }
 
 .table tbody tr {
@@ -91,12 +91,12 @@
 }
 
 .product-name {
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-primary);
 }
 
 .text-price {
-  font-weight: 700;
+  font-weight: var(--erp-fw-bold);         /* 700     */
   color: var(--erp-success);
 }
 
@@ -105,8 +105,8 @@
   display: inline-block;
   padding: 0.35rem 0.65rem;
   border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
 }
 
 .stock-ok {
@@ -124,8 +124,8 @@
   display: inline-block;
   padding: 0.35rem 0.65rem;
   border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   text-transform: uppercase;
 }
 
@@ -153,7 +153,7 @@
 .btn-icon {
   background: transparent;
   border: none;
-  font-size: 1.3rem;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
   cursor: pointer;
   padding: 0.35rem;
   border-radius: 6px;
@@ -175,8 +175,8 @@
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -255,13 +255,13 @@
 .modal-header h2 {
   margin: 0;
   color: var(--erp-primary);
-  font-size: 1.5rem;
+  font-size: var(--erp-fs-subtitulo);      /* 1.45rem */
 }
 
 .btn-close {
   background: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: var(--erp-fs-subtitulo);      /* 1.45rem */
   cursor: pointer;
   color: var(--erp-secondary);
   padding: 0.25rem 0.5rem;
@@ -285,9 +285,9 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-primary);
-  font-size: 0.9rem;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
 }
 
 .form-control {
@@ -295,7 +295,7 @@
   padding: 0.75rem 1rem;
   border: 2px solid var(--erp-border);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   transition: all 0.3s ease;
   background: var(--erp-bg-main);
 }
@@ -329,8 +329,8 @@ textarea.form-control {
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
+  font-weight: var(--erp-fw-medium);       /* 500     */
 }
 
 .alert-success {
@@ -351,7 +351,7 @@ textarea.form-control {
   text-align: center;
   padding: 4rem 2rem;
   color: var(--erp-secondary);
-  font-size: 1.2rem;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
 }
 
 /* Loading */
@@ -387,7 +387,7 @@ textarea.form-control {
   }
 
   .table {
-    font-size: 0.85rem;
+    font-size: var(--erp-fs-sm);             /* 0.9rem  */
   }
 
   .table th,

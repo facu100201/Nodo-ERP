@@ -81,8 +81,86 @@
   --erp-info-border: rgba(59, 130, 246, 0.2);
   --erp-info-text: #1e40af;
 
-  /* ─── Tipografía ─── */
+  /* ═══════════════════════════════════════════════════════════════
+     SISTEMA TIPOGRÁFICO — Montserrat
+     ───────────────────────────────────────────────────────────────
+     Jerarquía visual del ERP organizada en tokens reutilizables.
+     Todos los textos del sistema deben referenciar estas variables
+     en lugar de usar valores numéricos directos.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* ─── Familia tipográfica principal ─── */
   --erp-font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ─── Escala de tamaños ─────────────────────────────────────────
+     Nivel        Variable               Tamaño   Uso típico
+     ─────────────────────────────────────────────────────────────
+     Display    --erp-fs-display       2.5rem   Hero, banners
+     H1/Título  --erp-fs-titulo        1.9rem   Título de página
+     H2/Subtít. --erp-fs-subtitulo     1.45rem  Título de sección
+     H3         --erp-fs-h3            1.2rem   Título de tarjeta
+     H4         --erp-fs-h4            1.05rem  Sub-sección menor
+     H5         --erp-fs-h5            0.95rem  Encabezado pequeño
+     H6         --erp-fs-h6            0.85rem  Micro-encabezado
+     Destacado  --erp-fs-lead          1.1rem   Párrafo intro
+     Cuerpo     --erp-fs-texto         1rem     Texto general (16px)
+     Pequeño    --erp-fs-sm            0.9rem   Etiquetas, ayuda
+     Micro      --erp-fs-xs            0.8rem   Captions, th de tabla
+     Badge      --erp-fs-badge         0.72rem  Chips, etiquetas
+     ─────────────────────────────────────────────────────────────*/
+  --erp-fs-display   : 2.5rem;
+  --erp-fs-titulo    : 1.9rem;
+  --erp-fs-subtitulo : 1.45rem;
+  --erp-fs-h3        : 1.2rem;
+  --erp-fs-h4        : 1.05rem;
+  --erp-fs-h5        : 0.95rem;
+  --erp-fs-h6        : 0.85rem;
+  --erp-fs-lead      : 1.1rem;
+  --erp-fs-texto     : 1rem;
+  --erp-fs-sm        : 0.9rem;
+  --erp-fs-xs        : 0.8rem;
+  --erp-fs-badge     : 0.72rem;
+
+  /* ─── Pesos tipográficos ─────────────────────────────────────
+     Nombre           Valor   Equivalente
+     ─────────────────────────────────────
+     --erp-fw-light     300   Montserrat Light
+     --erp-fw-normal    400   Montserrat Regular
+     --erp-fw-medium    500   Montserrat Medium
+     --erp-fw-semibold  600   Montserrat SemiBold
+     --erp-fw-bold      700   Montserrat Bold
+     --erp-fw-extrabold 800   Montserrat ExtraBold
+     ─────────────────────────────────────*/
+  --erp-fw-light    : 300;
+  --erp-fw-normal   : 400;
+  --erp-fw-medium   : 500;
+  --erp-fw-semibold : 600;
+  --erp-fw-bold     : 700;
+  --erp-fw-extrabold: 800;
+
+  /* ─── Alturas de línea ──────────────────────────────────────
+     --erp-lh-display  : 1.1  → Display / Hero (muy apretado)
+     --erp-lh-titulo   : 1.2  → Encabezados grandes
+     --erp-lh-compacto : 1.4  → Etiquetas, badges, th
+     --erp-lh-texto    : 1.6  → Párrafos (máxima legibilidad)
+     ─────────────────────────────────────*/
+  --erp-lh-display  : 1.1;
+  --erp-lh-titulo   : 1.2;
+  --erp-lh-compacto : 1.4;
+  --erp-lh-texto    : 1.6;
+
+  /* ─── Espaciado entre letras (letter-spacing) ──────────────
+     --erp-ls-apretado  : -0.02em → Títulos display grandes
+     --erp-ls-titulo    : -0.01em → Encabezados h1-h3
+     --erp-ls-normal    :  0em    → Cuerpo de texto
+     --erp-ls-ancho     :  0.04em → Etiquetas uppercase
+     --erp-ls-muy-ancho :  0.08em → Micro-texto uppercase
+     ─────────────────────────────────────*/
+  --erp-ls-apretado  : -0.02em;
+  --erp-ls-titulo    : -0.01em;
+  --erp-ls-normal    :  0em;
+  --erp-ls-ancho     :  0.04em;
+  --erp-ls-muy-ancho :  0.08em;
 
   /* ─── Texto ─── */
   --erp-text-on-dark: #ffffff;

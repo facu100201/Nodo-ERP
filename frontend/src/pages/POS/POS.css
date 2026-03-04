@@ -28,12 +28,18 @@
   margin: 20px 0;
 }
 
+/* Corrección: #f5efeb (beige) + color:#fff era contraste inválido.
+   Se usa background primario oscuro para garantizar legibilidad. */
 .pos-items-table th {
   text-align: left;
   padding: 10px;
   border-bottom: 2px solid var(--erp-primary);
-  background: #f5efeb;
-  color: #ffffff;
+  background: var(--erp-primary);
+  color: var(--erp-text-on-dark);
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  text-transform: uppercase;
+  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
 }
 
 .pos-items-table td {
@@ -51,12 +57,12 @@
   display: flex;
   justify-content: space-between;
   padding: 8px 10px;
-  font-size: 16px;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
 }
 
 .total-final {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   border-top: 2px solid var(--erp-primary);
   margin-top: 10px;
   padding-top: 10px;
@@ -70,7 +76,7 @@
 }
 
 .empty-cart p:first-child {
-  font-size: 1.25rem;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
   margin-bottom: 10px;
 }
 
@@ -87,7 +93,7 @@
   padding: 12px 20px;
   margin-bottom: 20px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: var(--erp-fw-medium);       /* 500     */
 }
 
 .alert-success {

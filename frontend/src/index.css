@@ -39,14 +39,56 @@ code {
   min-height: 100vh;
 }
 
-/* ─── TIPOGRAFÍA ─── */
+/* ─── TIPOGRAFÍA — Jerarquía completa con variables del sistema ─── */
+/* Todos los encabezados comparten: Montserrat, color primario, margen base */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--erp-font);
-  font-weight: 600;
-  line-height: 1.2;
+  line-height: var(--erp-lh-titulo);
   margin-bottom: 0.5rem;
   color: var(--erp-text-on-light);
-  letter-spacing: -0.01em;
+}
+
+/* H1 — Título de página principal */
+h1 {
+  font-size: var(--erp-fs-titulo);        /* 1.9rem */
+  font-weight: var(--erp-fw-bold);        /* 700    */
+  letter-spacing: var(--erp-ls-titulo);   /* -0.01em */
+}
+
+/* H2 — Título de sección o módulo */
+h2 {
+  font-size: var(--erp-fs-subtitulo);     /* 1.45rem */
+  font-weight: var(--erp-fw-semibold);    /* 600     */
+  letter-spacing: var(--erp-ls-titulo);   /* -0.01em */
+}
+
+/* H3 — Título de tarjeta o modal */
+h3 {
+  font-size: var(--erp-fs-h3);            /* 1.2rem  */
+  font-weight: var(--erp-fw-semibold);    /* 600     */
+  letter-spacing: var(--erp-ls-titulo);   /* -0.01em */
+}
+
+/* H4 — Sub-sección menor */
+h4 {
+  font-size: var(--erp-fs-h4);            /* 1.05rem */
+  font-weight: var(--erp-fw-semibold);    /* 600     */
+  letter-spacing: var(--erp-ls-normal);   /* 0em     */
+}
+
+/* H5 — Encabezado pequeño (nav, sidebar) */
+h5 {
+  font-size: var(--erp-fs-h5);            /* 0.95rem */
+  font-weight: var(--erp-fw-semibold);    /* 600     */
+  letter-spacing: var(--erp-ls-normal);   /* 0em     */
+}
+
+/* H6 — Micro-encabezado (agrupadores, fieldset) */
+h6 {
+  font-size: var(--erp-fs-h6);            /* 0.85rem */
+  font-weight: var(--erp-fw-semibold);    /* 600     */
+  letter-spacing: var(--erp-ls-ancho);    /* 0.04em  */
+  text-transform: uppercase;
 }
 
 p {

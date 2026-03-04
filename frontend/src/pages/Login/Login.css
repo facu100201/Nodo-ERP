@@ -18,8 +18,7 @@ body.login-page-active {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont,
-    'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--erp-font);
 
   /* Color base del Figma */
   background-color: #87A9BB;
@@ -70,18 +69,18 @@ body.login-page-active {
 }
 
 .login-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   color: #ffffff;
   margin: 0;
   padding-bottom: 1.4rem;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: var(--erp-ls-titulo);    /* -0.01em */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
 }
 
 .login-subtitle {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: rgba(255, 255, 255, 0.88);
   margin: 0 0 1.8rem;
 }
@@ -92,7 +91,7 @@ body.login-page-active {
   border: 1px solid rgba(255, 100, 100, 0.45);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
-  font-size: 0.83rem;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
   color: #fff;
   margin-bottom: 1rem;
 }
@@ -104,10 +103,10 @@ body.login-page-active {
 
 .login-label {
   display: block;
-  font-size: 0.82rem;
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
   color: rgba(255, 255, 255, 0.78);
   margin-bottom: 0.38rem;
-  font-weight: 400;
+  font-weight: var(--erp-fw-normal);       /* 400     */
 }
 
 /* Input solo con borde inferior — estilo Figma */
@@ -117,7 +116,7 @@ body.login-page-active {
   border: none;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.52);
   padding: 0.32rem 0;
-  font-size: 0.92rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   color: rgba(255, 255, 255, 0.95);
   outline: none;
   transition: border-color 0.2s;
@@ -152,7 +151,7 @@ body.login-page-active {
   background: none;
   border: none;
   padding: 0;
-  font-size: 0.78rem;
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   text-align: left;
@@ -169,7 +168,7 @@ body.login-page-active {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 0.78rem;
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
   color: rgba(255, 255, 255, 0.76);
   cursor: pointer;
   user-select: none;
@@ -192,12 +191,12 @@ body.login-page-active {
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 10px;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
   font-family: inherit;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
 }
 
 .login-submit-btn:hover:not(:disabled) {
@@ -260,18 +259,19 @@ body.login-page-active {
   box-sizing: border-box;
 }
 
+/* Nombre de marca — valores de letter-spacing intencionales del diseño */
 .login-brand-name {
-  font-size: 1.38rem;
-  font-weight: 500;
-  letter-spacing: 0.55em;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
+  font-weight: var(--erp-fw-medium);       /* 500     */
+  letter-spacing: 0.55em;                  /* espaciado de marca */
   color: #1a1a1a;
   margin: 0;
   text-transform: uppercase;
 }
 
 .login-brand-tagline {
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
+  font-size: var(--erp-fs-badge);          /* 0.72rem */
+  letter-spacing: 0.28em;                  /* espaciado de marca */
   color: #666;
   margin: 0;
   text-transform: lowercase;
@@ -304,6 +304,6 @@ body.login-page-active {
   }
 
   .login-title {
-    font-size: 1.7rem;
+    font-size: var(--erp-fs-subtitulo);    /* 1.45rem — reducción mobile */
   }
 }

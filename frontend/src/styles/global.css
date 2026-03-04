@@ -20,40 +20,167 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-/* ═══════════════════════════════════════
-   TIPOGRAFÍA
-   ═══════════════════════════════════════ */
-.page-title {
+/* ═══════════════════════════════════════════════════════════════
+   SISTEMA TIPOGRÁFICO — Clases semánticas Montserrat
+   ───────────────────────────────────────────────────────────────
+   Todas las clases de tipografía del sistema ERP unificadas aquí.
+   Usar SIEMPRE estas clases en lugar de estilos inline o valores
+   numéricos directos de tamaño o peso tipográfico.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. CLASES SEMÁNTICAS PRINCIPALES ─────────────────────────
+
+   .erp-display    → Hero / banners de alto impacto  (2.5rem / 800)
+   .erp-titulo     → Título de página principal      (1.9rem / 700)
+   .erp-subtitulo  → Título de sección o módulo      (1.45rem / 600)
+   .erp-encabezado → Título de tarjeta o modal       (1.2rem  / 600)
+   .erp-lead       → Párrafo introductorio           (1.1rem  / 400)
+   .erp-texto      → Cuerpo de texto general         (1rem    / 400)
+   .erp-texto-sm   → Texto secundario / ayuda        (0.9rem  / 400)
+   .erp-caption    → Pie de dato, descripción corta  (0.8rem  / 400)
+   .erp-etiqueta   → Etiqueta uppercase (form label) (0.8rem  / 600)
+   ───────────────────────────────────────────────────────────── */
+
+/* Display — Uso exclusivo en heroes o pantallas de bienvenida */
+.erp-display {
   font-family: var(--erp-font);
-  font-size: 1.9rem;
+  font-size: var(--erp-fs-display);        /* 2.5rem  */
+  font-weight: var(--erp-fw-extrabold);    /* 800     */
+  line-height: var(--erp-lh-display);      /* 1.1     */
+  letter-spacing: var(--erp-ls-apretado);  /* -0.02em */
+  color: var(--erp-text-on-light);
+}
+
+/* Título — Equivale a h1; encabezado principal de cada página */
+.erp-titulo {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
+  letter-spacing: var(--erp-ls-titulo);    /* -0.01em */
   color: var(--erp-text-on-light);
   margin-bottom: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
 }
 
-.section-title {
+/* Subtítulo — Equivale a h2; encabezado de sección o módulo */
+.erp-subtitulo {
   font-family: var(--erp-font);
-  font-size: 1.45rem;
+  font-size: var(--erp-fs-subtitulo);      /* 1.45rem */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
+  letter-spacing: var(--erp-ls-titulo);    /* -0.01em */
   color: var(--erp-text-on-light);
   margin-bottom: 1rem;
-  font-weight: 600;
-  letter-spacing: 0;
 }
 
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-bold { font-weight: 600; }
+/* Encabezado — Equivale a h3; título de tarjeta, modal o panel */
+.erp-encabezado {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
+  letter-spacing: var(--erp-ls-titulo);    /* -0.01em */
+  color: var(--erp-text-on-light);
+  margin-bottom: 0.75rem;
+}
 
+/* Lead — Párrafo introductorio o texto destacado */
+.erp-lead {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
+  font-weight: var(--erp-fw-normal);       /* 400     */
+  line-height: var(--erp-lh-texto);        /* 1.6     */
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
+  color: var(--erp-text-on-light);
+}
+
+/* Texto — Cuerpo de texto estándar del sistema */
+.erp-texto {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-texto);          /* 1rem    */
+  font-weight: var(--erp-fw-normal);       /* 400     */
+  line-height: var(--erp-lh-texto);        /* 1.6     */
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
+  color: var(--erp-text-on-light);
+}
+
+/* Texto pequeño — Notas, texto secundario, mensajes de ayuda */
+.erp-texto-sm {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  font-weight: var(--erp-fw-normal);       /* 400     */
+  line-height: var(--erp-lh-compacto);     /* 1.4     */
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
+  color: var(--erp-text-muted);
+}
+
+/* Caption — Pie de dato, descripción corta, texto explicativo */
+.erp-caption {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
+  font-weight: var(--erp-fw-normal);       /* 400     */
+  line-height: var(--erp-lh-compacto);     /* 1.4     */
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
+  color: var(--erp-text-muted);
+}
+
+/* Etiqueta — Etiquetas de formulario y columnas uppercase */
+.erp-etiqueta {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  line-height: var(--erp-lh-compacto);     /* 1.4     */
+  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
+  text-transform: uppercase;
+  color: var(--erp-text-on-light);
+}
+
+/* ─── 2. CLASES HEREDADAS (compatibilidad total con el sistema) ── */
+
+/* page-title — Alias de .erp-titulo para páginas internas */
+.page-title {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
+  letter-spacing: var(--erp-ls-titulo);    /* -0.01em */
+  color: var(--erp-text-on-light);
+  margin-bottom: 1.75rem;
+}
+
+/* section-title — Alias de .erp-subtitulo para secciones internas */
+.section-title {
+  font-family: var(--erp-font);
+  font-size: var(--erp-fs-subtitulo);      /* 1.45rem */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  line-height: var(--erp-lh-titulo);       /* 1.2     */
+  letter-spacing: var(--erp-ls-normal);    /* 0em     */
+  color: var(--erp-text-on-light);
+  margin-bottom: 1rem;
+}
+
+/* ─── 3. UTILIDADES DE TEXTO ──────────────────────────────────── */
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+.text-left   { text-align: left; }
+.text-bold   { font-weight: var(--erp-fw-semibold); }
+.text-medium { font-weight: var(--erp-fw-medium); }
+.text-normal { font-weight: var(--erp-fw-normal); }
+.text-upper  { text-transform: uppercase; letter-spacing: var(--erp-ls-ancho); }
+
+/* Texto atenuado — información secundaria, metadatos */
 .text-muted {
   color: var(--erp-text-muted);
-  font-size: 0.9rem;
-  opacity: 0.9;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  line-height: var(--erp-lh-compacto);
 }
 
-.text-danger { color: var(--erp-danger); font-weight: 600; }
-.text-success { color: var(--erp-success); font-weight: 600; }
-.text-warning { color: var(--erp-warning); font-weight: 600; }
+/* Colores semánticos de texto */
+.text-danger  { color: var(--erp-danger);  font-weight: var(--erp-fw-semibold); }
+.text-success { color: var(--erp-success); font-weight: var(--erp-fw-semibold); }
+.text-warning { color: var(--erp-warning); font-weight: var(--erp-fw-semibold); }
+.text-info    { color: var(--erp-info);    font-weight: var(--erp-fw-semibold); }
+.text-primary { color: var(--erp-primary); }
 
 /* ═══════════════════════════════════════
    LAYOUT
@@ -89,7 +216,7 @@ code {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--erp-text-muted);
-  font-size: 1.1rem;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
 }
 
 /* ═══════════════════════════════════════
@@ -99,19 +226,20 @@ code {
   margin-bottom: 1.2rem;
 }
 
+/* Etiquetas de formulario — usan .erp-etiqueta como referencia */
 .form-group label {
   font-family: var(--erp-font);
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-text-on-light);
-  font-size: 0.9rem;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
 }
 
 .form-control {
   width: 100%;
   padding: 0.7rem 1rem;
-  font-size: 0.95rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   border: 1.5px solid var(--erp-border);
   border-radius: var(--erp-radius-sm);
   transition: var(--erp-transition);
@@ -156,8 +284,8 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   padding: 0.7rem 1.4rem;
   border: none;
   border-radius: var(--erp-radius-sm);
-  font-size: 0.925rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   cursor: pointer;
   transition: var(--erp-transition);
   display: inline-flex;
@@ -241,8 +369,8 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 }
 
 .btn-block { width: 100%; display: flex; }
-.btn-sm { padding: 0.45rem 0.9rem; font-size: 0.825rem; }
-.btn-lg { padding: 0.9rem 1.8rem; font-size: 1.05rem; }
+.btn-sm { padding: 0.45rem 0.9rem; font-size: var(--erp-fs-xs); }   /* 0.8rem  */
+.btn-lg { padding: 0.9rem 1.8rem;  font-size: var(--erp-fs-h5); }   /* 0.95rem */
 
 /* ═══════════════════════════════════════
    TABLAS
@@ -269,11 +397,12 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   font-family: var(--erp-font);
 }
 
+/* Encabezados de tabla — usan .erp-etiqueta como referencia */
 .table th {
-  font-weight: 600;
-  font-size: 0.8rem;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
+  font-size: var(--erp-fs-xs);             /* 0.8rem  */
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
 }
 
 .table tbody tr {
@@ -291,14 +420,16 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 /* ═══════════════════════════════════════
    BADGES
    ═══════════════════════════════════════ */
+/* Badge — chip de estado, usa el tamaño más pequeño del sistema */
 .badge {
   display: inline-block;
   padding: 0.3rem 0.7rem;
   border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--erp-fs-badge);          /* 0.72rem */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
+  line-height: var(--erp-lh-compacto);     /* 1.4     */
 }
 
 .badge-success { background: var(--erp-success); color: white; }
@@ -315,7 +446,7 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
   border-radius: var(--erp-radius-sm);
-  font-weight: 500;
+  font-weight: var(--erp-fw-medium);       /* 500     */
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -398,10 +529,12 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Título de modal — alineado con h3 / .erp-encabezado */
 .modal-content h3 {
   margin-bottom: 1.5rem;
   color: var(--erp-text-on-light);
-  font-size: 1.4rem;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   font-family: var(--erp-font);
 }
 
@@ -427,8 +560,8 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-h5);             /* 0.95rem */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-text-muted);
   cursor: pointer;
   transition: var(--erp-transition);
@@ -499,16 +632,30 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 .gap-2 { gap: 1rem; }
 .gap-3 { gap: 1.5rem; }
 
-/* ═══════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Ajustes tipográficos mobile (≤ 768px)
+   ───────────────────────────────────────────────────────────────
+   Se reducen los tamaños de los títulos principales para mantener
+   la legibilidad y la proporción en pantallas pequeñas.
+   ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .page-title {
+  /* Reducción proporcional de la escala tipográfica en mobile */
+  .page-title,
+  .erp-titulo {
     font-size: 1.35rem;
   }
 
-  .section-title {
+  .section-title,
+  .erp-subtitulo {
     font-size: 1.15rem;
+  }
+
+  .erp-display {
+    font-size: 1.8rem;
+  }
+
+  .erp-encabezado {
+    font-size: 1.05rem;
   }
 
   .container {
@@ -532,7 +679,7 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   }
 
   .table {
-    font-size: 0.85rem;
+    font-size: var(--erp-fs-sm);             /* 0.9rem  */
   }
 
   .table th,

@@ -4,9 +4,10 @@
   margin: 0 auto;
 }
 
+/* uuid-cell usa monospace intencional para IDs/códigos */
 .uuid-cell {
   font-family: 'Courier New', monospace;
-  font-size: 12px;
+  font-size: var(--erp-fs-badge);          /* 0.72rem */
   color: var(--erp-secondary);
 }
 
@@ -46,8 +47,8 @@
 /* Estilos para formulario mejorado */
 .form-section-title {
   color: var(--erp-primary);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   margin: 20px 0 15px 0;
   padding-bottom: 8px;
   border-bottom: 2px solid var(--erp-secondary);
@@ -75,7 +76,7 @@
 .modal-content h3 {
   color: var(--erp-primary);
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: var(--erp-fs-subtitulo);      /* 1.45rem */
 }
 
 .form-control {
@@ -83,7 +84,7 @@
   padding: 10px;
   border: 1px solid var(--erp-border);
   border-radius: 4px;
-  font-size: 14px;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
   transition: border-color 0.3s;
   background: var(--erp-bg-main);
 }
@@ -102,13 +103,13 @@
   display: block;
   margin-bottom: 6px;
   color: var(--erp-primary);
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: var(--erp-fw-medium);       /* 500     */
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
 }
 
 .text-muted {
   color: var(--erp-secondary);
-  font-size: 12px;
+  font-size: var(--erp-fs-badge);          /* 0.72rem */
   opacity: 0.9;
 }
 
@@ -122,8 +123,8 @@ textarea.form-control {
   display: inline-block;
   padding: 4px 12px;
   border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--erp-fs-badge);          /* 0.72rem */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   text-transform: uppercase;
 }
 
@@ -160,7 +161,7 @@ textarea.form-control {
 .table th {
   padding: 12px;
   text-align: left;
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   border-bottom: 2px solid var(--erp-border);
 }
 
@@ -174,6 +175,6 @@ textarea.form-control {
 }
 
 .text-bold {
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-primary);
 }

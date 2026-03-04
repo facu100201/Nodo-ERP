@@ -46,7 +46,7 @@
 }
 
 .resumen-label {
-  font-size: 14px;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
   color: var(--erp-secondary);
   margin-bottom: 8px;
 }
@@ -56,15 +56,15 @@
 }
 
 .resumen-value {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: var(--erp-fs-titulo);         /* 1.9rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   margin-bottom: 4px;
 }
 
 .resumen-change {
-  font-size: 14px;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
   color: var(--erp-secondary);
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
 }
 
 @media (max-width: 768px) {

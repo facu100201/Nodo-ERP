@@ -17,7 +17,7 @@
   border: none;
   border-bottom: 3px solid transparent;
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   transition: all 0.3s;
   color: var(--erp-secondary);
 }
@@ -29,7 +29,7 @@
 .tab.active {
   border-bottom-color: var(--erp-secondary);
   color: var(--erp-primary);
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
 }
 
 .actions-bar {

@@ -18,7 +18,7 @@
 }
 
 .card-title {
-  font-size: 1.3rem;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
   color: var(--erp-primary);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
@@ -37,9 +37,9 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   color: var(--erp-primary);
-  font-size: 0.9rem;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
 }
 
 .form-control {
@@ -47,7 +47,7 @@
   padding: 0.75rem 1rem;
   border: 2px solid var(--erp-border);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
   transition: all 0.3s ease;
   background: var(--erp-bg-main);
 }
@@ -74,8 +74,8 @@
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
+  font-weight: var(--erp-fw-semibold);     /* 600     */
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -133,7 +133,7 @@
 }
 
 .sale-info h3 {
-  font-size: 1.1rem;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
   color: var(--erp-primary);
   margin-bottom: 1rem;
 }
@@ -161,18 +161,18 @@
 .item-info h4 {
   margin: 0 0 0.5rem 0;
   color: var(--erp-primary);
-  font-size: 1rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
 }
 
 .item-details {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: var(--erp-fs-sm);             /* 0.9rem  */
   color: var(--erp-secondary);
 }
 
 .item-discount {
   color: var(--erp-success);
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
 }
 
 .item-actions {
@@ -182,8 +182,8 @@
 }
 
 .item-total {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   color: var(--erp-primary);
   margin: 0;
 }
@@ -195,7 +195,7 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1.2rem;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
 }
 
 .btn-remove:hover {
@@ -216,11 +216,11 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.75rem;
-  font-size: 1rem;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
 }
 
 .summary-row span:last-child {
-  font-weight: 600;
+  font-weight: var(--erp-fw-semibold);     /* 600     */
 }
 
 .text-discount {
@@ -230,8 +230,8 @@
 .summary-total {
   padding-top: 1rem;
   border-top: 2px solid var(--erp-primary);
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: var(--erp-fs-h3);             /* 1.2rem  */
+  font-weight: var(--erp-fw-bold);         /* 700     */
   color: var(--erp-primary);
 }
 
@@ -255,7 +255,7 @@
 }
 
 .empty-cart-subtitle {
-  font-size: 1.1rem;
+  font-size: var(--erp-fs-lead);           /* 1.1rem  */
   color: var(--erp-secondary);
   opacity: 0.9;
 }
@@ -265,8 +265,8 @@
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: var(--erp-fs-texto);          /* 1rem    */
+  font-weight: var(--erp-fw-medium);       /* 500     */
 }
 
 .alert-success {
