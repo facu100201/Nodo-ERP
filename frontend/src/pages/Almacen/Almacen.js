@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productService, inventoryService } from '../../services/apiService';
-import { Package, Plus, Tag, FileUp, Download, ArrowUpDown } from 'lucide-react';
+import { Package, Plus, Tag, FileUp, Download, ArrowUpDown, HelpCircle } from 'lucide-react';
 import './Almacen.css';
 
 function Almacen() {
@@ -12,6 +12,7 @@ function Almacen() {
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState({ tipo: '', texto: '' });
   const [erroresCarga, setErroresCarga] = useState([]);
+  const [mostrarAyudaCarga, setMostrarAyudaCarga] = useState(false);
 
   const [productoForm, setProductoForm] = useState({
     nombre: '', descripcion: '', categoria: '', marca: '',
@@ -284,20 +285,41 @@ function Almacen() {
         >
           <Download size={18} /> Plantilla Excel
         </button>
-        <label
-          className="btn btn-success d-inline-flex align-items-center gap-2"
-          style={{ cursor: 'pointer' }}
-          title="Carga variantes desde un archivo Excel (.xlsx) o CSV"
-        >
-          <FileUp size={18} /> Carga Masiva
-          <input
-            type="file"
-            accept=".xlsx,.xls,.csv"
-            onChange={handleCargaMasiva}
-            style={{ display: 'none' }}
-          />
-        </label>
+        <div className="acciones-carga-masiva">
+          <label
+            className="btn btn-success d-inline-flex align-items-center gap-2"
+            style={{ cursor: 'pointer' }}
+            title="Carga variantes desde un archivo Excel (.xlsx) o CSV"
+          >
+            <FileUp size={18} /> Carga Masiva
+            <input
+              type="file"
+              accept=".xlsx,.xls,.csv"
+              onChange={handleCargaMasiva}
+              style={{ display: 'none' }}
+            />
+          </label>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm boton-ayuda-carga"
+            title="Ver ayuda sobre el formato del archivo de carga masiva"
+            onClick={() => setMostrarAyudaCarga(!mostrarAyudaCarga)}
+          >
+            <HelpCircle size={16} style={{ marginRight: 4 }} />
+            <span className="texto-ayuda-carga">Ayuda</span>
+          </button>
+        </div>
       </div>
+
+      {mostrarAyudaCarga && (
+        <div className="alert alert-info ayuda-carga-masiva">
+          <strong>Formato de columnas para carga masiva:</strong>{' '}
+          El archivo de Excel debe tener las columnas en este orden exacto:{' '}
+          <code>producto_id</code>, <code>producto</code>, <code>sku</code>,{' '}
+          <code>talla</code>, <code>color</code>, <code>precio_menudeo</code>,{' '}
+          <code>precio_mayoreo</code>, <code>codigo_barras</code>, <code>activo</code>.
+        </div>
+      )}
 
       {/* Contenido por pestaña */}
       <div className="tab-content card">
