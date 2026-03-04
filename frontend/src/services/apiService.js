@@ -89,7 +89,14 @@ export const productService = {
     const formData = new FormData();
     formData.append('file', file);
     const response = await apiClient.post('/api/v1/productos/carga-masiva', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  descargarPlantilla: async () => {
+    const response = await apiClient.get('/api/v1/productos/plantilla', {
+      responseType: 'blob',
     });
     return response.data;
   },

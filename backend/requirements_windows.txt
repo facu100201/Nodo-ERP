@@ -1,6 +1,5 @@
 # Requirements optimizado para Windows (wheels precompilados)
-# Usar este archivo si requirements.txt falla con errores de compilación
-# Ubicación: backend/requirements_windows.txt
+# Compatible con Python 3.13 en Windows
 # Instalar con: pip install -r backend/requirements_windows.txt
 
 # Core Framework
@@ -9,17 +8,20 @@ uvicorn[standard]==0.27.0
 pydantic>=2.10,<3
 pydantic-settings>=2.5,<3
 
-# Database - sin paquetes que requieran compilación en Windows
-sqlalchemy==2.0.25
+# Database - SQLAlchemy 2.0.36+ soporta Python 3.13
+sqlalchemy>=2.0.36,<3
 psycopg[binary]>=3.1.18
-alembic==1.13.1
+alembic>=1.14.0,<2
 
 # Authentication
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-bcrypt==3.2.2
+# bcrypt 4.x (Rust/maturin) tiene wheels para Python 3.13 en Windows sin compilación
+bcrypt>=4.0.1,<5
 python-multipart==0.0.6
 
 # Utilities
 python-dotenv==1.0.0
 qrcode[pil]==7.4.2
+# Para carga masiva desde archivos Excel (.xlsx/.xls)
+openpyxl>=3.1.2

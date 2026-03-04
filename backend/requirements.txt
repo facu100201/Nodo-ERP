@@ -5,20 +5,23 @@ pydantic>=2.10,<3
 pydantic-settings>=2.5,<3
 
 # Database
-sqlalchemy==2.0.25
-# asyncpg no se usa (solo motor síncrono); omitido para evitar compilación en Windows
+# SQLAlchemy 2.0.36+ agrega soporte oficial para Python 3.13
+sqlalchemy>=2.0.36,<3
 # Driver PostgreSQL (psycopg v3 tiene wheels para Python 3.13 en Windows)
 psycopg[binary]>=3.1.18
-# Si prefieres psycopg2 y tienes wheel para tu Python: pip install psycopg2-binary
-# psycopg2-binary==2.9.9
-alembic==1.13.1
+# Alembic 1.14.0+ agrega soporte oficial para Python 3.13
+alembic>=1.14.0,<2
 
 # Authentication
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-bcrypt==3.2.2
+# bcrypt 4.x es Rust-based: tiene wheels para Python 3.13 en Windows
+# NOTA: passlib 1.7.4 requiere el parche en app/core/security.py (ver comentario ahí)
+bcrypt>=4.0.1,<5
 python-multipart==0.0.6
 
 # Utilities
 python-dotenv==1.0.0
 qrcode[pil]==7.4.2
+# Para carga masiva desde archivos Excel (.xlsx/.xls)
+openpyxl>=3.1.2

@@ -1,8 +1,16 @@
 from datetime import datetime, timedelta
 from typing import Optional, Union, Any
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from app.core.config import settings
+
+# Parche de compatibilidad: passlib 1.7.4 busca bcrypt.__about__.__version__
+# que bcrypt 4.x ya no expone. Se aplica antes de importar CryptContext.
+import bcrypt as _bcrypt_module
+if not hasattr(_bcrypt_module, "__about__"):
+    from types import SimpleNamespace
+    _bcrypt_module.__about__ = SimpleNamespace(__version__=_bcrypt_module.__version__)
+
+from passlib.context import CryptContext
 
 # Contexto para hashing de passwords
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
