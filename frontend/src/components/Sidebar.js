@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  TrendingUp
+  TrendingUp,
+  BarChart3
 } from 'lucide-react';
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
   { path: '/pos',         label: 'Punto de Venta',  icon: ShoppingCart,    section: 'principal'  },
   { path: '/almacen',     label: 'Almacén',         icon: Package,         section: 'inventario' },
   { path: '/reportes',    label: 'Reportes',        icon: TrendingUp,      section: 'analítica'  },
+  { path: '/analitica',   label: 'Analítica',       icon: BarChart3,       section: 'analítica'  },
   { path: '/facturacion', label: 'Facturación',     icon: Receipt,         section: 'finanzas'   },
   { path: '/cobranza',    label: 'Cobranza',        icon: Wallet,          section: 'finanzas'   },
 ];

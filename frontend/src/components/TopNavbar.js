@@ -19,6 +19,7 @@ const PAGE_TITLES = {
   '/pos':         { label: 'Punto de Venta',   subtitle: 'Gestión de ventas en mostrador' },
   '/almacen':     { label: 'Almacén',          subtitle: 'Control de inventario y stock' },
   '/reportes':    { label: 'Reportes',         subtitle: 'Análisis y métricas del negocio' },
+  '/analitica':   { label: 'Analítica',        subtitle: 'Dashboards interactivos con Metabase' },
   '/facturacion': { label: 'Facturación',      subtitle: 'Facturas y documentos fiscales' },
   '/cobranza':    { label: 'Cobranza',         subtitle: 'Cuentas por cobrar y pagos' },
 };

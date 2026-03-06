@@ -44,7 +44,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
-  const [remember, setRemember] = useState(false);
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();

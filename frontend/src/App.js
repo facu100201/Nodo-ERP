@@ -10,6 +10,7 @@ import Almacen from './pages/Almacen/Almacen';
 import Reportes from './pages/Reportes/Reportes';
 import Facturacion from './pages/Facturacion/Facturacion';
 import Cobranza from './pages/Cobranza/Cobranza';
+import Analitica from './pages/Analitica/Analitica';
 import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="/pos" element={<POS />} />
         <Route path="/almacen" element={<Almacen />} />
         <Route path="/reportes" element={<Reportes />} />
+        <Route path="/analitica" element={<Analitica />} />
         <Route path="/facturacion" element={<Facturacion />} />
         <Route path="/cobranza" element={<Cobranza />} />
         <Route path="/" element={<Navigate to="/dashboard" />} />
