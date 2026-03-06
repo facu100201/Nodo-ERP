@@ -46,9 +46,6 @@ services:
     environment:
       - REACT_APP_API_URL=http://localhost:8000
       - REACT_APP_METABASE_URL=http://localhost:3001
-      - REACT_APP_METABASE_DASHBOARD_VENTAS=a94f6802-58ed-47b9-8f1c-20724354ddc8
-      - REACT_APP_METABASE_DASHBOARD_INVENTARIO=f2bf0db8-27ac-4253-aea2-374a4b574e69
-      - REACT_APP_METABASE_DASHBOARD_GENERAL=3b88c53e-1ffc-4acf-b6a9-af8428be218d
       - CHOKIDAR_USEPOLLING=true
     volumes:
       - ../frontend/src:/app/src

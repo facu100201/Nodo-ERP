@@ -614,6 +614,29 @@ EOF
 
 ok "Configuracion guardada en frontend/.env.metabase"
 
+# ── Actualizar frontend/.env con los UUIDs de esta instancia ──
+update_env_var() {
+    local FILE="$1"
+    local KEY="$2"
+    local VALUE="$3"
+    if grep -q "^${KEY}=" "$FILE" 2>/dev/null; then
+        sed -i "s|^${KEY}=.*|${KEY}=${VALUE}|" "$FILE"
+    else
+        echo "${KEY}=${VALUE}" >> "$FILE"
+    fi
+}
+
+ENV_FILE="$(dirname "$0")/../frontend/.env"
+if [ -f "$ENV_FILE" ]; then
+    update_env_var "$ENV_FILE" "REACT_APP_METABASE_URL" "$METABASE_URL"
+    [ -n "$UUID_VENTAS" ]      && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_VENTAS"      "$UUID_VENTAS"
+    [ -n "$UUID_INVENTARIO" ]  && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_INVENTARIO"  "$UUID_INVENTARIO"
+    [ -n "$UUID_GENERAL" ]     && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_GENERAL"     "$UUID_GENERAL"
+    ok "UUIDs escritos en frontend/.env"
+else
+    warn "No se encontro frontend/.env — copia manualmente desde frontend/.env.metabase"
+fi
+
 # ── Resumen final ──
 echo ""
 echo "============================================"
@@ -640,4 +663,7 @@ echo "  12 visualizaciones creadas en 3 dashboards"
 echo ""
 echo -e "${YELLOW}  NOTA: Para usar en Docker, ejecuta con:${NC}"
 echo "    DB_HOST=db bash scripts/setup-metabase.sh"
+echo ""
+echo -e "${YELLOW}  Reinicia el frontend para aplicar los UUIDs:${NC}"
+echo "    docker compose -f docker/docker-compose.yml restart frontend"
 echo ""
