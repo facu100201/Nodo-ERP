@@ -4,7 +4,7 @@ import { formatearMoneda } from '../../utils/helpers';
 import { COLORES } from '../../utils/constants';
 import { DollarSign, TrendingUp, AlertTriangle, Package, ShoppingCart, BarChart3, CheckCircle, Clock, XCircle } from 'lucide-react';
 import { Card, CardHeader, CardContent, Badge, Button, StatCardSkeleton, TableSkeleton } from '../../components/ui';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const CHART = {
   grid: COLORES.HIGHLIGHT,
@@ -23,6 +23,7 @@ function Dashboard() {
   const [recentSales, setRecentSales] = useState([]);
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rangoTiempoIngresos, setRangoTiempoIngresos] = useState('24h'); // 24h | 7d | 90d
 
   useEffect(() => {
     loadDashboardData();
@@ -56,23 +57,84 @@ function Dashboard() {
     }
   };
 
-  // Datos dummy para gráficas (después reemplazar con datos reales)
-  const ventasUltimos7Dias = [
-    { id: 1, dia: 'Lun', ventas: 2400, meta: 3000 },
-    { id: 2, dia: 'Mar', ventas: 1398, meta: 3000 },
-    { id: 3, dia: 'Mié', ventas: 4800, meta: 3000 },
-    { id: 4, dia: 'Jue', ventas: 3908, meta: 3000 },
-    { id: 5, dia: 'Vie', ventas: 4800, meta: 3000 },
-    { id: 6, dia: 'Sáb', ventas: 3800, meta: 3000 },
-    { id: 7, dia: 'Dom', ventas: 4300, meta: 3000 }
+  // Datos ficticios para KPIs superiores (tarjetas grandes)
+  const resumenGeneral = {
+    ingresosMensuales: 124500,
+    ordenesPendientes: 45,
+    inventarioTotal: 2840,
+    cuentasActivas: 856,
+    variacionIngresos: '+12.0% vs mes anterior',
+    ordenesAtencionTexto: '12 requieren atención',
+    inventarioCriticoTexto: '8 SKUs en nivel crítico',
+    cuentasActivasTexto: '+42 nuevos este mes',
+  };
+
+  // Datos ficticios para detalle por módulo (tarjetas inferiores)
+  const finanzasDetalle = {
+    ingresoMes: 124500,
+    cuentasPorCobrar: 32100,
+    gastosOperativos: -45230,
+  };
+
+  const ventasCrmDetalle = {
+    nuevosClientesMes: 45,
+    tasaConversion: 18.4,
+    pedidosB2B: 12,
+  };
+
+  const logisticaDetalle = {
+    alertasStockBajo: 3,
+    enviosTransito: 128,
+    devolucionesPendientes: 4,
+  };
+
+  const rrhhDetalle = {
+    empleadosActivos: 42,
+    proximaNomina: '15 Oct',
+    solicitudesVacacionesPendientes: 2,
+  };
+
+  // Datos ficticios para gráfica de ingresos por periodo (manteniendo menú 24h / 7d / 90d)
+  const ingresosPorRango = {
+    '24h': [
+      { etiqueta: 'JUL', ingreso: 95000 },
+      { etiqueta: 'AGO', ingreso: 110000 },
+      { etiqueta: 'SEP', ingreso: 88000 },
+      { etiqueta: 'OCT', ingreso: 135000 },
+      { etiqueta: 'NOV', ingreso: 165000 },
+      { etiqueta: 'DIC', ingreso: 190000 },
+    ],
+    '7d': [
+      { etiqueta: 'JUL', ingreso: 90500 },
+      { etiqueta: 'AGO', ingreso: 106000 },
+      { etiqueta: 'SEP', ingreso: 84000 },
+      { etiqueta: 'OCT', ingreso: 130000 },
+      { etiqueta: 'NOV', ingreso: 160000 },
+      { etiqueta: 'DIC', ingreso: 186000 },
+    ],
+    '90d': [
+      { etiqueta: 'JUL', ingreso: 98000 },
+      { etiqueta: 'AGO', ingreso: 115000 },
+      { etiqueta: 'SEP', ingreso: 92000 },
+      { etiqueta: 'OCT', ingreso: 140000 },
+      { etiqueta: 'NOV', ingreso: 172000 },
+      { etiqueta: 'DIC', ingreso: 198000 },
+    ],
+  };
+
+  const ingresosChartData = ingresosPorRango[rangoTiempoIngresos];
+
+  const distribucionInventarioTalla = [
+    { name: 'Chica (S)', value: 40 },
+    { name: 'Mediana (M)', value: 35 },
+    { name: 'Grande (L / XL)', value: 25 },
   ];
 
-  const productosMasVendidos = [
-    { id: 1, nombre: 'Producto A', ventas: 400 },
-    { id: 2, nombre: 'Producto B', ventas: 300 },
-    { id: 3, nombre: 'Producto C', ventas: 200 },
-    { id: 4, nombre: 'Producto D', ventas: 150 },
-    { id: 5, nombre: 'Producto E', ventas: 100 }
+  const DISTRIBUCION_COLORES = [
+    COLORES.PRIMARY,
+    COLORES.SECONDARY,
+    COLORES.SUCCESS,
+    COLORES.WARNING,
   ];
 
   if (loading) {
@@ -102,252 +164,294 @@ function Dashboard() {
   return (
       <div className="w-100">
         {/* Header */}
-        <div className="d-flex align-items-center gap-2 gap-md-3 mb-3 mb-md-4">
-          <BarChart3 className="text-primary" size={30} style={{minWidth: '30px'}} />
-          <h1 className="page-title mb-0">Dashboard</h1>
+        <div className="d-flex align-items-center justify-content-between gap-2 gap-md-3 mb-3 mb-md-4">
+          <div className="d-flex align-items-center gap-2 gap-md-3">
+            <BarChart3 className="text-primary" size={30} style={{minWidth: '30px'}} />
+            <h1 className="page-title mb-0">Resumen General</h1>
+          </div>
+          <button className="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-2">
+            <span className="small">Este Mes: Octubre 2023</span>
+          </button>
         </div>
 
-        {/* Tarjetas de estadísticas */}
+        {/* Tarjetas de resumen (arriba, estilo KPIs) */}
         <div className="row g-3 g-md-4 mb-3 mb-md-4">
           <div className="col-12 col-sm-6 col-lg-3">
-            <div className="card bg-primary text-white shadow-sm stat-card h-100">
+            <div className="card shadow-sm h-100 border-0">
               <div className="card-body">
-                <div className="d-flex align-items-center gap-2 gap-md-3">
-                  <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <DollarSign size={20} className="d-md-none" />
-                    <DollarSign size={24} className="d-none d-md-block" />
-                  </div>
-                  <div className="flex-grow-1 min-w-0">
-                    <h6 className="card-subtitle mb-1 opacity-75 small small-md">Ventas Hoy</h6>
-                    <h2 className="card-title fw-semibold mb-0 h4">{stats.todaySales}</h2>
-                    <small className="opacity-75 d-none d-md-inline">+12% vs ayer</small>
-                  </div>
-                </div>
+                <p className="text-uppercase text-muted fw-semibold small mb-2">Ingresos Mensuales</p>
+                <h3 className="fw-bold mb-1">{formatearMoneda(resumenGeneral.ingresosMensuales)}</h3>
+                <p className="mb-0 text-success small">{resumenGeneral.variacionIngresos}</p>
               </div>
             </div>
           </div>
 
           <div className="col-12 col-sm-6 col-lg-3">
-            <div className="card bg-success text-white shadow-sm stat-card h-100">
+            <div className="card shadow-sm h-100 border-0">
               <div className="card-body">
-                <div className="d-flex align-items-center gap-2 gap-md-3">
-                  <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <TrendingUp size={20} className="d-md-none" />
-                    <TrendingUp size={24} className="d-none d-md-block" />
-                  </div>
-                  <div className="flex-grow-1 min-w-0">
-                    <h6 className="card-subtitle mb-1 opacity-75 small small-md">Total Ventas</h6>
-                    <h2 className="card-title fw-semibold mb-0 h4">{stats.totalSales}</h2>
-                    <small className="opacity-75 d-none d-md-inline">Últimos 30 días</small>
-                  </div>
-                </div>
+                <p className="text-uppercase text-muted fw-semibold small mb-2">Ordenes Pendientes</p>
+                <h3 className="fw-bold mb-1">{resumenGeneral.ordenesPendientes}</h3>
+                <p className="mb-0 text-warning small">{resumenGeneral.ordenesAtencionTexto}</p>
               </div>
             </div>
           </div>
 
           <div className="col-12 col-sm-6 col-lg-3">
-            <div className="card bg-warning text-dark shadow-sm stat-card h-100">
+            <div className="card shadow-sm h-100 border-0">
               <div className="card-body">
-                <div className="d-flex align-items-center gap-2 gap-md-3">
-                  <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <AlertTriangle size={20} className="d-md-none" />
-                    <AlertTriangle size={24} className="d-none d-md-block" />
-                  </div>
-                  <div className="flex-grow-1 min-w-0">
-                    <h6 className="card-subtitle mb-1 opacity-75 small small-md">Stock Bajo</h6>
-                    <h2 className="card-title fw-semibold mb-0 h4">{stats.lowStockItems}</h2>
-                    <small className="opacity-75 d-none d-md-inline">Requiere atención</small>
-                  </div>
-                </div>
+                <p className="text-uppercase text-muted fw-semibold small mb-2">Inventario Total</p>
+                <h3 className="fw-bold mb-1">{resumenGeneral.inventarioTotal.toLocaleString('es-MX')}</h3>
+                <p className="mb-0 text-danger small">{resumenGeneral.inventarioCriticoTexto}</p>
               </div>
             </div>
           </div>
 
           <div className="col-12 col-sm-6 col-lg-3">
-            <div className="card bg-info text-white shadow-sm stat-card h-100">
+            <div className="card shadow-sm h-100 border-0">
               <div className="card-body">
-                <div className="d-flex align-items-center gap-2 gap-md-3">
-                  <div className="p-2 p-md-3 bg-white bg-opacity-25 rounded flex-shrink-0">
-                    <Package size={20} className="d-md-none" />
-                    <Package size={24} className="d-none d-md-block" />
-                  </div>
-                  <div className="flex-grow-1 min-w-0">
-                    <h6 className="card-subtitle mb-1 opacity-75 small small-md">Productos</h6>
-                    <h2 className="card-title fw-semibold mb-0 h4">{stats.totalProducts}</h2>
-                    <small className="opacity-75 d-none d-md-inline">En catálogo</small>
-                  </div>
-                </div>
+                <p className="text-uppercase text-muted fw-semibold small mb-2">Cuentas Activos</p>
+                <h3 className="fw-bold mb-1">{resumenGeneral.cuentasActivas}</h3>
+                <p className="mb-0 text-success small">{resumenGeneral.cuentasActivasTexto}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Gráficas */}
+        {/* Gráficas principales (arriba) */}
         <div className="row g-3 g-md-4 mb-3 mb-md-4">
-          {/* Gráfica de Tendencia */}
-          <div className="col-12 col-lg-6">
-            <Card hover className="h-100">
-              <CardHeader gradient color="primary" className="p-3 p-md-4">
-                <div className="d-flex align-items-center gap-2">
-                  <TrendingUp size={18} className="d-md-none" />
-                  <TrendingUp size={20} className="d-none d-md-block" />
-                  <h5 className="mb-0 fw-bold small small-md card-chart-title">Tendencia de Ventas (7 días)</h5>
+{/* Ingresos */}
+<div className="col-12 col-lg-8">
+  <Card hover className="h-100">
+    <CardHeader gradient color="primary" className="p-3 p-md-4">
+      <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h5 className="mb-0 fw-bold small small-md card-chart-title text-uppercase">
+          Ingresos
+        </h5>
+        <div className="d-flex align-items-center gap-2">
+          <select
+            className="form-select form-select-sm custom-select"
+            value={rangoTiempoIngresos}
+            onChange={(e) => setRangoTiempoIngresos(e.target.value)}
+          >
+            <option value="24h">Últimas 24 horas</option>
+            <option value="7d">Últimos 7 días</option>
+            <option value="90d">Últimos 90 días</option>
+          </select>
+          <Button variant="light" size="xs">
+            Exportar
+          </Button>
+        </div>
+      </div>
+    </CardHeader>
+    <CardContent className="card-chart-body">
+      <p className="small text-muted mb-2">moneda: mxn ($)</p>
+      <ResponsiveContainer width="100%" height={280}>
+        <BarChart
+          data={ingresosChartData}
+          margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
+          barCategoryGap="20%"
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+          <XAxis
+            dataKey="etiqueta"
+            stroke={CHART.text}
+            tick={{ fill: '#333', fontSize: 12 }}
+          />
+          <YAxis
+            stroke={CHART.text}
+            tick={{ fill: '#333', fontSize: 12 }}
+            tickFormatter={(value) => formatearMoneda(value).replace('$', '$ ')}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: CHART.tooltipBg,
+              border: `1px solid ${CHART.tooltipBorder}`,
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
+            }}
+            formatter={(value) => [formatearMoneda(value), 'Ingresos']}
+          />
+          <Legend />
+          <Bar
+            dataKey="ingreso"
+            name="Ingresos"
+            fill={COLORES.PRIMARY}
+            radius={[8, 8, 0, 0]}
+            barSize={40}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </CardContent>
+  </Card>
+</div>
+
+{/* CSS para el menú desplegable */}
+<style>
+{`
+  .custom-select {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  .custom-select option {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+`}
+</style>
+
+{/* Distribución de inventario por talla */}
+<div className="col-12 col-lg-4"> {/* más ancho que col-lg-4, pero no tanto como col-lg-6 */}
+  <Card hover className="h-100">
+    <CardHeader gradient color="success" className="p-3 p-md-4">
+      <h5 className="mb-0 fw-bold small small-md card-chart-title">
+        Distribución de inventario por talla
+      </h5>
+    </CardHeader>
+    <CardContent className="card-chart-body d-flex flex-column align-items-center justify-content-center">
+      <ResponsiveContainer width="100%" height={250}> {/* altura un poco mayor que 260 */}
+        <PieChart>
+          <Pie
+            data={distribucionInventarioTalla}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius="38%"   // radios relativos para escalar
+            outerRadius="72%"
+            paddingAngle={4}
+          >
+            {distribucionInventarioTalla.map((entry, index) => (
+              <Cell
+                key={entry.name}
+                fill={DISTRIBUCION_COLORES[index % DISTRIBUCION_COLORES.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: CHART.tooltipBg,
+              border: `1px solid ${CHART.tooltipBorder}`,
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
+            }}
+            formatter={(value, name) => [`${value}%`, name]}
+          />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </CardContent>
+  </Card>
+</div>
+
+        </div>
+
+        {/* Tarjetas por módulo (debajo de las gráficas) */}
+        <div className="row g-3 g-md-4 mb-3 mb-md-4">
+          {/* Finanzas */}
+          <div className="col-12 col-md-6">
+            <div className="card shadow-sm h-100 border-0">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="me-2 rounded-circle bg-primary bg-opacity-10 p-2">
+                    <DollarSign size={18} className="text-primary" />
+                  </div>
+                  <h5 className="mb-0 fw-semibold">Finanzas</h5>
                 </div>
-              </CardHeader>
-            <CardContent className="card-chart-body">
-              <div className="d-md-none">
-                <ResponsiveContainer width="100%" height={250}>
-                  <LineChart data={ventasUltimos7Dias}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                    <XAxis
-                      dataKey="dia"
-                      stroke={CHART.text}
-                      tick={{fontSize: 10}}
-                      label={{ value: 'Día', position: 'insideBottomRight', offset: -5 }}
-                    />
-                    <YAxis
-                      stroke={CHART.text}
-                      tick={{fontSize: 10}}
-                      label={{ value: 'Ganancia', angle: -90, position: 'insideLeft' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: CHART.tooltipBg, 
-                        border: `1px solid ${CHART.tooltipBorder}`,
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
-                        fontSize: '12px'
-                      }} 
-                    />
-                    <Legend wrapperStyle={{fontSize: '12px'}} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="ventas" 
-                      stroke={COLORES.SUCCESS} 
-                      strokeWidth={2}
-                      dot={{ fill: COLORES.SUCCESS, r: 3 }}
-                      activeDot={{ r: 5 }}
-                      name="Ganancia diaria"
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="meta" 
-                      stroke={COLORES.SECONDARY} 
-                      strokeWidth={2}
-                      strokeDasharray="5 5"
-                      dot={false}
-                      name="Meta diaria"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Ingresos del mes</span>
+                  <span className="fw-bold text-success">{formatearMoneda(finanzasDetalle.ingresoMes)}</span>
+                </div>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Cuentas por cobrar</span>
+                  <span className="fw-bold">{formatearMoneda(finanzasDetalle.cuentasPorCobrar)}</span>
+                </div>
+                <div className="d-flex justify-content-between small">
+                  <span className="text-muted">Gastos operativos</span>
+                  <span className="fw-bold text-danger">{formatearMoneda(finanzasDetalle.gastosOperativos)}</span>
+                </div>
               </div>
-              <div className="d-none d-md-block">
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={ventasUltimos7Dias}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                  <XAxis
-                    dataKey="dia"
-                    stroke={CHART.text}
-                    label={{ value: 'Día', position: 'insideBottomRight', offset: -5 }}
-                  />
-                  <YAxis
-                    stroke={CHART.text}
-                    label={{ value: 'Ganancia', angle: -90, position: 'insideLeft' }}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: CHART.tooltipBg, 
-                      border: `1px solid ${CHART.tooltipBorder}`,
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)'
-                    }} 
-                  />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="ventas" 
-                    stroke={COLORES.SUCCESS} 
-                    strokeWidth={3}
-                    dot={{ fill: COLORES.SUCCESS, r: 5 }}
-                    activeDot={{ r: 8 }}
-                    name="Ganancia diaria"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="meta" 
-                    stroke={COLORES.SECONDARY} 
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    dot={false}
-                    name="Meta diaria"
-                  />
-                </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-            </Card>
+            </div>
           </div>
 
-          {/* Gráfica de Productos */}
-          <div className="col-12 col-lg-6">
-            <Card hover className="h-100">
-              <CardHeader gradient color="success" className="p-3 p-md-4">
-                <div className="d-flex align-items-center gap-2">
-                  <BarChart3 size={18} className="d-md-none" />
-                  <BarChart3 size={20} className="d-none d-md-block" />
-                  <h5 className="mb-0 fw-bold small small-md card-chart-title">Productos Más Vendidos</h5>
+          {/* Ventas y CRM */}
+          <div className="col-12 col-md-6">
+            <div className="card shadow-sm h-100 border-0">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="me-2 rounded-circle bg-info bg-opacity-10 p-2">
+                    <ShoppingCart size={18} className="text-info" />
+                  </div>
+                  <h5 className="mb-0 fw-semibold">Ventas y CRM</h5>
                 </div>
-              </CardHeader>
-            <CardContent className="card-chart-body">
-              <div className="d-md-none">
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={productosMasVendidos}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                    <XAxis dataKey="nombre" stroke={CHART.text} tick={{fontSize: 10}} angle={-45} textAnchor="end" height={60} />
-                    <YAxis stroke={CHART.text} tick={{fontSize: 10}} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: CHART.tooltipBg, 
-                        border: `1px solid ${CHART.tooltipBorder}`,
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
-                        fontSize: '12px'
-                      }} 
-                    />
-                    <Bar 
-                      dataKey="ventas" 
-                      fill={COLORES.SECONDARY} 
-                      radius={[4, 4, 0, 0]}
-                      name="Unidades Vendidas"
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Nuevos clientes (Mes)</span>
+                  <span className="fw-bold text-success">+{ventasCrmDetalle.nuevosClientesMes}</span>
+                </div>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Tasa de conversión</span>
+                  <span className="fw-bold">{ventasCrmDetalle.tasaConversion.toFixed(1)}%</span>
+                </div>
+                <div className="d-flex justify-content-between small">
+                  <span className="text-muted">Pedidos B2B en curso</span>
+                  <span className="fw-bold">{ventasCrmDetalle.pedidosB2B} Mayoristas</span>
+                </div>
               </div>
-              <div className="d-none d-md-block">
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={productosMasVendidos}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
-                  <XAxis dataKey="nombre" stroke={CHART.text} />
-                  <YAxis stroke={CHART.text} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: CHART.tooltipBg, 
-                      border: `1px solid ${CHART.tooltipBorder}`,
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)'
-                    }} 
-                  />
-                  <Bar 
-                    dataKey="ventas" 
-                    fill={COLORES.SECONDARY} 
-                    radius={[8, 8, 0, 0]}
-                    name="Unidades Vendidas"
-                  />
-                </BarChart>
-                </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Logística e Inventarios */}
+          <div className="col-12 col-md-6">
+            <div className="card shadow-sm h-100 border-0">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="me-2 rounded-circle bg-warning bg-opacity-10 p-2">
+                    <Package size={18} className="text-warning" />
+                  </div>
+                  <h5 className="mb-0 fw-semibold">Logística e Inventarios</h5>
+                </div>
+                <div className="d-flex justify-content-between align-items-center small mb-2">
+                  <span className="text-muted">Alertas de Stock Bajo</span>
+                  <span className="badge bg-warning text-dark rounded-pill">
+                    {logisticaDetalle.alertasStockBajo} Modelos
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Envíos en tránsito</span>
+                  <span className="fw-bold">{logisticaDetalle.enviosTransito}</span>
+                </div>
+                <div className="d-flex justify-content-between small">
+                  <span className="text-muted">Devoluciones pendientes</span>
+                  <span className="fw-bold">{logisticaDetalle.devolucionesPendientes}</span>
+                </div>
               </div>
-            </CardContent>
-            </Card>
+            </div>
+          </div>
+
+          {/* Recursos Humanos */}
+          <div className="col-12 col-md-6">
+            <div className="card shadow-sm h-100 border-0">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="me-2 rounded-circle bg-danger bg-opacity-10 p-2">
+                    <AlertTriangle size={18} className="text-danger" />
+                  </div>
+                  <h5 className="mb-0 fw-semibold">Recursos Humanos</h5>
+                </div>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Empleados activos</span>
+                  <span className="fw-bold">{rrhhDetalle.empleadosActivos}</span>
+                </div>
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="text-muted">Próxima nómina</span>
+                  <span className="fw-bold">{rrhhDetalle.proximaNomina}</span>
+                </div>
+                <div className="d-flex justify-content-between small">
+                  <span className="text-muted">Solicitudes de vacaciones</span>
+                  <span className="fw-bold">{rrhhDetalle.solicitudesVacacionesPendientes} Pendientes</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
