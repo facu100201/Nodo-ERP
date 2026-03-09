@@ -317,7 +317,8 @@ function Almacen() {
           El archivo de Excel debe tener las columnas en este orden exacto:{' '}
           <code>producto_id</code>, <code>producto</code>, <code>sku</code>,{' '}
           <code>talla</code>, <code>color</code>, <code>precio_menudeo</code>,{' '}
-          <code>precio_mayoreo</code>, <code>codigo_barras</code>, <code>activo</code>.
+          <code>precio_mayoreo</code>, <code>codigo_barras</code>, <code>activo</code>
+          Puedes descargar la plantilla dando clic en el botón "Plantilla Excel" para ver un ejemplo con datos de muestra.
         </div>
       )}
 
