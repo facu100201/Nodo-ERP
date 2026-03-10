@@ -27,6 +27,9 @@ function Almacen() {
     variante_id: '', tipo: 'ENTRADA', cantidad: '', motivo: '', referencia: '',
   });
 
+  const [filtroColorStock, setFiltroColorStock] = useState('todos');
+  const [filtroTallaStock, setFiltroTallaStock] = useState('todas');
+
   // Lista plana de variantes para el selector de movimientos
   const todasVariantes = productos.flatMap(p =>
     (p.variantes || []).map(v => ({ ...v, nombre_producto: p.nombre }))
@@ -67,6 +70,49 @@ function Almacen() {
       setLoading(false);
     }
   };
+
+  // ── KPIs derivados ──────────────────────────────────────────────────────────
+
+  const totalProductos = productos.length;
+  const productosActivos = productos.filter(p => p.activo).length;
+  const totalVariantes = productos.reduce(
+    (acc, p) => acc + (p.variantes?.length || 0),
+    0
+  );
+  const coloresDistintosProductos = new Set(
+    productos.flatMap(p =>
+      (p.variantes || [])
+        .map(v => v.color)
+        .filter(Boolean)
+    )
+  ).size;
+
+  const totalUnidadesStock = stock.reduce(
+    (acc, item) => acc + (item.stock_actual || 0),
+    0
+  );
+  const variantesBajoStock = stock.filter(
+    item => typeof item.stock_actual === 'number' && item.stock_actual <= 10
+  ).length;
+  const coloresStockSet = new Set(
+    stock.map(item => item.color).filter(Boolean)
+  );
+  const coloresDisponiblesStock = ['todos', ...Array.from(coloresStockSet).sort()];
+
+  const tallasStockSet = new Set(
+    stock.map(item => item.talla).filter(Boolean)
+  );
+  const tallasDisponiblesStock = ['todas', ...Array.from(tallasStockSet).sort()];
+
+  const stockFiltrado = stock.filter(item => {
+    if (filtroColorStock !== 'todos' && item.color !== filtroColorStock) {
+      return false;
+    }
+    if (filtroTallaStock !== 'todas' && item.talla !== filtroTallaStock) {
+      return false;
+    }
+    return true;
+  });
 
   const abrirModal = (type) => { setModalType(type); setShowModal(true); };
   const cerrarModal = () => { setShowModal(false); setModalType(''); };
@@ -199,6 +245,63 @@ function Almacen() {
           {mensaje.texto}
         </div>
       )}
+
+      {/* KPIs principales de almacén */}
+      <div className="almacen-kpis">
+        <div className="kpi-card">
+          <span className="kpi-label">Productos</span>
+          <span className="kpi-value">{totalProductos}</span>
+          <span className="kpi-subtitle">
+            {productosActivos} activos
+          </span>
+        </div>
+        <div className="kpi-card">
+          <span className="kpi-label">Variantes</span>
+          <span className="kpi-value">{totalVariantes}</span>
+          <span className="kpi-subtitle">
+            {tallasStockSet.size} tallas distintas
+          </span>
+          <label className="kpi-filter-label">
+            Filtrar por talla:
+            <select
+              className="form-control kpi-filter-select"
+              value={filtroTallaStock}
+              onChange={e => setFiltroTallaStock(e.target.value)}
+            >
+              {tallasDisponiblesStock.map(talla => (
+                <option key={talla} value={talla}>
+                  {talla === 'todas' ? 'Todas las tallas' : talla}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="kpi-card">
+          <span className="kpi-label">Unidades en stock</span>
+          <span className="kpi-value">{totalUnidadesStock}</span>
+          <span className="kpi-subtitle">
+            {variantesBajoStock} variantes con stock bajo
+          </span>
+        </div>
+        <div className="kpi-card">
+          <span className="kpi-label">Colores en stock</span>
+          <span className="kpi-value">{coloresStockSet.size}</span>
+          <label className="kpi-filter-label">
+            Filtrar por color:
+            <select
+              className="form-control kpi-filter-select"
+              value={filtroColorStock}
+              onChange={e => setFiltroColorStock(e.target.value)}
+            >
+              {coloresDisponiblesStock.map(color => (
+                <option key={color} value={color}>
+                  {color === 'todos' ? 'Todos los colores' : color}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </div>
 
       {/* Tabla de errores de carga masiva */}
       {erroresCarga.length > 0 && (
@@ -370,7 +473,7 @@ function Almacen() {
             <h3>Control de Stock</h3>
             {loading ? (
               <p className="empty-state">Cargando...</p>
-            ) : stock.length > 0 ? (
+            ) : stockFiltrado.length > 0 ? (
               <table className="table">
                 <thead>
                   <tr>
@@ -382,7 +485,7 @@ function Almacen() {
                   </tr>
                 </thead>
                 <tbody>
-                  {stock.map(item => (
+                  {stockFiltrado.map(item => (
                     <tr key={item.variante_id}>
                       <td>{item.nombre_producto}</td>
                       <td>{item.sku}</td>
