@@ -11,7 +11,9 @@ import {
   ChevronDown,
   Sparkles,
   Settings,
-  CheckCircle
+  CheckCircle,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 const PAGE_TITLES = {
@@ -38,6 +40,7 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
   const [searchValue, setSearchValue] = useState('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notiOpen, setNotiOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const userMenuRef = useRef(null);
   const notiRef = useRef(null);
 
@@ -50,6 +53,23 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  // Dark mode global (persistente)
+  useEffect(() => {
+    const saved = localStorage.getItem('erp-theme');
+    const enabled = saved === 'dark';
+    setIsDarkMode(enabled);
+    document.documentElement.dataset.theme = enabled ? 'dark' : 'light';
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const next = !prev;
+      localStorage.setItem('erp-theme', next ? 'dark' : 'light');
+      document.documentElement.dataset.theme = next ? 'dark' : 'light';
+      return next;
+    });
   };
 
   // Cierra dropdowns al click fuera
@@ -121,6 +141,16 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
       </div>
 
       <div className="erp-topnav__right">
+        {/* Modo oscuro */}
+        <button
+          className="erp-topnav__icon-btn"
+          onClick={toggleDarkMode}
+          aria-label={isDarkMode ? 'Desactivar modo oscuro' : 'Activar modo oscuro'}
+          title={isDarkMode ? 'Modo claro' : 'Modo oscuro'}
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         {/* Notificaciones */}
         <div className="erp-topnav__action-group" ref={notiRef}>
           <button

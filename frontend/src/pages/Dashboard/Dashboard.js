@@ -24,6 +24,7 @@ function Dashboard() {
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rangoTiempoIngresos, setRangoTiempoIngresos] = useState('24h'); // 24h | 7d | 90d
+  const [rangoInforme, setRangoInforme] = useState('mes'); // dia | semana | mes | 90d
 
   useEffect(() => {
     loadDashboardData();
@@ -67,6 +68,64 @@ function Dashboard() {
     ordenesAtencionTexto: '12 requieren atención',
     inventarioCriticoTexto: '8 SKUs en nivel crítico',
     cuentasActivasTexto: '+42 nuevos este mes',
+  };
+
+  const descargarInformeCSV = () => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+
+    const rangoLabel = rangoInforme === 'dia'
+      ? 'dia'
+      : (rangoInforme === 'semana' ? 'semana' : (rangoInforme === '90d' ? '90d' : 'mes'));
+
+    const rows = [
+      ['Informe', `Resumen general (${rangoLabel})`],
+      ['Generado', `${yyyy}-${mm}-${dd}`],
+      [''],
+      ['KPIs'],
+      ['Ingresos Mensuales (MXN)', resumenGeneral.ingresosMensuales],
+      ['Ordenes Pendientes', resumenGeneral.ordenesPendientes],
+      ['Inventario Total', resumenGeneral.inventarioTotal],
+      ['Cuentas Activos', resumenGeneral.cuentasActivas],
+      [''],
+      ['Ingresos por mes - últimos 6 meses (MXN)'],
+      ['Periodo', 'Ingresos'],
+      ...ingresosChartData.map((r) => [r.etiqueta, r.ingreso]),
+      [''],
+      ['Detalle por módulo'],
+      ['Finanzas - Ingresos del mes (MXN)', finanzasDetalle.ingresoMes],
+      ['Finanzas - Cuentas por cobrar (MXN)', finanzasDetalle.cuentasPorCobrar],
+      ['Finanzas - Gastos operativos (MXN)', finanzasDetalle.gastosOperativos],
+      ['Ventas y CRM - Nuevos clientes (Mes)', ventasCrmDetalle.nuevosClientesMes],
+      ['Ventas y CRM - Tasa de conversión (%)', ventasCrmDetalle.tasaConversion],
+      ['Ventas y CRM - Pedidos B2B en curso', ventasCrmDetalle.pedidosB2B],
+      ['Logística - Alertas stock bajo (modelos)', logisticaDetalle.alertasStockBajo],
+      ['Logística - Envíos en tránsito', logisticaDetalle.enviosTransito],
+      ['Logística - Devoluciones pendientes', logisticaDetalle.devolucionesPendientes],
+      ['RRHH - Empleados activos', rrhhDetalle.empleadosActivos],
+      ['RRHH - Próxima nómina', rrhhDetalle.proximaNomina],
+      ['RRHH - Solicitudes de vacaciones pendientes', rrhhDetalle.solicitudesVacacionesPendientes],
+    ];
+
+    const csv = rows
+      .map((row) => row.map((cell) => {
+        const v = cell == null ? '' : String(cell);
+        const escaped = v.replace(/"/g, '""');
+        return `"${escaped}"`;
+      }).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `informe_${rangoLabel}_${yyyy}${mm}${dd}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
   };
 
   // Datos ficticios para detalle por módulo (tarjetas inferiores)
@@ -169,9 +228,28 @@ function Dashboard() {
             <BarChart3 className="text-primary" size={30} style={{minWidth: '30px'}} />
             <h1 className="page-title mb-0">Resumen General</h1>
           </div>
-          <button className="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-2">
-            <span className="small">Este Mes: Octubre 2023</span>
-          </button>
+          <div className="d-flex align-items-center gap-2 flex-wrap justify-content-end">
+            <button className="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-2">
+              <span className="small">Este Mes: Octubre 2023</span>
+            </button>
+
+            <select
+              className="form-select form-select-sm"
+              value={rangoInforme}
+              onChange={(e) => setRangoInforme(e.target.value)}
+              style={{ minWidth: 190 }}
+              aria-label="Rango del informe"
+            >
+              <option value="dia">Informe del día</option>
+              <option value="semana">Informe de la semana</option>
+              <option value="mes">Informe del mes</option>
+              <option value="90d">Informe de 90 días</option>
+            </select>
+
+            <button className="btn btn-primary btn-sm" onClick={descargarInformeCSV}>
+              Descargar informe
+            </button>
+          </div>
         </div>
 
         {/* Tarjetas de resumen (arriba, estilo KPIs) */}

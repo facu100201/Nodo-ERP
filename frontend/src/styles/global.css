@@ -11,7 +11,7 @@ body {
   font-family: var(--erp-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f5efeb;
+  background: var(--erp-bg-page);
   color: var(--erp-text-on-light);
   line-height: 1.6;
 }
