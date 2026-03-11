@@ -65,6 +65,8 @@ frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
+# UUIDs de Metabase generados por setup-metabase.sh (son por instancia)
+frontend/.env.metabase
 
 # Scripts temporales (ya eliminados después de ejecución)
 

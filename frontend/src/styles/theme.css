@@ -178,6 +178,90 @@
   --erp-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+html[data-theme="dark"] {
+  /* Fondos Azules Profundos (Se mantienen oscuros) */
+  --erp-bg-main: #0b1220;
+  --erp-bg-soft: #0f172a;
+  --erp-bg-page: #0b1220;
+  
+  /* TEXTO: Aquí está el truco */
+  /* Usamos un blanco cian/hielo que resalta mucho más sobre el azul */
+  --erp-text-on-light: #f0f9ff; 
+  --erp-text-muted: #94a3b8; /* Gris azulado claro */
+
+  /* Resaltado de tarjetas (en lugar de blanco, un azul un poco más claro) */
+  --erp-highlight: rgba(56, 189, 248, 0.1); 
+  
+  /* Bordes: Azul eléctrico sutil para dar definición */
+  --erp-border: rgba(56, 189, 248, 0.2);
+  --bs-border-color: rgba(56, 189, 248, 0.2);
+}
+html[data-theme="dark"] body {
+  background: var(--erp-bg-page);
+  color: var(--erp-text-on-light);
+  /* Esto hace que la letra se vea más "limpia" sobre fondo oscuro */
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.015em; 
+}
+
+/* Si tus tarjetas tienen una clase .card o similar */
+html[data-theme="dark"] .card {
+  background-color: #161e2e !important; /* Azul marino, NUNCA blanco */
+  border: 1px solid var(--erp-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Forzar que los títulos sean blanco puro para que "salten" a la vista */
+html[data-theme="dark"] h1, 
+html[data-theme="dark"] h2, 
+html[data-theme="dark"] h3, 
+html[data-theme="dark"] strong {
+  color: #ffffff !important;
+  text-shadow: 0px 0px 1px rgba(255,255,255,0.2); /* Un brillo sutil */
+}
+/* ═══════════════════════════════════════
+   NAVBAR DARK MODE
+   ═══════════════════════════════════════ */
+
+html[data-theme="dark"] .Topnavbar,
+html[data-theme="dark"] nav {
+  /* Azul un poco más claro que el fondo para que se note la elevación */
+  background-color: #111a2e !important; 
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Enlaces del Navbar */
+html[data-theme="dark"] .navbar-nav .nav-link {
+  color: #cbd5e1 !important; /* Gris azulado claro */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+/* Enlace activo o al pasar el mouse (Hover) */
+html[data-theme="dark"] .navbar-nav .nav-link:hover,
+html[data-theme="dark"] .navbar-nav .nav-link.active {
+  color: #ffffff !important; /* Blanco puro para resaltar */
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.6); /* Brillo sutil azul */
+}
+
+/* El logo o nombre de la marca */
+html[data-theme="dark"] .navbar-brand {
+  color: #ffffff !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* El ícono del menú hamburguesa (móvil) */
+html[data-theme="dark"] .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme="dark"] .navbar-toggler-icon {
+  /* Esto fuerza al ícono a ser blanco en modo oscuro */
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
 /* ═══════════════════════════════════════
    TIPOGRAFÍA GLOBAL
    ═══════════════════════════════════════ */

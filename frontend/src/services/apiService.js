@@ -5,6 +5,7 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -29,12 +30,14 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expirado o inválido
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      window.location.href = '/login';
+      // Solo redirigir si ya hay un token guardado (sesión expirada)
+      // No redirigir durante el proceso de login para evitar loops
+      const token = localStorage.getItem('token');
+      if (token && !error.config?.url?.includes('/auth/')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -51,6 +54,7 @@ export const authService = {
       `${API_BASE_URL}/api/v1/auth/login`,
       formData,
       {
+        timeout: 10000,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },

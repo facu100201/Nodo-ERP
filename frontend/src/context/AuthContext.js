@@ -29,23 +29,38 @@ export const AuthProvider = ({ children }) => {
       const response = await authService.login(username, password);
       // eslint-disable-next-line no-unused-vars
       const { access_token, token_type } = response;
-      
-      const storage = remember ? localStorage : sessionStorage;
-      // Guardar token y usuario en el almacenamiento elegido.
-      storage.setItem('token', access_token);
+
+      // Guardar token
+      localStorage.setItem('token', access_token);
       setToken(access_token);
 
-      const userData = await authService.getCurrentUser();
-      storage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
+      // Obtener información del usuario
+      try {
+        const userData = await authService.getCurrentUser();
+        localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
+      } catch (userError) {
+        // Si falla getCurrentUser, limpiar para no dejar estado inconsistente
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setToken(null);
+        throw userError;
+      }
 
       return { success: true };
     } catch (error) {
       console.error('Error en login:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.detail || 'Error al iniciar sesión' 
-      };
+      const isNetworkError = !error.response;
+      const isTimeout = error.code === 'ECONNABORTED';
+      let message;
+      if (isTimeout) {
+        message = 'Tiempo de espera agotado. Verifica que el servidor esté iniciado.';
+      } else if (isNetworkError) {
+        message = 'No se puede conectar al servidor. Verifica que los contenedores estén corriendo.';
+      } else {
+        message = error.response?.data?.detail || 'Usuario o contraseña incorrectos';
+      }
+      return { success: false, error: message };
     }
   };
 
