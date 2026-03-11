@@ -2,48 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
+import logoNodo from './imglogin/logo.png';
 
-/* ── NODO circular logo ─────────────────────────────── */
-const NodoLogo = () => {
-  const vLines = Array.from({ length: 26 }, (_, i) => {
-    const x = 10 + i * 7;
-    return (
-      <line key={`v${i}`} x1={x} y1="0" x2={x} y2="200"
-        stroke="#1a1a1a" strokeWidth="0.9" />
-    );
-  });
-
-  const dLines = Array.from({ length: 24 }, (_, i) => {
-    const o = -150 + i * 17;
-    return (
-      <line key={`d${i}`} x1={o} y1="0" x2={o + 200} y2="200"
-        stroke="#1a1a1a" strokeWidth="0.9" />
-    );
-  });
-
-  return (
-    <svg viewBox="0 0 200 200" width="148" height="148">
-      <defs>
-        <clipPath id="nodo-clip">
-          <circle cx="100" cy="100" r="88" />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#nodo-clip)">
-        {vLines}
-        {dLines}
-      </g>
-      <circle cx="100" cy="100" r="88"
-        fill="none" stroke="#1a1a1a" strokeWidth="1.8" />
-    </svg>
-  );
-};
-
-/* ── Login page ─────────────────────────────────────── */
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
-  const [loading, setLoading]   = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false);
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -52,7 +18,6 @@ function Login() {
     if (isAuthenticated) navigate('/dashboard');
   }, [isAuthenticated, navigate]);
 
-  /* sin scroll en la página de login */
   useEffect(() => {
     document.documentElement.classList.add('login-page-active');
     document.body.classList.add('login-page-active');
@@ -67,7 +32,7 @@ function Login() {
     setError('');
     setLoading(true);
     try {
-      const result = await login(username, password);
+      const result = await login(username, password, remember);
       if (result.success) {
         navigate('/dashboard');
       } else {
@@ -83,16 +48,17 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-panels">
-
         {/* ── Panel izquierdo: formulario ── */}
         <div className="login-form-panel">
           <h1 className="login-title">Bienvenido</h1>
 
           {error && (
-            <div className="login-error" role="alert">{error}</div>
+            <div className="login-error" role="alert">
+              {error}
+            </div>
           )}
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit} noValidate aria-busy={loading}>
             <div className="login-field">
               <label htmlFor="l-email" className="login-label">
                 Usuario
@@ -106,6 +72,10 @@ function Login() {
                 required
                 disabled={loading}
                 autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                inputMode="email"
+                enterKeyHint="next"
               />
             </div>
 
@@ -122,20 +92,37 @@ function Login() {
                 required
                 disabled={loading}
                 autoComplete="current-password"
+                enterKeyHint="go"
               />
+            </div>
+
+            <div className="login-field login-remember">
+              <label className="login-remember-label">
+                <input
+                  type="checkbox"
+                  className="login-checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                  disabled={loading}
+                />
+                Recuérdame
+              </label>
             </div>
 
             <button
               type="submit"
               className="login-submit-btn"
               disabled={loading}
+              aria-busy={loading}
             >
               {loading ? (
                 <span className="login-spinner-wrap">
                   <span className="login-spinner" aria-hidden="true" />
                   Iniciando sesión...
                 </span>
-              ) : 'Iniciar sesión'}
+              ) : (
+                'Iniciar sesión'
+              )}
             </button>
           </form>
         </div>
@@ -143,12 +130,15 @@ function Login() {
         {/* ── Panel derecho: marca ── */}
         <div className="login-brand-panel">
           <div className="login-brand-logo-wrap">
-            <NodoLogo />
+            <img
+              src={logoNodo}
+              alt="Nodo textile upcycling"
+              className="login-brand-logo-img"
+            />
           </div>
           <p className="login-brand-name">N O D O</p>
-          <p className="login-brand-tagline">textile upcycling</p>
+          <p className="login-brand-tagline">own your vibe</p>
         </div>
-
       </div>
     </div>
   );

@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { cobranzaService } from '../../services/apiService';
-import { Wallet, CreditCard } from 'lucide-react';
+import {
+  Wallet,
+  CreditCard,
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle2,
+  Search,
+  X,
+  Loader2,
+} from 'lucide-react';
 import './Cobranza.css';
 
 function Cobranza() {
@@ -9,6 +18,10 @@ function Cobranza() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [mensaje, setMensaje] = useState({ tipo: '', texto: '' });
+  const [filtrosUI, setFiltrosUI] = useState({
+    q: '',
+    estado: 'TODAS',
+  });
 
   const [pagoForm, setPagoForm] = useState({
     cuenta_id: null,
@@ -78,6 +91,16 @@ function Cobranza() {
   };
 
   const totales = calcularTotales();
+  const cuentasFiltradas = cuentas.filter((c) => {
+    const q = filtrosUI.q.trim().toLowerCase();
+    if (!q) return true;
+    const haystack = `${c.id} ${c.cliente_nombre || ''} ${c.venta_id || ''}`.toLowerCase();
+    return haystack.includes(q);
+  });
+  const cuentasVisibles =
+    filtrosUI.estado === 'TODAS'
+      ? cuentasFiltradas
+      : cuentasFiltradas.filter((c) => c.estado === filtrosUI.estado);
 
   return (
       <div className="cobranza-container">
@@ -109,22 +132,86 @@ function Cobranza() {
         </div>
 
         {/* Filtros */}
-        <div className="actions-bar">
-          <button className="btn btn-primary" onClick={() => cargarCuentas()}>
-            🔄 Todas
-          </button>
-          <button className="btn btn-warning" onClick={() => cargarCuentas({ vencidas: true })}>
-            ⚠️ Vencidas
-          </button>
-          <button className="btn btn-success" onClick={() => cargarCuentas({ estado: 'PAGADA' })}>
-            ✅ Pagadas
-          </button>
+        <div className="actions-bar cobranza-actions">
+          <div className="cobranza-search" role="search">
+            <Search size={16} aria-hidden="true" />
+            <input
+              className="cobranza-search-input"
+              type="text"
+              value={filtrosUI.q}
+              onChange={(e) => setFiltrosUI((p) => ({ ...p, q: e.target.value }))}
+              placeholder="Buscar por cliente, #cuenta o #venta…"
+              aria-label="Buscar cuentas"
+            />
+            {filtrosUI.q && (
+              <button
+                type="button"
+                className="cobranza-icon-btn"
+                onClick={() => setFiltrosUI((p) => ({ ...p, q: '' }))}
+                aria-label="Limpiar búsqueda"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+
+          <div className="cobranza-filters">
+            <button
+              className="btn btn-primary d-inline-flex align-items-center gap-2"
+              onClick={() => cargarCuentas()}
+              disabled={loading}
+              type="button"
+            >
+              <RefreshCw size={16} />
+              Todas
+            </button>
+            <button
+              className="btn btn-warning d-inline-flex align-items-center gap-2"
+              onClick={() => cargarCuentas({ vencidas: true })}
+              disabled={loading}
+              type="button"
+            >
+              <AlertTriangle size={16} />
+              Vencidas
+            </button>
+            <button
+              className="btn btn-success d-inline-flex align-items-center gap-2"
+              onClick={() => cargarCuentas({ estado: 'PAGADA' })}
+              disabled={loading}
+              type="button"
+            >
+              <CheckCircle2 size={16} />
+              Pagadas
+            </button>
+
+            <select
+              className="form-control cobranza-select"
+              value={filtrosUI.estado}
+              onChange={(e) => setFiltrosUI((p) => ({ ...p, estado: e.target.value }))}
+              aria-label="Filtrar por estado"
+              disabled={loading}
+            >
+              <option value="TODAS">Estado: todos</option>
+              <option value="PENDIENTE">Estado: pendiente</option>
+              <option value="VENCIDA">Estado: vencida</option>
+              <option value="PAGADA">Estado: pagada</option>
+            </select>
+          </div>
         </div>
 
         {/* Tabla de cuentas */}
         <div className="card">
-          <h3>Cuentas por Cobrar</h3>
-          {cuentas.length > 0 ? (
+          <div className="cobranza-card-header">
+            <h3 className="m-0">Cuentas por Cobrar</h3>
+            {loading && (
+              <div className="cobranza-loading" aria-live="polite">
+                <Loader2 className="spin" size={16} aria-hidden="true" />
+                Cargando…
+              </div>
+            )}
+          </div>
+
+          {cuentasVisibles.length > 0 ? (
             <table className="table">
               <thead>
                 <tr>
@@ -140,7 +227,7 @@ function Cobranza() {
                 </tr>
               </thead>
               <tbody>
-                {cuentas.map(cuenta => (
+                {cuentasVisibles.map(cuenta => (
                   <tr key={cuenta.id} className={cuenta.dias_vencido > 0 ? 'row-vencida' : ''}>
                     <td>#{cuenta.id}</td>
                     <td>{cuenta.cliente_nombre}</td>
@@ -151,7 +238,7 @@ function Cobranza() {
                     <td>
                       {cuenta.fecha_vencimiento}
                       {cuenta.dias_vencido > 0 && (
-                        <span className="badge badge-danger" style={{marginLeft: '5px'}}>
+                        <span className="badge badge-danger" style={{marginLeft: '5px'}} title="Días vencido">
                           {cuenta.dias_vencido}d
                         </span>
                       )}
@@ -169,6 +256,8 @@ function Cobranza() {
                         <button 
                           className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1"
                           onClick={() => abrirModalPago(cuenta)}
+                          disabled={loading}
+                          type="button"
                         >
                           <CreditCard size={14} />
                           Abonar
@@ -180,7 +269,12 @@ function Cobranza() {
               </tbody>
             </table>
           ) : (
-            <p className="empty-state">No hay cuentas por cobrar</p>
+            <div className="empty-state cobranza-empty">
+              <div className="empty-state-title">No hay cuentas por mostrar</div>
+              <div className="empty-state-subtitle">
+                Prueba ajustando los filtros o busca por cliente / número de venta.
+              </div>
+            </div>
           )}
         </div>
 

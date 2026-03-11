@@ -9,9 +9,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar si hay un token guardado al cargar la app
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
+    // Verificar si hay un token guardado al cargar la app. El token puede
+    // residir en localStorage (recordar sesión) o en sessionStorage.
+    const savedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const savedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
     
     if (savedToken && savedUser) {
       setToken(savedToken);
@@ -20,7 +21,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
+  // ``remember`` indica si debe persistir la sesión entre cierres del
+  // navegador. Si es falso, almacenamos en sessionStorage (se borra al
+  // cerrar pestaña) en lugar de localStorage.
+  const login = async (username, password, remember = true) => {
     try {
       const response = await authService.login(username, password);
       // eslint-disable-next-line no-unused-vars
@@ -61,8 +65,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // retirar de ambos almacenamientos para simplificar
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };

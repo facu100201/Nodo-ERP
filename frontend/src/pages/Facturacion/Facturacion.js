@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { facturacionService, salesService } from '../../services/apiService';
-import { Receipt, Plus, Globe, ShoppingCart, ClipboardList } from 'lucide-react';
+import {
+  Receipt,
+  Plus,
+  Globe,
+  ShoppingCart,
+  ClipboardList,
+  CreditCard,
+  FileText,
+  Search,
+  X,
+  Copy,
+  Loader2,
+} from 'lucide-react';
 import './Facturacion.css';
 
 function Facturacion() {
@@ -9,6 +21,11 @@ function Facturacion() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [mensaje, setMensaje] = useState({ tipo: '', texto: '' });
+  const [filtrosUI, setFiltrosUI] = useState({
+    q: '',
+    estado: 'TODOS',
+    qVentas: '',
+  });
   
   const [facturaForm, setFacturaForm] = useState({
     ventas_ids: [],
@@ -133,6 +150,35 @@ function Facturacion() {
     }));
   };
 
+  const facturasVisibles = facturas.filter((f) => {
+    if (filtrosUI.estado !== 'TODOS' && f.estado !== filtrosUI.estado) return false;
+    const q = filtrosUI.q.trim().toLowerCase();
+    if (!q) return true;
+    const haystack = `${f.id} ${f.rfc_receptor || ''} ${f.uuid_sat || ''} ${f.serie || ''}-${f.folio || ''}`.toLowerCase();
+    return haystack.includes(q);
+  });
+
+  const ventasVisibles = ventasPendientes.filter((v) => {
+    const q = filtrosUI.qVentas.trim().toLowerCase();
+    if (!q) return true;
+    const haystack = `${v.id} ${v.metodo_pago || ''} ${v.total || ''}`.toLowerCase();
+    return haystack.includes(q);
+  });
+
+  const totalSeleccionado = facturaForm.ventas_ids.reduce((sum, id) => {
+    const v = ventasPendientes.find((x) => x.id === id);
+    return sum + (v?.total || 0);
+  }, 0);
+
+  const copiar = async (texto, okMsg = 'Copiado al portapapeles') => {
+    try {
+      await navigator.clipboard.writeText(String(texto));
+      mostrarMensaje('success', okMsg);
+    } catch {
+      mostrarMensaje('warning', 'No se pudo copiar automáticamente');
+    }
+  };
+
   return (
       <div className="facturacion-container">
         <h1 className="page-title d-flex align-items-center gap-2">
@@ -146,20 +192,66 @@ function Facturacion() {
           </div>
         )}
 
-        <div className="actions-bar">
-          <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowModal(true)}>
+        <div className="actions-bar facturacion-actions">
+          <div className="facturacion-search" role="search">
+            <Search size={16} aria-hidden="true" />
+            <input
+              className="facturacion-search-input"
+              type="text"
+              value={filtrosUI.q}
+              onChange={(e) => setFiltrosUI((p) => ({ ...p, q: e.target.value }))}
+              placeholder="Buscar por RFC, UUID, folio o #factura…"
+              aria-label="Buscar facturas"
+            />
+            {filtrosUI.q && (
+              <button
+                type="button"
+                className="facturacion-icon-btn"
+                onClick={() => setFiltrosUI((p) => ({ ...p, q: '' }))}
+                aria-label="Limpiar búsqueda"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+
+          <div className="facturacion-actions-right">
+            <select
+              className="form-control facturacion-select"
+              value={filtrosUI.estado}
+              onChange={(e) => setFiltrosUI((p) => ({ ...p, estado: e.target.value }))}
+              aria-label="Filtrar por estado"
+              disabled={loading}
+            >
+              <option value="TODOS">Estado: todos</option>
+              <option value="BORRADOR">Estado: borrador</option>
+              <option value="TIMBRADA">Estado: timbrada</option>
+              <option value="CANCELADA">Estado: cancelada</option>
+            </select>
+
+            <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowModal(true)} type="button">
             <Plus size={18} />
             Nueva Factura
           </button>
-          <button className="btn btn-success d-flex align-items-center gap-2" onClick={generarFacturaGlobal}>
+          <button className="btn btn-success d-flex align-items-center gap-2" onClick={generarFacturaGlobal} type="button" disabled={loading}>
             <Globe size={18} />
             Factura Global Tarjetas
           </button>
+          </div>
         </div>
 
         <div className="card">
-          <h3>Facturas Emitidas</h3>
-          {facturas.length > 0 ? (
+          <div className="facturacion-card-header">
+            <h3 className="m-0">Facturas Emitidas</h3>
+            {loading && (
+              <div className="facturacion-loading" aria-live="polite">
+                <Loader2 className="spin" size={16} aria-hidden="true" />
+                Procesando…
+              </div>
+            )}
+          </div>
+
+          {facturasVisibles.length > 0 ? (
             <table className="table">
               <thead>
                 <tr>
@@ -173,12 +265,27 @@ function Facturacion() {
                 </tr>
               </thead>
               <tbody>
-                {facturas.map(factura => (
+                {facturasVisibles.map(factura => (
                   <tr key={factura.id}>
                     <td>#{factura.id}</td>
                     <td>{factura.serie}-{factura.folio}</td>
                     <td className="uuid-cell">
-                      {factura.uuid_sat ? factura.uuid_sat.substring(0, 16) + '...' : '-'}
+                      <div className="uuid-wrap">
+                        <span title={factura.uuid_sat || ''}>
+                          {factura.uuid_sat ? factura.uuid_sat.substring(0, 16) + '...' : '-'}
+                        </span>
+                        {factura.uuid_sat && (
+                          <button
+                            type="button"
+                            className="facturacion-icon-btn"
+                            onClick={() => copiar(factura.uuid_sat, 'UUID copiado')}
+                            aria-label="Copiar UUID"
+                            title="Copiar UUID"
+                          >
+                            <Copy size={14} />
+                          </button>
+                        )}
+                      </div>
                     </td>
                     <td>{factura.rfc_receptor}</td>
                     <td className="text-bold">${factura.total.toFixed(2)}</td>
@@ -193,10 +300,12 @@ function Facturacion() {
                     <td>
                       {factura.estado === 'BORRADOR' && (
                         <button 
-                          className="btn btn-sm btn-primary"
+                          className="btn btn-sm btn-primary d-inline-flex align-items-center gap-2"
                           onClick={() => timbrarFactura(factura.id)}
                           disabled={loading}
+                          type="button"
                         >
+                          <CreditCard size={14} />
                           Timbrar
                         </button>
                       )}
@@ -205,9 +314,10 @@ function Facturacion() {
                           href={factura.pdf_url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="btn btn-sm btn-info"
+                          className="btn btn-sm btn-info d-inline-flex align-items-center gap-2"
                         >
-                          📄 PDF
+                          <FileText size={14} />
+                          PDF
                         </a>
                       )}
                     </td>
@@ -216,7 +326,12 @@ function Facturacion() {
               </tbody>
             </table>
           ) : (
-            <p className="empty-state">No hay facturas emitidas</p>
+            <div className="empty-state facturacion-empty">
+              <div className="empty-state-title">No hay facturas para mostrar</div>
+              <div className="empty-state-subtitle">
+                Crea una nueva factura o ajusta el filtro/búsqueda.
+              </div>
+            </div>
           )}
         </div>
 
@@ -327,7 +442,7 @@ function Facturacion() {
                   />
                 </div>
 
-                <h4 className="form-section-title">💳 Forma y Método de Pago</h4>
+                <h4 className="form-section-title d-flex align-items-center gap-2"><CreditCard size={18} /> Forma y Método de Pago</h4>
 
                 <div className="form-row">
                   <div className="form-group">
@@ -407,9 +522,38 @@ function Facturacion() {
                 <h4 className="form-section-title d-flex align-items-center gap-2"><ShoppingCart size={18} /> Ventas</h4>
 
                 <div className="form-group">
-                  <label>Ventas a Facturar</label>
+                  <div className="facturacion-ventas-header">
+                    <label className="m-0">Ventas a Facturar</label>
+                    <div className="facturacion-ventas-meta">
+                      <span className="text-muted">{facturaForm.ventas_ids.length} seleccionada(s)</span>
+                      <span className="facturacion-total">Total: ${totalSeleccionado.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <div className="facturacion-search ventas-search" role="search">
+                    <Search size={16} aria-hidden="true" />
+                    <input
+                      className="facturacion-search-input"
+                      type="text"
+                      value={filtrosUI.qVentas}
+                      onChange={(e) => setFiltrosUI((p) => ({ ...p, qVentas: e.target.value }))}
+                      placeholder="Buscar venta por #, método o total…"
+                      aria-label="Buscar ventas"
+                    />
+                    {filtrosUI.qVentas && (
+                      <button
+                        type="button"
+                        className="facturacion-icon-btn"
+                        onClick={() => setFiltrosUI((p) => ({ ...p, qVentas: '' }))}
+                        aria-label="Limpiar búsqueda de ventas"
+                      >
+                        <X size={16} />
+                      </button>
+                    )}
+                  </div>
+
                   <div className="ventas-list">
-                    {ventasPendientes.slice(0, 10).map(venta => (
+                    {ventasVisibles.slice(0, 20).map(venta => (
                       <div key={venta.id} className="venta-item">
                         <input
                           type="checkbox"
@@ -423,7 +567,7 @@ function Facturacion() {
                     ))}
                   </div>
                   <small className="text-muted">
-                    {facturaForm.ventas_ids.length} venta(s) seleccionada(s)
+                    Mostrando {Math.min(ventasVisibles.length, 20)} de {ventasVisibles.length} venta(s) disponibles
                   </small>
                 </div>
 
