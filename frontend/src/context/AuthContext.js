@@ -9,9 +9,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar si hay un token guardado al cargar la app
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
+    // Verificar si hay un token guardado al cargar la app. El token puede
+    // residir en localStorage (recordar sesión) o en sessionStorage.
+    const savedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const savedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
     
     if (savedToken && savedUser) {
       setToken(savedToken);
@@ -20,19 +21,22 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
+  // ``remember`` indica si debe persistir la sesión entre cierres del
+  // navegador. Si es falso, almacenamos en sessionStorage (se borra al
+  // cerrar pestaña) en lugar de localStorage.
+  const login = async (username, password, remember = true) => {
     try {
       const response = await authService.login(username, password);
       // eslint-disable-next-line no-unused-vars
       const { access_token, token_type } = response;
       
-      // Guardar token
-      localStorage.setItem('token', access_token);
+      const storage = remember ? localStorage : sessionStorage;
+      // Guardar token y usuario en el almacenamiento elegido.
+      storage.setItem('token', access_token);
       setToken(access_token);
 
-      // Obtener información del usuario
       const userData = await authService.getCurrentUser();
-      localStorage.setItem('user', JSON.stringify(userData));
+      storage.setItem('user', JSON.stringify(userData));
       setUser(userData);
 
       return { success: true };
@@ -46,8 +50,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // retirar de ambos almacenamientos para simplificar
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };

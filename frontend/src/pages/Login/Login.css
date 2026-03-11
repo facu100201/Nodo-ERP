@@ -24,22 +24,8 @@ body.login-page-active {
   background-color: #87A9BB;
 
   /* Patrón orgánico tipo textil — tile 240×240 */
-  background-image: url("data:image/svg+xml,\
-<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>\
-<path d='M38,12 C18,-4 -4,14 6,40 C16,66 46,72 66,56 C86,40 76,18 60,10 C50,5 52,22 38,12Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M158,4 C138,-14 114,4 124,30 C134,56 166,60 182,44 C198,28 188,8 174,4 C164,-1 166,18 158,4Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M6,122 C-14,104 -16,128 -4,148 C8,168 38,174 52,156 C66,138 54,118 38,116 C26,114 22,136 6,122Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M110,116 C90,98 88,122 100,142 C112,162 142,166 156,148 C170,130 158,110 142,110 C130,110 126,130 110,116Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M216,100 C196,82 192,106 204,126 C216,146 246,150 258,132 C270,114 258,94 242,94 C230,94 228,114 216,100Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M58,204 C38,186 36,210 48,230 C60,250 90,254 104,236 C118,218 106,198 90,198 C78,198 74,218 58,204Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M176,196 C156,178 154,202 166,222 C178,242 208,246 222,228 C236,210 224,190 208,190 C196,190 192,210 176,196Z' fill='%23A2BECA' opacity='0.7'/>\
-<path d='M44,60 C28,48 24,64 32,78 C40,92 60,94 68,80 C76,66 68,54 58,52 C51,50 52,68 44,60Z' fill='%2370909E' opacity='0.45'/>\
-<path d='M148,58 C132,46 128,62 136,76 C144,90 164,92 172,78 C180,64 172,52 162,50 C155,48 156,66 148,58Z' fill='%2370909E' opacity='0.45'/>\
-<path d='M20,168 C4,156 0,172 8,186 C16,200 36,202 44,188 C52,174 44,162 34,160 C27,158 28,176 20,168Z' fill='%2370909E' opacity='0.45'/>\
-<path d='M116,162 C100,150 96,166 104,180 C112,194 132,196 140,182 C148,168 140,156 130,154 C123,152 124,170 116,162Z' fill='%2370909E' opacity='0.45'/>\
-<path d='M222,148 C206,136 202,152 210,166 C218,180 238,182 246,168 C254,154 246,142 236,140 C229,138 230,156 222,148Z' fill='%2370909E' opacity='0.45'/>\
-</svg>");
-  background-size: 240px 240px;
+  background-image: url("./imglogin/image2.png");
+  background-size: cover;
   background-repeat: repeat;
 }
 
@@ -232,6 +218,21 @@ body.login-page-active {
   to { transform: rotate(360deg); }
 }
 
+/* Mejoras UX (no cambian el diseño en reposo) */
+.login-input:focus-visible,
+.login-submit-btn:focus-visible,
+.login-forgot:focus-visible,
+.login-checkbox:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-spinner {
+    animation: none;
+  }
+}
+
 /* ── Panel derecho — marca blanca ────────────────────────── */
 .login-brand-panel {
   background: #ffffff;
@@ -245,18 +246,30 @@ body.login-page-active {
   width: 272px;
   min-width: 272px;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
 }
 
-/* Tarjeta interna lavanda que enmarca el logo */
-.login-brand-logo-wrap {
-  background: #D3DCE8;
-  border-radius: 16px;
-  padding: 1.6rem 1.4rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
+/* Franja translúcida vertical (como en la captura) */
+.login-brand-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: rgba(211, 220, 232, 0.55);
+  pointer-events: none;
+}
+
+
+/* PNG del logo */
+.login-brand-logo-img {
+  max-width: 100%;
+  max-height: 78%;
+  object-fit: contain;
+  display: block;
 }
 
 /* Nombre de marca — valores de letter-spacing intencionales del diseño */
@@ -267,6 +280,9 @@ body.login-page-active {
   color: #1a1a1a;
   margin: 0;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  text-shadow: 5px 2px 10px rgba(0, 0, 0, 0.18);
 }
 
 .login-brand-tagline {
@@ -275,6 +291,8 @@ body.login-page-active {
   color: #666;
   margin: 0;
   text-transform: lowercase;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Responsive ──────────────────────────────────────────── */

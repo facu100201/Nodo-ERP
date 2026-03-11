@@ -4,6 +4,129 @@
   margin: 0 auto;
 }
 
+.facturacion-actions {
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.facturacion-actions-right {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.facturacion-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--erp-border);
+  border-radius: 10px;
+  background: var(--erp-bg-main);
+  min-width: min(520px, 100%);
+  flex: 1;
+}
+
+.ventas-search {
+  margin: 8px 0 10px;
+  min-width: 100%;
+}
+
+.facturacion-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: var(--erp-fs-sm);
+  color: var(--erp-primary);
+}
+
+.facturacion-icon-btn {
+  border: none;
+  background: transparent;
+  padding: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--erp-secondary);
+}
+
+.facturacion-icon-btn:hover {
+  background: rgba(86, 124, 141, 0.08);
+}
+
+.facturacion-select {
+  width: 190px;
+  min-width: 190px;
+}
+
+.facturacion-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.facturacion-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--erp-secondary);
+  font-size: var(--erp-fs-badge);
+}
+
+.spin {
+  animation: facturacion-spin 0.8s linear infinite;
+}
+
+@keyframes facturacion-spin {
+  to { transform: rotate(360deg); }
+}
+
+.uuid-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.facturacion-empty {
+  padding: 18px 10px;
+  text-align: center;
+}
+
+.facturacion-empty .empty-state-title {
+  font-weight: var(--erp-fw-semibold);
+  color: var(--erp-primary);
+  margin-bottom: 4px;
+}
+
+.facturacion-empty .empty-state-subtitle {
+  color: var(--erp-secondary);
+  font-size: var(--erp-fs-badge);
+}
+
+.facturacion-ventas-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.facturacion-ventas-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.facturacion-total {
+  font-weight: var(--erp-fw-semibold);
+  color: var(--erp-primary);
+  font-size: var(--erp-fs-sm);
+}
+
 /* uuid-cell usa monospace intencional para IDs/códigos */
 .uuid-cell {
   font-family: 'Courier New', monospace;
@@ -64,6 +187,11 @@
 @media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
+  }
+
+  .facturacion-select {
+    width: 100%;
+    min-width: 0;
   }
 }
 

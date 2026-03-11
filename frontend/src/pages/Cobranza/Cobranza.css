@@ -32,3 +32,105 @@
   margin: 20px 0;
   flex-wrap: wrap;
 }
+
+.cobranza-actions {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cobranza-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cobranza-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--erp-border);
+  border-radius: 10px;
+  background: var(--erp-bg-main);
+  min-width: min(520px, 100%);
+  flex: 1;
+}
+
+.cobranza-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: var(--erp-fs-sm);
+  color: var(--erp-primary);
+}
+
+.cobranza-icon-btn {
+  border: none;
+  background: transparent;
+  padding: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--erp-secondary);
+}
+
+.cobranza-icon-btn:hover {
+  background: rgba(86, 124, 141, 0.08);
+}
+
+.cobranza-select {
+  width: 190px;
+  min-width: 190px;
+}
+
+.cobranza-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cobranza-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--erp-secondary);
+  font-size: var(--erp-fs-badge);
+}
+
+.spin {
+  animation: cobranza-spin 0.8s linear infinite;
+}
+
+@keyframes cobranza-spin {
+  to { transform: rotate(360deg); }
+}
+
+.cobranza-empty {
+  padding: 18px 10px;
+  text-align: center;
+}
+
+.cobranza-empty .empty-state-title {
+  font-weight: var(--erp-fw-semibold);
+  color: var(--erp-primary);
+  margin-bottom: 4px;
+}
+
+.cobranza-empty .empty-state-subtitle {
+  color: var(--erp-secondary);
+  font-size: var(--erp-fs-badge);
+}
+
+@media (max-width: 768px) {
+  .cobranza-actions {
+    align-items: stretch;
+  }
+
+  .cobranza-select {
+    width: 100%;
+    min-width: 0;
+  }
+}
