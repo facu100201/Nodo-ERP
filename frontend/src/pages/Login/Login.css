@@ -24,7 +24,7 @@ body.login-page-active {
   background-color: #87A9BB;
 
   /* Patrón orgánico tipo textil — tile 240×240 */
-  background-image: url("./imglogin/image2.png");
+  background-image: url("./image2.png");
   background-size: cover;
   background-repeat: repeat;
 }

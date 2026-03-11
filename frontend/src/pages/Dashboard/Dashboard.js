@@ -6,12 +6,16 @@ import { DollarSign, TrendingUp, AlertTriangle, Package, ShoppingCart, BarChart3
 import { Card, CardHeader, CardContent, Badge, Button, StatCardSkeleton, TableSkeleton } from '../../components/ui';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
-const CHART = {
-  grid: COLORES.HIGHLIGHT,
-  text: COLORES.PRIMARY,
-  tooltipBg: COLORES.BG_MAIN,
-  tooltipBorder: COLORES.HIGHLIGHT
-};
+function getChartColors() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  return {
+    grid: dark ? 'rgba(56,189,248,0.15)' : COLORES.HIGHLIGHT,
+    text: dark ? '#94a3b8' : COLORES.PRIMARY,
+    tick: dark ? '#f0f9ff' : '#333',
+    tooltipBg: dark ? '#161e2e' : COLORES.BG_MAIN,
+    tooltipBorder: dark ? 'rgba(56,189,248,0.2)' : COLORES.HIGHLIGHT,
+  };
+}
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -25,9 +29,16 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [rangoTiempoIngresos, setRangoTiempoIngresos] = useState('24h'); // 24h | 7d | 90d
   const [rangoInforme, setRangoInforme] = useState('mes'); // dia | semana | mes | 90d
+  const [, setThemeTick] = useState(0);
 
   useEffect(() => {
     loadDashboardData();
+  }, []);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => setThemeTick(t => t + 1));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
   }, []);
 
   const loadDashboardData = async () => {
@@ -329,21 +340,21 @@ function Dashboard() {
           margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
           barCategoryGap="20%"
         >
-          <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+          <CartesianGrid strokeDasharray="3 3" stroke={getChartColors().grid} />
           <XAxis
             dataKey="etiqueta"
-            stroke={CHART.text}
-            tick={{ fill: '#333', fontSize: 12 }}
+            stroke={getChartColors().text}
+            tick={{ fill: getChartColors().tick, fontSize: 12 }}
           />
           <YAxis
-            stroke={CHART.text}
-            tick={{ fill: '#333', fontSize: 12 }}
+            stroke={getChartColors().text}
+            tick={{ fill: getChartColors().tick, fontSize: 12 }}
             tickFormatter={(value) => formatearMoneda(value).replace('$', '$ ')}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: CHART.tooltipBg,
-              border: `1px solid ${CHART.tooltipBorder}`,
+              backgroundColor: getChartColors().tooltipBg,
+              border: `1px solid ${getChartColors().tooltipBorder}`,
               borderRadius: '8px',
               boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
             }}
@@ -367,13 +378,14 @@ function Dashboard() {
 <style>
 {`
   .custom-select {
-    background-color: #fff !important;
-    color: #000 !important;
+    background-color: var(--erp-bg-main) !important;
+    color: var(--erp-text-on-light) !important;
+    border-color: var(--erp-border) !important;
   }
 
   .custom-select option {
-    background-color: #fff !important;
-    color: #000 !important;
+    background-color: var(--erp-bg-main) !important;
+    color: var(--erp-text-on-light) !important;
   }
 `}
 </style>
@@ -408,8 +420,8 @@ function Dashboard() {
           </Pie>
           <Tooltip
             contentStyle={{
-              backgroundColor: CHART.tooltipBg,
-              border: `1px solid ${CHART.tooltipBorder}`,
+              backgroundColor: getChartColors().tooltipBg,
+              border: `1px solid ${getChartColors().tooltipBorder}`,
               borderRadius: '8px',
               boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
             }}

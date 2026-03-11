@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
-import logoNodo from './imglogin/logo.png';
+import logoNodo from './logo.png';
 
 function Login() {
   const [username, setUsername] = useState('');

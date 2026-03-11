@@ -209,7 +209,7 @@ code {
 .card:hover {
   transform: translateY(-2px);
   box-shadow: var(--erp-shadow-hover);
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: var(--erp-glass-border);
 }
 
 .empty-state {
@@ -243,7 +243,8 @@ code {
   border: 1.5px solid var(--erp-border);
   border-radius: var(--erp-radius-sm);
   transition: var(--erp-transition);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--erp-bg-main);
+  color: var(--erp-text-on-light);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -252,7 +253,7 @@ code {
   outline: none;
   border-color: var(--erp-secondary);
   box-shadow: 0 0 0 3px rgba(86, 124, 141, 0.12);
-  background: #fff;
+  background: var(--erp-bg-main);
 }
 
 .form-control:disabled {
@@ -378,7 +379,8 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--erp-bg-main);
+  color: var(--erp-text-on-light);
   border-radius: var(--erp-radius);
   overflow: hidden;
 }
@@ -511,6 +513,7 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 
 .modal-content {
   background: var(--erp-glass-bg);
+  color: var(--erp-text-on-light);
   backdrop-filter: blur(var(--erp-glass-blur));
   -webkit-backdrop-filter: blur(var(--erp-glass-blur));
   border-radius: var(--erp-radius-lg);
@@ -568,12 +571,12 @@ textarea.form-control { min-height: 100px; resize: vertical; }
 }
 
 .tab:hover {
-  color: var(--erp-primary);
+  color: var(--erp-text-on-light);
   background: rgba(200, 217, 230, 0.25);
 }
 
 .tab.active {
-  color: var(--erp-primary);
+  color: var(--erp-text-on-light);
   border-bottom-color: var(--erp-accent);
   background: rgba(245, 158, 11, 0.06);
 }

@@ -10,21 +10,21 @@ const TABS = [
     label: 'Ventas',
     icon: BarChart3,
     description: 'Tendencias, metodos de pago, top productos',
-    envKey: 'REACT_APP_METABASE_DASHBOARD_VENTAS',
+    configKey: 'REACT_APP_METABASE_DASHBOARD_VENTAS',
   },
   {
     id: 'inventario',
     label: 'Inventario',
     icon: Package,
     description: 'Stock actual, alertas y movimientos',
-    envKey: 'REACT_APP_METABASE_DASHBOARD_INVENTARIO',
+    configKey: 'REACT_APP_METABASE_DASHBOARD_INVENTARIO',
   },
   {
     id: 'general',
     label: 'General',
     icon: PieChart,
     description: 'Facturacion y metricas del negocio',
-    envKey: 'REACT_APP_METABASE_DASHBOARD_GENERAL',
+    configKey: 'REACT_APP_METABASE_DASHBOARD_GENERAL',
   },
 ];
 
@@ -36,17 +36,23 @@ function Analitica() {
   const [iframeKey, setIframeKey] = useState(0);
 
   useEffect(() => {
-    // Cargar UUIDs desde variables de entorno
-    const uuids = {};
-    TABS.forEach((tab) => {
-      const uuid = process.env[tab.envKey];
-      if (uuid) {
-        uuids[tab.id] = uuid;
-      }
-    });
-    setDashboardUUIDs(uuids);
+    // Cargar UUIDs desde archivo de config en runtime (generado por setup-metabase.sh)
+    fetch('/metabase-config.json')
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((config) => {
+        const uuids = {};
+        TABS.forEach((tab) => {
+          if (config[tab.configKey]) {
+            uuids[tab.id] = config[tab.configKey];
+          }
+        });
+        setDashboardUUIDs(uuids);
+      })
+      .catch(() => {
+        // Sin config — se mostrará el fallback de Metabase completo
+        setDashboardUUIDs({});
+      });
 
-    // Verificar si Metabase esta disponible
     checkMetabaseHealth();
   }, []);
 

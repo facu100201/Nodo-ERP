@@ -601,41 +601,32 @@ UUID_INVENTARIO=$(enable_public_dashboard "$DASH_INVENTARIO" "Inventario")
 UUID_GENERAL=$(enable_public_dashboard "$DASH_GENERAL" "General")
 
 # ── 13. Guardar configuracion para el frontend ──
-CONFIG_FILE="$(dirname "$0")/../frontend/.env.metabase"
+SCRIPT_DIR="$(dirname "$0")"
+METABASE_PUBLIC_URL="${METABASE_PUBLIC_URL:-http://localhost:3001}"
 
-cat > "$CONFIG_FILE" << EOF
+# JSON de runtime — el frontend lo lee en tiempo real (no necesita rebuild)
+PUBLIC_DIR="${SCRIPT_DIR}/../frontend/public"
+mkdir -p "$PUBLIC_DIR"
+cat > "${PUBLIC_DIR}/metabase-config.json" << EOF
+{
+  "REACT_APP_METABASE_URL": "${METABASE_PUBLIC_URL}",
+  "REACT_APP_METABASE_DASHBOARD_VENTAS": "${UUID_VENTAS}",
+  "REACT_APP_METABASE_DASHBOARD_INVENTARIO": "${UUID_INVENTARIO}",
+  "REACT_APP_METABASE_DASHBOARD_GENERAL": "${UUID_GENERAL}"
+}
+EOF
+
+ok "Config runtime guardada en frontend/public/metabase-config.json"
+
+# Tambien guardar .env.metabase como referencia
+cat > "${SCRIPT_DIR}/../frontend/.env.metabase" << EOF
 # Configuracion de Metabase para el frontend
 # Generado automaticamente por setup-metabase.sh
-REACT_APP_METABASE_URL=${METABASE_URL}
+REACT_APP_METABASE_URL=${METABASE_PUBLIC_URL}
 REACT_APP_METABASE_DASHBOARD_VENTAS=${UUID_VENTAS}
 REACT_APP_METABASE_DASHBOARD_INVENTARIO=${UUID_INVENTARIO}
 REACT_APP_METABASE_DASHBOARD_GENERAL=${UUID_GENERAL}
 EOF
-
-ok "Configuracion guardada en frontend/.env.metabase"
-
-# ── Actualizar frontend/.env con los UUIDs de esta instancia ──
-update_env_var() {
-    local FILE="$1"
-    local KEY="$2"
-    local VALUE="$3"
-    if grep -q "^${KEY}=" "$FILE" 2>/dev/null; then
-        sed -i "s|^${KEY}=.*|${KEY}=${VALUE}|" "$FILE"
-    else
-        echo "${KEY}=${VALUE}" >> "$FILE"
-    fi
-}
-
-ENV_FILE="$(dirname "$0")/../frontend/.env"
-if [ -f "$ENV_FILE" ]; then
-    update_env_var "$ENV_FILE" "REACT_APP_METABASE_URL" "$METABASE_URL"
-    [ -n "$UUID_VENTAS" ]      && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_VENTAS"      "$UUID_VENTAS"
-    [ -n "$UUID_INVENTARIO" ]  && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_INVENTARIO"  "$UUID_INVENTARIO"
-    [ -n "$UUID_GENERAL" ]     && update_env_var "$ENV_FILE" "REACT_APP_METABASE_DASHBOARD_GENERAL"     "$UUID_GENERAL"
-    ok "UUIDs escritos en frontend/.env"
-else
-    warn "No se encontro frontend/.env — copia manualmente desde frontend/.env.metabase"
-fi
 
 # ── Resumen final ──
 echo ""
@@ -643,27 +634,21 @@ echo "============================================"
 echo -e "${GREEN}  METABASE CONFIGURADO EXITOSAMENTE${NC}"
 echo "============================================"
 echo ""
-echo "  Panel Metabase:  $METABASE_URL"
+echo "  Panel Metabase:  $METABASE_PUBLIC_URL"
 echo "  Email:           $MB_ADMIN_EMAIL"
 echo "  Password:        $MB_ADMIN_PASSWORD"
 echo ""
 echo "  Dashboards publicos:"
 if [ -n "$UUID_VENTAS" ]; then
-    echo "    Ventas:     $METABASE_URL/public/dashboard/$UUID_VENTAS"
+    echo "    Ventas:     $METABASE_PUBLIC_URL/public/dashboard/$UUID_VENTAS"
 fi
 if [ -n "$UUID_INVENTARIO" ]; then
-    echo "    Inventario: $METABASE_URL/public/dashboard/$UUID_INVENTARIO"
+    echo "    Inventario: $METABASE_PUBLIC_URL/public/dashboard/$UUID_INVENTARIO"
 fi
 if [ -n "$UUID_GENERAL" ]; then
-    echo "    General:    $METABASE_URL/public/dashboard/$UUID_GENERAL"
+    echo "    General:    $METABASE_PUBLIC_URL/public/dashboard/$UUID_GENERAL"
 fi
 echo ""
 echo "  Base de datos: $DB_NAME ($DB_HOST:$DB_PORT)"
 echo "  12 visualizaciones creadas en 3 dashboards"
-echo ""
-echo -e "${YELLOW}  NOTA: Para usar en Docker, ejecuta con:${NC}"
-echo "    DB_HOST=db bash scripts/setup-metabase.sh"
-echo ""
-echo -e "${YELLOW}  Reinicia el frontend para aplicar los UUIDs:${NC}"
-echo "    docker compose -f docker/docker-compose.yml restart frontend"
 echo ""

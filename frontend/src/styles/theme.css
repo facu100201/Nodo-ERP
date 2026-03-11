@@ -181,20 +181,43 @@
 html[data-theme="dark"] {
   /* Fondos Azules Profundos (Se mantienen oscuros) */
   --erp-bg-main: #0b1220;
-  --erp-bg-soft: #0f172a;
+  --erp-bg-soft: #111827;
   --erp-bg-page: #0b1220;
-  
-  /* TEXTO: Aquí está el truco */
-  /* Usamos un blanco cian/hielo que resalta mucho más sobre el azul */
-  --erp-text-on-light: #f0f9ff; 
-  --erp-text-muted: #94a3b8; /* Gris azulado claro */
 
-  /* Resaltado de tarjetas (en lugar de blanco, un azul un poco más claro) */
-  --erp-highlight: rgba(56, 189, 248, 0.1); 
-  
-  /* Bordes: Azul eléctrico sutil para dar definición */
+  /* TEXTO */
+  --erp-text-on-light: #f0f9ff;
+  --erp-text-muted: #94a3b8;
+
+  /* Resaltado */
+  --erp-highlight: rgba(56, 189, 248, 0.08);
+
+  /* Bordes */
   --erp-border: rgba(56, 189, 248, 0.2);
   --bs-border-color: rgba(56, 189, 248, 0.2);
+
+  /* Glass (topnav, dropdowns, modales) */
+  --erp-glass-bg: #161e2e;
+  --erp-glass-border: rgba(56, 189, 248, 0.15);
+
+  /* Secundario más claro para texto en dark mode */
+  --erp-secondary: #7ea8c4;
+
+  /* Colores semánticos ajustados para fondos oscuros */
+  --erp-success-text: #86efac;
+  --erp-danger-text: #fca5a5;
+  --erp-warning-text: #fcd34d;
+  --erp-info-text: #93c5fd;
+  --erp-success-bg: rgba(86, 163, 107, 0.15);
+  --erp-danger-bg: rgba(239, 68, 68, 0.15);
+  --erp-warning-bg: rgba(242, 183, 5, 0.15);
+  --erp-info-bg: rgba(59, 130, 246, 0.15);
+
+  /* Hover de tabla */
+  --erp-table-hover-bg: rgba(56, 189, 248, 0.06);
+
+  /* Sombras más pronunciadas en dark */
+  --erp-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --erp-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 html[data-theme="dark"] body {
   background: var(--erp-bg-page);
@@ -212,9 +235,12 @@ html[data-theme="dark"] .card {
 }
 
 /* Forzar que los títulos sean blanco puro para que "salten" a la vista */
-html[data-theme="dark"] h1, 
-html[data-theme="dark"] h2, 
-html[data-theme="dark"] h3, 
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
 html[data-theme="dark"] strong {
   color: #ffffff !important;
   text-shadow: 0px 0px 1px rgba(255,255,255,0.2); /* Un brillo sutil */
@@ -262,6 +288,450 @@ html[data-theme="dark"] .navbar-toggler-icon {
   /* Esto fuerza al ícono a ser blanco en modo oscuro */
   filter: invert(1) grayscale(100%) brightness(200%);
 }
+/* ═══════════════════════════════════════
+   DARK MODE — COMPONENTES
+   ═══════════════════════════════════════ */
+
+/* ── Formularios ── */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] select.form-control,
+html[data-theme="dark"] textarea.form-control,
+html[data-theme="dark"] input.form-control {
+  background: #111827 !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+  background: #161e2e !important;
+  border-color: var(--erp-secondary) !important;
+  box-shadow: 0 0 0 3px rgba(126, 168, 196, 0.2) !important;
+}
+html[data-theme="dark"] .form-control::placeholder {
+  color: var(--erp-text-muted) !important;
+  opacity: 0.7;
+}
+html[data-theme="dark"] .form-control:disabled,
+html[data-theme="dark"] .form-control[readonly] {
+  background: rgba(11, 18, 32, 0.8) !important;
+  opacity: 0.6;
+}
+html[data-theme="dark"] select.form-control option,
+html[data-theme="dark"] .form-select option {
+  background: #161e2e;
+  color: var(--erp-text-on-light);
+}
+
+/* ── Tablas ── */
+html[data-theme="dark"] .table {
+  background: transparent !important;
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .table td,
+html[data-theme="dark"] .table th {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .table tbody tr:hover {
+  background-color: var(--erp-table-hover-bg) !important;
+}
+html[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(255, 255, 255, 0.025) !important;
+}
+html[data-theme="dark"] .table-bordered td,
+html[data-theme="dark"] .table-bordered th {
+  border-color: var(--erp-border) !important;
+}
+
+/* ── TopNavbar internals ── */
+html[data-theme="dark"] .erp-topnav__search {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(56, 189, 248, 0.15) !important;
+}
+html[data-theme="dark"] .erp-topnav__search--focused {
+  background: #161e2e !important;
+  border-color: var(--erp-accent) !important;
+}
+html[data-theme="dark"] .erp-topnav__search-input {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .erp-topnav__icon-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--erp-text-muted) !important;
+}
+html[data-theme="dark"] .erp-topnav__icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .erp-topnav__user-cluster {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .erp-topnav__user-cluster:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+html[data-theme="dark"] .erp-topnav__page-title,
+html[data-theme="dark"] .erp-topnav__username {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .erp-topnav__menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--erp-text-on-light) !important;
+}
+
+/* ── Dropdowns ── */
+html[data-theme="dark"] .erp-dropdown__header {
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .erp-dropdown__user-header strong {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .erp-dropdown__noti-body span {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .erp-dropdown__noti-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .erp-dropdown__item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .erp-dropdown__footer:hover {
+  background: rgba(242, 183, 5, 0.08) !important;
+}
+html[data-theme="dark"] .erp-dropdown__divider {
+  background: var(--erp-border) !important;
+}
+
+/* ── Tabs ── */
+html[data-theme="dark"] .tab:hover {
+  color: var(--erp-text-on-light) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .tab.active {
+  color: var(--erp-text-on-light) !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+}
+
+/* ── Card footer ── */
+html[data-theme="dark"] .card-footer {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* ── Títulos de página y tarjetas ── */
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .section-title,
+html[data-theme="dark"] .card-title:not([class*="text-success"]):not([class*="text-white"]):not([class*="text-danger"]):not([class*="text-warning"]) {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .text-primary {
+  color: #7ea8c4 !important;
+}
+html[data-theme="dark"] a {
+  color: #7ea8c4;
+}
+
+/* ── Bootstrap modales ── */
+html[data-theme="dark"] .modal-content {
+  background-color: #161e2e !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .modal-header {
+  background-color: #0f172a !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .modal-footer {
+  background-color: #0f172a !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .modal-title {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .btn-close {
+  filter: invert(1) brightness(2);
+}
+
+/* ── Bootstrap clases utilitarias ── */
+html[data-theme="dark"] .bg-light {
+  background-color: #161e2e !important;
+}
+html[data-theme="dark"] .bg-white {
+  background-color: #161e2e !important;
+}
+html[data-theme="dark"] .text-dark {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .text-body {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .border {
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .border-top,
+html[data-theme="dark"] .border-bottom,
+html[data-theme="dark"] .border-start,
+html[data-theme="dark"] .border-end {
+  border-color: var(--erp-border) !important;
+}
+
+/* ── Textos usando --erp-primary (oscuro) → legible en dark ── */
+html[data-theme="dark"] .form-group label,
+html[data-theme="dark"] .form-section-title,
+html[data-theme="dark"] .modal-header h2,
+html[data-theme="dark"] .modal-content h3,
+html[data-theme="dark"] .product-name,
+html[data-theme="dark"] .item-info h4,
+html[data-theme="dark"] .sale-info h3,
+html[data-theme="dark"] .analitica-title,
+html[data-theme="dark"] .analitica-status h3,
+html[data-theme="dark"] .analitica-status--error,
+html[data-theme="dark"] .total-final,
+html[data-theme="dark"] .summary-total,
+html[data-theme="dark"] .kpi-value,
+html[data-theme="dark"] .cobranza-empty .empty-state-title,
+html[data-theme="dark"] .facturacion-empty .empty-state-title,
+html[data-theme="dark"] .facturacion-total,
+html[data-theme="dark"] .text-bold {
+  color: var(--erp-text-on-light) !important;
+}
+
+/* ── Searchbars de páginas ── */
+html[data-theme="dark"] .cobranza-search,
+html[data-theme="dark"] .facturacion-search {
+  background: #111827 !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .cobranza-search-input,
+html[data-theme="dark"] .facturacion-search-input {
+  color: var(--erp-text-on-light) !important;
+}
+
+/* ── Almacen — carga masiva code pills ── */
+html[data-theme="dark"] .ayuda-carga-masiva code {
+  background-color: rgba(155, 20, 85, 0.2) !important;
+  color: #f9a8d4 !important;
+}
+
+/* ── Analitica ── */
+html[data-theme="dark"] .analitica-tab:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--erp-secondary) !important;
+}
+html[data-theme="dark"] .analitica-notice {
+  background: rgba(242, 183, 5, 0.1) !important;
+  border-color: rgba(242, 183, 5, 0.4) !important;
+  color: #fcd34d !important;
+}
+html[data-theme="dark"] .analitica-notice code {
+  background: rgba(0, 0, 0, 0.2) !important;
+  color: #fcd34d !important;
+}
+html[data-theme="dark"] .analitica-iframe {
+  background: #161e2e !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .analitica-status pre,
+html[data-theme="dark"] .analitica-status code {
+  background: #111827 !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+
+/* ── Spinner ── */
+html[data-theme="dark"] .spinner {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-top-color: var(--erp-accent) !important;
+}
+
+/* ── Resumen cards (Reportes, Cobranza) ── */
+html[data-theme="dark"] .resumen-card:not(.primary):not(.warning) {
+  background: #111827 !important;
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .resumen-label {
+  color: var(--erp-text-muted) !important;
+}
+html[data-theme="dark"] .resumen-value {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .resumen-change {
+  color: var(--erp-text-muted) !important;
+}
+
+/* ── KPI cards (Almacen) ── */
+html[data-theme="dark"] .kpi-card {
+  background: #111827 !important;
+}
+
+/* ── Cart summary ── */
+html[data-theme="dark"] .cart-summary {
+  background: #111827 !important;
+}
+
+/* ── Keyboard shortcuts ── */
+html[data-theme="dark"] .keyboard-shortcuts {
+  background: #111827 !important;
+}
+
+/* ── Btn-secondary en dark: evitar texto ilegible ── */
+html[data-theme="dark"] .btn-secondary:not(.bg-secondary) {
+  background-color: #2a4a5e !important;
+  border-color: #3a5a70 !important;
+  color: #f0f9ff !important;
+}
+html[data-theme="dark"] .btn-secondary:not(.bg-secondary):hover:not(:disabled) {
+  background-color: #3a5a70 !important;
+  border-color: #4a6a80 !important;
+  color: #ffffff !important;
+}
+
+/* ── Spinner de Analitica (usa --erp-primary como borde top) ── */
+html[data-theme="dark"] .analitica-spinner {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-top-color: var(--erp-accent) !important;
+}
+
+/* ── Alertas semánticas en dark ── */
+html[data-theme="dark"] .alert-success {
+  background: var(--erp-success-bg) !important;
+  color: var(--erp-success-text) !important;
+  border-left-color: var(--erp-success) !important;
+}
+html[data-theme="dark"] .alert-error,
+html[data-theme="dark"] .alert-danger {
+  background: var(--erp-danger-bg) !important;
+  color: var(--erp-danger-text) !important;
+}
+html[data-theme="dark"] .alert-warning {
+  background: var(--erp-warning-bg) !important;
+  color: var(--erp-warning-text) !important;
+}
+html[data-theme="dark"] .alert-info {
+  background: var(--erp-info-bg) !important;
+  color: var(--erp-info-text) !important;
+}
+
+/* Bootstrap alerts en dark */
+html[data-theme="dark"] .alert-success.alert {
+  background-color: var(--erp-success-bg) !important;
+  color: var(--erp-success-text) !important;
+  border-color: var(--erp-success-border) !important;
+}
+html[data-theme="dark"] .alert-danger.alert {
+  background-color: var(--erp-danger-bg) !important;
+  color: var(--erp-danger-text) !important;
+  border-color: var(--erp-danger-border) !important;
+}
+html[data-theme="dark"] .alert-warning.alert {
+  background-color: var(--erp-warning-bg) !important;
+  color: var(--erp-warning-text) !important;
+  border-color: var(--erp-warning-border) !important;
+}
+html[data-theme="dark"] .alert-info.alert {
+  background-color: var(--erp-info-bg) !important;
+  color: var(--erp-info-text) !important;
+  border-color: var(--erp-info-border) !important;
+}
+
+/* ── Input group ── */
+html[data-theme="dark"] .input-group-text {
+  background: #111827 !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+
+/* ── List group ── */
+html[data-theme="dark"] .list-group-item {
+  background-color: #161e2e !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .list-group-item:hover {
+  background-color: rgba(56, 189, 248, 0.06) !important;
+}
+
+/* ── Badges Bootstrap (para asegurar contraste) ── */
+html[data-theme="dark"] .badge.bg-secondary {
+  background-color: #4a6a80 !important;
+}
+
+/* ── Dropdown Bootstrap ── */
+html[data-theme="dark"] .dropdown-menu {
+  background-color: #161e2e !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .dropdown-item {
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .dropdown-item:hover,
+html[data-theme="dark"] .dropdown-item:focus {
+  background-color: rgba(56, 189, 248, 0.08) !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .dropdown-divider {
+  border-color: var(--erp-border) !important;
+}
+
+/* ── Table light variant en dark ── */
+html[data-theme="dark"] .table-light,
+html[data-theme="dark"] .table-light > :not(caption) > * > * {
+  background-color: #111827 !important;
+  color: var(--erp-text-on-light) !important;
+  border-color: var(--erp-border) !important;
+}
+
+/* ── Bootstrap card-body text ── */
+html[data-theme="dark"] .card-body {
+  color: var(--erp-text-on-light);
+}
+
+/* ── Bootstrap fw-bold, fw-semibold spans en cards ── */
+html[data-theme="dark"] .card-body .fw-bold,
+html[data-theme="dark"] .card-body .fw-semibold,
+html[data-theme="dark"] .card-body .fw-medium {
+  color: inherit;
+}
+
+/* ── Recharts SVG (gráficas) ── */
+html[data-theme="dark"] .recharts-cartesian-axis-tick text,
+html[data-theme="dark"] .recharts-legend-item-text,
+html[data-theme="dark"] .recharts-text {
+  fill: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .recharts-cartesian-grid line {
+  stroke: var(--erp-border) !important;
+}
+html[data-theme="dark"] .recharts-default-tooltip {
+  background-color: #161e2e !important;
+  border-color: var(--erp-border) !important;
+}
+html[data-theme="dark"] .recharts-tooltip-label,
+html[data-theme="dark"] .recharts-tooltip-item {
+  color: var(--erp-text-on-light) !important;
+}
+
+/* ── Bootstrap text-muted en dark ── */
+html[data-theme="dark"] .text-muted {
+  color: var(--erp-text-muted) !important;
+}
+
+/* ── Paginación Bootstrap ── */
+html[data-theme="dark"] .page-link {
+  background-color: #161e2e !important;
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text-on-light) !important;
+}
+html[data-theme="dark"] .page-item.active .page-link {
+  background-color: var(--erp-primary) !important;
+  border-color: var(--erp-primary) !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .page-item.disabled .page-link {
+  background-color: #0f172a !important;
+  color: var(--erp-text-muted) !important;
+}
+
 /* ═══════════════════════════════════════
    TIPOGRAFÍA GLOBAL
    ═══════════════════════════════════════ */
