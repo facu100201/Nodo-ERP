@@ -11,6 +11,7 @@ import Reportes from './pages/Reportes/Reportes';
 import Facturacion from './pages/Facturacion/Facturacion';
 import Cobranza from './pages/Cobranza/Cobranza';
 import Analitica from './pages/Analitica/Analitica';
+import RRHH from './pages/RRHH/RRHH';
 import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/analitica" element={<Analitica />} />
         <Route path="/facturacion" element={<Facturacion />} />
         <Route path="/cobranza" element={<Cobranza />} />
+        <Route path="/rrhh" element={<RRHH />} />
         <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

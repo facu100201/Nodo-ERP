@@ -3,7 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.logging_config import setup_logging, get_logger
-from app.api.v1 import auth, ventas, pos, productos, inventario, reportes, cobranza, facturas, configuracion
+from app.core.database import engine, Base
+from app.api.v1 import auth, ventas, pos, productos, inventario, reportes, cobranza, facturas, configuracion, rrhh
+
+# Importar todos los modelos para que Base los conozca antes de create_all
+import app.models  # noqa: F401
 
 # Configurar logging
 setup_logging(
@@ -62,6 +66,17 @@ app.include_router(reportes.router, prefix=settings.API_V1_PREFIX)
 app.include_router(cobranza.router, prefix=settings.API_V1_PREFIX)
 app.include_router(facturas.router, prefix=settings.API_V1_PREFIX)
 app.include_router(configuracion.router, prefix=settings.API_V1_PREFIX)
+app.include_router(rrhh.router, prefix=settings.API_V1_PREFIX)
+
+
+@app.on_event("startup")
+def create_rrhh_tables():
+    """Crea las tablas de RRHH si no existen (idempotente)."""
+    try:
+        Base.metadata.create_all(bind=engine, checkfirst=True)
+        logger.info("✅ Tablas RRHH verificadas/creadas correctamente")
+    except Exception as e:
+        logger.error(f"❌ Error creando tablas RRHH: {e}")
 
 
 @app.get("/")

@@ -52,6 +52,7 @@ body.login-page-active {
   padding: 2.6rem 2.2rem 2.2rem;
   color: #fff;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .login-title {

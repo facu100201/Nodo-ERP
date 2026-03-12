@@ -1,0 +1,482 @@
+/* ═══════════════════════════════════════════════════════
+   RRHH – Recursos Humanos
+   Usa la paleta oficial del ERP (theme.css):
+     --erp-bg-main, --erp-bg-soft, --erp-bg-page
+     --erp-text-on-light, --erp-text-muted
+     --erp-border, --erp-primary, --erp-secondary
+     --erp-highlight, --erp-glass-bg, --erp-glass-border
+     --erp-success-*, --erp-danger-*, --erp-warning-*, --erp-info-*
+     --erp-radius, --erp-radius-sm, --erp-radius-lg
+     --erp-transition, --erp-font
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Página ── */
+.rrhh-page {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 100%;
+  background: var(--erp-bg-page);
+  font-family: var(--erp-font);
+}
+
+.rrhh-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rrhh-page-title {
+  font-size: 1.45rem;
+  font-weight: var(--erp-fw-bold, 700);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--erp-primary);
+  margin: 0;
+}
+
+.rrhh-page-subtitle {
+  font-size: 0.85rem;
+  color: var(--erp-text-muted);
+  margin: 0.2rem 0 0;
+}
+
+/* ── KPIs ── */
+.rrhh-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.9rem;
+}
+
+.rrhh-kpi-card {
+  background: var(--erp-glass-bg);
+  border: 1px solid var(--erp-glass-border);
+  border-radius: var(--erp-radius);
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: var(--erp-transition);
+}
+.rrhh-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+}
+
+.rrhh-kpi-card__icon {
+  width: 44px; height: 44px;
+  border-radius: var(--erp-radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.rrhh-kpi-card--blue   .rrhh-kpi-card__icon { background: var(--erp-info-bg);    color: var(--erp-info-text);    }
+.rrhh-kpi-card--green  .rrhh-kpi-card__icon { background: var(--erp-success-bg);  color: var(--erp-success-text); }
+.rrhh-kpi-card--purple .rrhh-kpi-card__icon { background: rgba(124,58,237,.12);   color: #7c3aed;                 }
+.rrhh-kpi-card--orange .rrhh-kpi-card__icon { background: var(--erp-warning-bg);  color: var(--erp-warning-text); }
+
+.rrhh-kpi-card__body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.rrhh-kpi-card__label {
+  font-size: 0.72rem;
+  color: var(--erp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: var(--erp-fw-semibold, 600);
+}
+.rrhh-kpi-card__value {
+  font-size: 1.05rem;
+  font-weight: var(--erp-fw-bold, 700);
+  color: var(--erp-text-on-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Tabs ── */
+.rrhh-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 2px solid var(--erp-border);
+  flex-wrap: wrap;
+}
+
+.rrhh-tab-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  font-size: 0.83rem;
+  font-weight: var(--erp-fw-medium, 500);
+  border: none;
+  background: transparent;
+  color: var(--erp-text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  border-radius: var(--erp-radius-sm) var(--erp-radius-sm) 0 0;
+  transition: var(--erp-transition);
+  font-family: var(--erp-font);
+}
+.rrhh-tab-btn:hover {
+  color: var(--erp-text-on-light);
+  background: var(--erp-highlight);
+}
+.rrhh-tab-btn--active {
+  color: var(--erp-secondary);
+  border-bottom-color: var(--erp-secondary);
+  font-weight: var(--erp-fw-semibold, 600);
+}
+
+/* ── Tab Panel ── */
+.rrhh-tab-panel {
+  background: var(--erp-glass-bg);
+  border: 1px solid var(--erp-glass-border);
+  border-radius: var(--erp-radius);
+  min-height: 300px;
+}
+
+.rrhh-tab-content { padding: 1.25rem 1.5rem; }
+
+.rrhh-tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.rrhh-tab-title {
+  font-size: 1rem;
+  font-weight: var(--erp-fw-semibold, 600);
+  color: var(--erp-text-on-light);
+  margin: 0;
+}
+
+/* ── Botones ── */
+.rrhh-btn {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.83rem;
+  font-weight: var(--erp-fw-semibold, 600);
+  border-radius: var(--erp-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--erp-transition);
+  font-family: var(--erp-font);
+}
+.rrhh-btn--primary {
+  background: var(--erp-secondary);
+  color: #fff;
+  border-color: var(--erp-secondary);
+}
+.rrhh-btn--primary:hover { filter: brightness(1.1); }
+
+.rrhh-btn--ghost {
+  background: transparent;
+  color: var(--erp-text-muted);
+  border-color: var(--erp-border);
+}
+.rrhh-btn--ghost:hover {
+  background: var(--erp-highlight);
+  color: var(--erp-text-on-light);
+}
+
+.rrhh-btn--warning {
+  background: var(--erp-warning);
+  color: var(--erp-primary);
+  border-color: var(--erp-warning);
+}
+.rrhh-btn--warning:hover { filter: brightness(1.1); }
+
+.rrhh-btn--sm { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
+
+.rrhh-btn-icon {
+  background: none; border: none; cursor: pointer;
+  padding: 0.25rem; border-radius: var(--erp-radius-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: var(--erp-transition);
+  font-size: 0.9rem;
+  color: var(--erp-text-muted);
+}
+.rrhh-btn-icon:hover { background: var(--erp-highlight); color: var(--erp-text-on-light); }
+.rrhh-btn-icon--danger  { color: var(--erp-danger-text); }
+.rrhh-btn-icon--success { color: var(--erp-success-text); }
+
+/* ── Tabla ── */
+.rrhh-table-wrap { overflow-x: auto; border-radius: var(--erp-radius-sm); }
+
+.rrhh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+.rrhh-table th {
+  background: var(--erp-bg-soft);
+  color: var(--erp-text-muted);
+  font-weight: var(--erp-fw-semibold, 600);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 2px solid var(--erp-border);
+}
+.rrhh-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--erp-border);
+  color: var(--erp-text-on-light);
+  vertical-align: middle;
+}
+.rrhh-table tbody tr:hover { background: var(--erp-highlight); }
+.rrhh-table tfoot td {
+  font-weight: var(--erp-fw-bold, 700);
+  border-top: 2px solid var(--erp-border);
+  border-bottom: none;
+}
+
+.rrhh-table--compact th,
+.rrhh-table--compact td { padding: 0.45rem 0.6rem; font-size: 0.8rem; }
+
+.rrhh-row--inactive { opacity: 0.5; }
+.rrhh-cell--bold { font-weight: var(--erp-fw-semibold, 600); }
+.rrhh-cell--money { font-variant-numeric: tabular-nums; font-weight: var(--erp-fw-medium, 500); }
+.rrhh-cell--negative { color: var(--erp-danger-text); }
+.rrhh-cell--actions { display: flex; gap: 0.25rem; align-items: center; }
+.rrhh-cell--ua { font-size: 0.74rem; color: var(--erp-text-muted); max-width: 220px; }
+
+/* ── Badges ── */
+.rrhh-badge {
+  display: inline-flex; align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: var(--erp-fw-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.rrhh-badge--green  { background: var(--erp-success-bg);  color: var(--erp-success-text);  border: 1px solid var(--erp-success-border);  }
+.rrhh-badge--red    { background: var(--erp-danger-bg);   color: var(--erp-danger-text);   border: 1px solid var(--erp-danger-border);   }
+.rrhh-badge--blue   { background: var(--erp-info-bg);     color: var(--erp-info-text);     border: 1px solid var(--erp-info-border);     }
+.rrhh-badge--yellow { background: var(--erp-warning-bg);  color: var(--erp-warning-text);  border: 1px solid var(--erp-warning-border);  }
+.rrhh-badge--gray   { background: var(--erp-bg-soft);     color: var(--erp-text-muted);    border: 1px solid var(--erp-border);          }
+
+/* ── Modal ── */
+.rrhh-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1050; padding: 1rem;
+}
+
+.rrhh-modal {
+  background: var(--erp-glass-bg);
+  border: 1px solid var(--erp-glass-border);
+  border-radius: var(--erp-radius-lg);
+  width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.rrhh-modal--wide { max-width: 820px; }
+
+.rrhh-modal__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--erp-border);
+}
+.rrhh-modal__header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--erp-fw-bold, 700);
+  color: var(--erp-text-on-light);
+}
+.rrhh-modal__header button {
+  background: none; border: none; cursor: pointer;
+  color: var(--erp-text-muted);
+  border-radius: var(--erp-radius-sm);
+  padding: 0.2rem;
+  transition: var(--erp-transition);
+}
+.rrhh-modal__header button:hover { background: var(--erp-highlight); }
+
+.rrhh-modal__body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.rrhh-modal__footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+
+/* ── Formulario ── */
+.rrhh-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.rrhh-field label {
+  font-size: 0.78rem;
+  font-weight: var(--erp-fw-semibold, 600);
+  color: var(--erp-text-muted);
+}
+.rrhh-field input,
+.rrhh-field select,
+.rrhh-field textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-sm);
+  font-size: 0.85rem;
+  background: var(--erp-bg-main);
+  color: var(--erp-text-on-light);
+  transition: var(--erp-transition);
+  font-family: var(--erp-font);
+}
+.rrhh-field input:focus,
+.rrhh-field select:focus {
+  outline: none;
+  border-color: var(--erp-secondary);
+  box-shadow: 0 0 0 3px rgba(86,124,141,.18);
+}
+.rrhh-field small { font-size: 0.72rem; color: var(--erp-text-muted); }
+
+.rrhh-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.rrhh-field--check { flex-direction: row; align-items: center; gap: 0.5rem; }
+.rrhh-field--check input { width: auto; }
+.rrhh-field--check label { margin: 0; font-size: 0.85rem; color: var(--erp-text-on-light); }
+
+.rrhh-field--inline { flex-direction: row; align-items: center; gap: 0.5rem; }
+.rrhh-field--inline label { white-space: nowrap; min-width: 50px; }
+.rrhh-field--inline input,
+.rrhh-field--inline select { flex: 1; }
+
+/* ── Filtros ── */
+.rrhh-filters {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--erp-bg-soft);
+  border-radius: var(--erp-radius-sm);
+  border: 1px solid var(--erp-border);
+}
+
+/* ── Input inline (tabla nómina) ── */
+.rrhh-input-inline {
+  width: 90px; padding: 0.3rem 0.5rem;
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-sm);
+  font-size: 0.8rem;
+  background: var(--erp-bg-main);
+  color: var(--erp-text-on-light);
+  font-family: var(--erp-font);
+}
+.rrhh-input-inline--wide { width: 120px; }
+.rrhh-input-inline:focus {
+  outline: none;
+  border-color: var(--erp-secondary);
+}
+
+/* ── Acordeón nóminas ── */
+.rrhh-accordion { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.rrhh-accordion__item {
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-sm);
+  overflow: hidden;
+}
+
+.rrhh-accordion__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: var(--erp-bg-soft);
+  cursor: pointer; user-select: none;
+  transition: var(--erp-transition);
+  color: var(--erp-text-on-light);
+}
+.rrhh-accordion__header:hover { background: var(--erp-highlight); }
+
+.rrhh-accordion__title { display: flex; flex-direction: column; gap: 0.15rem; }
+.rrhh-accordion__meta { font-size: 0.75rem; color: var(--erp-text-muted); }
+
+.rrhh-accordion__right { display: flex; align-items: center; gap: 0.75rem; color: var(--erp-text-on-light); }
+.rrhh-accordion__emp-count { font-size: 0.75rem; color: var(--erp-text-muted); }
+
+.rrhh-accordion__body {
+  padding: 1rem;
+  border-top: 1px solid var(--erp-border);
+  display: flex; flex-direction: column; gap: 0.75rem;
+  background: var(--erp-glass-bg);
+}
+
+.rrhh-nomina-detalles__title {
+  font-size: 0.8rem;
+  font-weight: var(--erp-fw-semibold, 600);
+  color: var(--erp-text-muted);
+  margin: 0 0 0.5rem;
+}
+
+/* ── Resumen sesión ── */
+.rrhh-sesion-summary {
+  display: flex; flex-wrap: wrap; gap: 1.5rem;
+  padding: 0.7rem 1rem; margin-bottom: 0.9rem;
+  background: var(--erp-bg-soft);
+  border-radius: var(--erp-radius-sm);
+  border: 1px solid var(--erp-border);
+  font-size: 0.83rem;
+  color: var(--erp-text-muted);
+}
+.rrhh-sesion-summary strong { color: var(--erp-text-on-light); }
+
+/* ── Barra de progreso ── */
+.rrhh-progress {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--erp-text-muted);
+}
+.rrhh-progress__bar {
+  height: 6px; border-radius: 4px;
+  background: var(--erp-secondary);
+  min-width: 4px; max-width: 120px;
+  transition: width .3s;
+}
+
+/* ── Alerta ── */
+.rrhh-alert {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--erp-radius-sm);
+  font-size: 0.82rem;
+  margin-bottom: 0.5rem;
+}
+.rrhh-alert--danger {
+  background: var(--erp-danger-bg);
+  color: var(--erp-danger-text);
+  border: 1px solid var(--erp-danger-border);
+}
+.rrhh-alert--success {
+  background: var(--erp-success-bg);
+  color: var(--erp-success-text);
+  border: 1px solid var(--erp-success-border);
+}
+.rrhh-alert button {
+  margin-left: auto; background: none; border: none; cursor: pointer;
+  opacity: .7; color: inherit;
+}
+.rrhh-alert button:hover { opacity: 1; }
+
+/* ── Estados vacíos / cargando ── */
+.rrhh-empty {
+  text-align: center; padding: 2.5rem 1rem;
+  color: var(--erp-text-muted); font-size: 0.88rem;
+}
+
+.rrhh-loading {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 2rem;
+  color: var(--erp-text-muted); font-size: 0.88rem;
+}
+
+/* ── Spin ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin .8s linear infinite; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .rrhh-page { padding: 1rem; }
+  .rrhh-field-row { grid-template-columns: 1fr; }
+  .rrhh-kpis { grid-template-columns: 1fr 1fr; }
+  .rrhh-modal {
+    max-width: 100%; margin: 0;
+    border-radius: var(--erp-radius-lg) var(--erp-radius-lg) 0 0;
+    align-self: flex-end;
+  }
+}

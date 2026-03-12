@@ -13,17 +13,19 @@ import {
   ChevronRight,
   X,
   TrendingUp,
-  BarChart3
+  BarChart3,
+  Users
 } from 'lucide-react';
 
 const navItems = [
-  { path: '/dashboard',   label: 'Dashboard',      icon: LayoutDashboard, section: 'principal'  },
-  { path: '/pos',         label: 'Punto de Venta',  icon: ShoppingCart,    section: 'principal'  },
-  { path: '/almacen',     label: 'Almacén',         icon: Package,         section: 'inventario' },
-  { path: '/reportes',    label: 'Reportes',        icon: TrendingUp,      section: 'analítica'  },
-  { path: '/analitica',   label: 'Analítica',       icon: BarChart3,       section: 'analítica'  },
-  { path: '/facturacion', label: 'Facturación',     icon: Receipt,         section: 'finanzas'   },
-  { path: '/cobranza',    label: 'Cobranza',        icon: Wallet,          section: 'finanzas'   },
+  { path: '/dashboard',   label: 'Dashboard',         icon: LayoutDashboard, section: 'principal'  },
+  { path: '/pos',         label: 'Punto de Venta',     icon: ShoppingCart,    section: 'principal'  },
+  { path: '/almacen',     label: 'Almacén',            icon: Package,         section: 'inventario' },
+  { path: '/reportes',    label: 'Reportes',           icon: TrendingUp,      section: 'analítica'  },
+  { path: '/analitica',   label: 'Analítica',          icon: BarChart3,       section: 'analítica'  },
+  { path: '/facturacion', label: 'Facturación',        icon: Receipt,         section: 'finanzas'   },
+  { path: '/cobranza',    label: 'Cobranza',           icon: Wallet,          section: 'finanzas'   },
+  { path: '/rrhh',        label: 'Recursos Humanos',   icon: Users,           section: 'rrhh'       },
 ];
 
 const sectionLabels = {
@@ -31,6 +33,7 @@ const sectionLabels = {
   inventario: 'Inventario',
   'analítica':'Analítica',
   finanzas:   'Finanzas',
+  rrhh:       'RRHH',
 };
 
 function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {

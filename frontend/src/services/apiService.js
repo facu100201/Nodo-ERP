@@ -286,6 +286,60 @@ export const facturacionService = {
   },
 };
 
+// ==================== RECURSOS HUMANOS ====================
+export const rrhhService = {
+  resumen: async () => {
+    const response = await apiClient.get('/api/v1/rrhh/resumen');
+    return response.data;
+  },
+
+  // Empleados
+  listarEmpleados: async (soloActivos = false) => {
+    const response = await apiClient.get('/api/v1/rrhh/empleados', {
+      params: { solo_activos: soloActivos },
+    });
+    return response.data;
+  },
+
+  crearEmpleado: async (data) => {
+    const response = await apiClient.post('/api/v1/rrhh/empleados', data);
+    return response.data;
+  },
+
+  actualizarEmpleado: async (id, data) => {
+    const response = await apiClient.patch(`/api/v1/rrhh/empleados/${id}`, data);
+    return response.data;
+  },
+
+  // Nóminas
+  listarNominas: async () => {
+    const response = await apiClient.get('/api/v1/rrhh/nominas');
+    return response.data;
+  },
+
+  crearNomina: async (data) => {
+    const response = await apiClient.post('/api/v1/rrhh/nominas', data);
+    return response.data;
+  },
+
+  cerrarNomina: async (id) => {
+    const response = await apiClient.post(`/api/v1/rrhh/nominas/${id}/cerrar`);
+    return response.data;
+  },
+
+  // Logs de acceso
+  listarLogs: async (params = {}) => {
+    const response = await apiClient.get('/api/v1/rrhh/logs', { params });
+    return response.data;
+  },
+
+  // Ventas por sesión
+  ventasSesion: async (params = {}) => {
+    const response = await apiClient.get('/api/v1/rrhh/ventas-sesion', { params });
+    return response.data;
+  },
+};
+
 // ==================== HEALTH ====================
 export const healthService = {
   check: async () => {
