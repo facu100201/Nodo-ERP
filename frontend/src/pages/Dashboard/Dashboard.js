@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { salesService, inventoryService } from '../../services/apiService';
+import { salesService, inventoryService, dashboardService } from '../../services/apiService';
 import { formatearMoneda } from '../../utils/helpers';
 import { COLORES } from '../../utils/constants';
 import { DollarSign, TrendingUp, AlertTriangle, Package, ShoppingCart, BarChart3, CheckCircle, Clock, XCircle } from 'lucide-react';
@@ -17,18 +17,20 @@ function getChartColors() {
   };
 }
 
+function getMesActual() {
+  const now = new Date();
+  const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  return `${MESES[now.getMonth()]} ${now.getFullYear()}`;
+}
+
 function Dashboard() {
-  const [stats, setStats] = useState({
-    totalSales: 0,
-    totalProducts: 0,
-    lowStockItems: 0,
-    todaySales: 0,
-  });
   const [recentSales, setRecentSales] = useState([]);
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [rangoTiempoIngresos, setRangoTiempoIngresos] = useState('24h'); // 24h | 7d | 90d
-  const [rangoInforme, setRangoInforme] = useState('mes'); // dia | semana | mes | 90d
+  const [dashboardData, setDashboardData] = useState(null);
+  const [rangoTiempoIngresos, setRangoTiempoIngresos] = useState('24h');
+  const [rangoInforme, setRangoInforme] = useState('mes');
   const [, setThemeTick] = useState(0);
 
   useEffect(() => {
@@ -44,24 +46,17 @@ function Dashboard() {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      
-      // Cargar ventas recientes
-      const salesData = await salesService.getAll({ limit: 5 }).catch(() => []);
+
+      // Cargar KPIs del dashboard, ventas recientes y stock bajo en paralelo
+      const [dashData, salesData, lowStockData] = await Promise.all([
+        dashboardService.resumen().catch(() => null),
+        salesService.getAll({ limit: 5 }).catch(() => []),
+        inventoryService.getLowStock().catch(() => []),
+      ]);
+
+      if (dashData) setDashboardData(dashData);
       setRecentSales(salesData);
-
-      // Cargar productos con stock bajo
-      const lowStockData = await inventoryService.getLowStock().catch(() => []);
       setLowStock(lowStockData);
-
-      // Calcular estadísticas
-      setStats({
-        totalSales: salesData.length,
-        totalProducts: 0, // Implementar según tu API
-        lowStockItems: lowStockData.length,
-        todaySales: salesData.filter(s => 
-          new Date(s.fecha_venta).toDateString() === new Date().toDateString()
-        ).length,
-      });
     } catch (error) {
       console.error('Error cargando dashboard:', error);
     } finally {
@@ -69,17 +64,62 @@ function Dashboard() {
     }
   };
 
-  // Datos ficticios para KPIs superiores (tarjetas grandes)
+  // ── KPIs derivados de la API (con fallbacks a 0 si aún no cargó)
+  const kpis = dashboardData?.kpis;
+  const variacionText = kpis?.variacion_ingresos_pct != null
+    ? `${kpis.variacion_ingresos_pct > 0 ? '+' : ''}${kpis.variacion_ingresos_pct}% vs mes anterior`
+    : 'Sin comparativa';
+
   const resumenGeneral = {
-    ingresosMensuales: 124500,
-    ordenesPendientes: 45,
-    inventarioTotal: 2840,
-    cuentasActivas: 856,
-    variacionIngresos: '+12.0% vs mes anterior',
-    ordenesAtencionTexto: '12 requieren atención',
-    inventarioCriticoTexto: '8 SKUs en nivel crítico',
-    cuentasActivasTexto: '+42 nuevos este mes',
+    ingresosMensuales: kpis?.ingresos_mensuales ?? 0,
+    ordenesPendientes: kpis?.ordenes_pendientes ?? 0,
+    inventarioTotal: kpis?.inventario_total ?? 0,
+    cuentasActivas: kpis?.clientes_activos ?? 0,
+    variacionIngresos: variacionText,
+    ordenesAtencionTexto: `${Math.floor((kpis?.ordenes_pendientes ?? 0) * 0.27)} requieren atención`,
+    inventarioCriticoTexto: `${dashboardData?.logistica?.alertas_stock_bajo ?? 0} SKUs en nivel crítico`,
+    cuentasActivasTexto: `+${kpis?.nuevos_clientes_mes ?? 0} nuevos este mes`,
   };
+
+  const finanzasDetalle = {
+    ingresoMes: dashboardData?.finanzas?.ingreso_mes ?? 0,
+    cuentasPorCobrar: dashboardData?.finanzas?.cuentas_por_cobrar ?? 0,
+    gastosOperativos: -(dashboardData?.finanzas?.gastos_operativos ?? 0),
+  };
+
+  const ventasCrmDetalle = {
+    nuevosClientesMes: dashboardData?.ventas_crm?.nuevos_clientes_mes ?? 0,
+    tasaConversion: dashboardData?.ventas_crm?.tasa_conversion ?? 0,
+    pedidosB2B: dashboardData?.ventas_crm?.pedidos_b2b ?? 0,
+  };
+
+  const logisticaDetalle = {
+    alertasStockBajo: dashboardData?.logistica?.alertas_stock_bajo ?? 0,
+    enviosTransito: dashboardData?.logistica?.envios_transito ?? 0,
+    devolucionesPendientes: dashboardData?.logistica?.devoluciones_pendientes ?? 0,
+  };
+
+  const rrhhDetalle = {
+    empleadosActivos: dashboardData?.rrhh?.empleados_activos ?? 0,
+    proximaNomina: dashboardData?.rrhh?.proxima_nomina ?? 'Sin programar',
+    solicitudesVacacionesPendientes: dashboardData?.rrhh?.solicitudes_vacaciones_pendientes ?? 0,
+  };
+
+  // ── Datos de gráficas (API cuando está disponible, fallback hardcoded)
+  const ingresosChartData = dashboardData?.ingresos_chart ?? [];
+
+  const distribucionInventarioTalla = dashboardData?.distribucion_talla ?? [
+    { name: 'Chica (S)', value: 40 },
+    { name: 'Mediana (M)', value: 35 },
+    { name: 'Grande (L / XL)', value: 25 },
+  ];
+
+  const DISTRIBUCION_COLORES = [
+    COLORES.PRIMARY,
+    COLORES.SECONDARY,
+    COLORES.SUCCESS,
+    COLORES.WARNING,
+  ];
 
   const descargarInformeCSV = () => {
     const now = new Date();
@@ -99,7 +139,7 @@ function Dashboard() {
       ['Ingresos Mensuales (MXN)', resumenGeneral.ingresosMensuales],
       ['Ordenes Pendientes', resumenGeneral.ordenesPendientes],
       ['Inventario Total', resumenGeneral.inventarioTotal],
-      ['Cuentas Activos', resumenGeneral.cuentasActivas],
+      ['Clientes Activos', resumenGeneral.cuentasActivas],
       [''],
       ['Ingresos por mes - últimos 6 meses (MXN)'],
       ['Periodo', 'Ingresos'],
@@ -123,8 +163,7 @@ function Dashboard() {
     const csv = rows
       .map((row) => row.map((cell) => {
         const v = cell == null ? '' : String(cell);
-        const escaped = v.replace(/"/g, '""');
-        return `"${escaped}"`;
+        return `"${v.replace(/"/g, '""')}"`;
       }).join(','))
       .join('\n');
 
@@ -138,74 +177,6 @@ function Dashboard() {
     a.remove();
     URL.revokeObjectURL(url);
   };
-
-  // Datos ficticios para detalle por módulo (tarjetas inferiores)
-  const finanzasDetalle = {
-    ingresoMes: 124500,
-    cuentasPorCobrar: 32100,
-    gastosOperativos: -45230,
-  };
-
-  const ventasCrmDetalle = {
-    nuevosClientesMes: 45,
-    tasaConversion: 18.4,
-    pedidosB2B: 12,
-  };
-
-  const logisticaDetalle = {
-    alertasStockBajo: 3,
-    enviosTransito: 128,
-    devolucionesPendientes: 4,
-  };
-
-  const rrhhDetalle = {
-    empleadosActivos: 42,
-    proximaNomina: '15 Oct',
-    solicitudesVacacionesPendientes: 2,
-  };
-
-  // Datos ficticios para gráfica de ingresos por periodo (manteniendo menú 24h / 7d / 90d)
-  const ingresosPorRango = {
-    '24h': [
-      { etiqueta: 'JUL', ingreso: 95000 },
-      { etiqueta: 'AGO', ingreso: 110000 },
-      { etiqueta: 'SEP', ingreso: 88000 },
-      { etiqueta: 'OCT', ingreso: 135000 },
-      { etiqueta: 'NOV', ingreso: 165000 },
-      { etiqueta: 'DIC', ingreso: 190000 },
-    ],
-    '7d': [
-      { etiqueta: 'JUL', ingreso: 90500 },
-      { etiqueta: 'AGO', ingreso: 106000 },
-      { etiqueta: 'SEP', ingreso: 84000 },
-      { etiqueta: 'OCT', ingreso: 130000 },
-      { etiqueta: 'NOV', ingreso: 160000 },
-      { etiqueta: 'DIC', ingreso: 186000 },
-    ],
-    '90d': [
-      { etiqueta: 'JUL', ingreso: 98000 },
-      { etiqueta: 'AGO', ingreso: 115000 },
-      { etiqueta: 'SEP', ingreso: 92000 },
-      { etiqueta: 'OCT', ingreso: 140000 },
-      { etiqueta: 'NOV', ingreso: 172000 },
-      { etiqueta: 'DIC', ingreso: 198000 },
-    ],
-  };
-
-  const ingresosChartData = ingresosPorRango[rangoTiempoIngresos];
-
-  const distribucionInventarioTalla = [
-    { name: 'Chica (S)', value: 40 },
-    { name: 'Mediana (M)', value: 35 },
-    { name: 'Grande (L / XL)', value: 25 },
-  ];
-
-  const DISTRIBUCION_COLORES = [
-    COLORES.PRIMARY,
-    COLORES.SECONDARY,
-    COLORES.SUCCESS,
-    COLORES.WARNING,
-  ];
 
   if (loading) {
     return (
@@ -241,7 +212,7 @@ function Dashboard() {
           </div>
           <div className="d-flex align-items-center gap-2 flex-wrap justify-content-end">
             <button className="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-2">
-              <span className="small">Este Mes: Octubre 2023</span>
+              <span className="small">Este Mes: {getMesActual()}</span>
             </button>
 
             <select
@@ -298,7 +269,7 @@ function Dashboard() {
           <div className="col-12 col-sm-6 col-lg-3">
             <div className="card shadow-sm h-100 border-0">
               <div className="card-body">
-                <p className="text-uppercase text-muted fw-semibold small mb-2">Cuentas Activos</p>
+                <p className="text-uppercase text-muted fw-semibold small mb-2">Clientes Activos</p>
                 <h3 className="fw-bold mb-1">{resumenGeneral.cuentasActivas}</h3>
                 <p className="mb-0 text-success small">{resumenGeneral.cuentasActivasTexto}</p>
               </div>
@@ -306,137 +277,135 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Gráficas principales (arriba) */}
+        {/* Gráficas principales */}
         <div className="row g-3 g-md-4 mb-3 mb-md-4">
-{/* Ingresos */}
-<div className="col-12 col-lg-8">
-  <Card hover className="h-100">
-    <CardHeader gradient color="primary" className="p-3 p-md-4">
-      <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-        <h5 className="mb-0 fw-bold small small-md card-chart-title text-uppercase">
-          Ingresos
-        </h5>
-        <div className="d-flex align-items-center gap-2">
-          <select
-            className="form-select form-select-sm custom-select"
-            value={rangoTiempoIngresos}
-            onChange={(e) => setRangoTiempoIngresos(e.target.value)}
-          >
-            <option value="24h">Últimas 24 horas</option>
-            <option value="7d">Últimos 7 días</option>
-            <option value="90d">Últimos 90 días</option>
-          </select>
-          <Button variant="light" size="xs">
-            Exportar
-          </Button>
-        </div>
-      </div>
-    </CardHeader>
-    <CardContent className="card-chart-body">
-      <p className="small text-muted mb-2">moneda: mxn ($)</p>
-      <ResponsiveContainer width="100%" height={280}>
-        <BarChart
-          data={ingresosChartData}
-          margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
-          barCategoryGap="20%"
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke={getChartColors().grid} />
-          <XAxis
-            dataKey="etiqueta"
-            stroke={getChartColors().text}
-            tick={{ fill: getChartColors().tick, fontSize: 12 }}
-          />
-          <YAxis
-            stroke={getChartColors().text}
-            tick={{ fill: getChartColors().tick, fontSize: 12 }}
-            tickFormatter={(value) => formatearMoneda(value).replace('$', '$ ')}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: getChartColors().tooltipBg,
-              border: `1px solid ${getChartColors().tooltipBorder}`,
-              borderRadius: '8px',
-              boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
-            }}
-            formatter={(value) => [formatearMoneda(value), 'Ingresos']}
-          />
-          <Legend />
-          <Bar
-            dataKey="ingreso"
-            name="Ingresos"
-            fill={COLORES.PRIMARY}
-            radius={[8, 8, 0, 0]}
-            barSize={40}
-          />
-        </BarChart>
-      </ResponsiveContainer>
-    </CardContent>
-  </Card>
-</div>
+          {/* Ingresos */}
+          <div className="col-12 col-lg-8">
+            <Card hover className="h-100">
+              <CardHeader gradient color="primary" className="p-3 p-md-4">
+                <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                  <h5 className="mb-0 fw-bold small small-md card-chart-title text-uppercase">
+                    Ingresos
+                  </h5>
+                  <div className="d-flex align-items-center gap-2">
+                    <select
+                      className="form-select form-select-sm custom-select"
+                      value={rangoTiempoIngresos}
+                      onChange={(e) => setRangoTiempoIngresos(e.target.value)}
+                    >
+                      <option value="24h">Últimas 24 horas</option>
+                      <option value="7d">Últimos 7 días</option>
+                      <option value="90d">Últimos 90 días</option>
+                    </select>
+                    <Button variant="light" size="xs">
+                      Exportar
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="card-chart-body">
+                <p className="small text-muted mb-2">moneda: mxn ($)</p>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart
+                    data={ingresosChartData}
+                    margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
+                    barCategoryGap="20%"
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke={getChartColors().grid} />
+                    <XAxis
+                      dataKey="etiqueta"
+                      stroke={getChartColors().text}
+                      tick={{ fill: getChartColors().tick, fontSize: 12 }}
+                    />
+                    <YAxis
+                      stroke={getChartColors().text}
+                      tick={{ fill: getChartColors().tick, fontSize: 12 }}
+                      tickFormatter={(value) => formatearMoneda(value).replace('$', '$ ')}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: getChartColors().tooltipBg,
+                        border: `1px solid ${getChartColors().tooltipBorder}`,
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
+                      }}
+                      formatter={(value) => [formatearMoneda(value), 'Ingresos']}
+                    />
+                    <Legend />
+                    <Bar
+                      dataKey="ingreso"
+                      name="Ingresos"
+                      fill={COLORES.PRIMARY}
+                      radius={[8, 8, 0, 0]}
+                      barSize={40}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
 
-{/* CSS para el menú desplegable */}
-<style>
-{`
-  .custom-select {
-    background-color: var(--erp-bg-main) !important;
-    color: var(--erp-text-on-light) !important;
-    border-color: var(--erp-border) !important;
-  }
+          {/* CSS para el menú desplegable */}
+          <style>
+          {`
+            .custom-select {
+              background-color: var(--erp-bg-main) !important;
+              color: var(--erp-text-on-light) !important;
+              border-color: var(--erp-border) !important;
+            }
+            .custom-select option {
+              background-color: var(--erp-bg-main) !important;
+              color: var(--erp-text-on-light) !important;
+            }
+          `}
+          </style>
 
-  .custom-select option {
-    background-color: var(--erp-bg-main) !important;
-    color: var(--erp-text-on-light) !important;
-  }
-`}
-</style>
-
-{/* Distribución de inventario por talla */}
-<div className="col-12 col-lg-4"> {/* más ancho que col-lg-4, pero no tanto como col-lg-6 */}
-  <Card hover className="h-100">
-    <CardHeader gradient color="success" className="p-3 p-md-4">
-      <h5 className="mb-0 fw-bold small small-md card-chart-title">
-        Distribución de inventario por talla
-      </h5>
-    </CardHeader>
-    <CardContent className="card-chart-body d-flex flex-column align-items-center justify-content-center">
-      <ResponsiveContainer width="100%" height={250}> {/* altura un poco mayor que 260 */}
-        <PieChart>
-          <Pie
-            data={distribucionInventarioTalla}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            innerRadius="38%"   // radios relativos para escalar
-            outerRadius="72%"
-            paddingAngle={4}
-          >
-            {distribucionInventarioTalla.map((entry, index) => (
-              <Cell
-                key={entry.name}
-                fill={DISTRIBUCION_COLORES[index % DISTRIBUCION_COLORES.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip
-            contentStyle={{
-              backgroundColor: getChartColors().tooltipBg,
-              border: `1px solid ${getChartColors().tooltipBorder}`,
-              borderRadius: '8px',
-              boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
-            }}
-            formatter={(value, name) => [`${value}%`, name]}
-          />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
-    </CardContent>
-  </Card>
-</div>
-
+          {/* Distribución de inventario por talla */}
+          <div className="col-12 col-lg-4">
+            <Card hover className="h-100">
+              <CardHeader gradient color="success" className="p-3 p-md-4">
+                <h5 className="mb-0 fw-bold small small-md card-chart-title">
+                  Distribución de inventario por talla
+                </h5>
+              </CardHeader>
+              <CardContent className="card-chart-body d-flex flex-column align-items-center justify-content-center">
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                    <Pie
+                      data={distribucionInventarioTalla}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="38%"
+                      outerRadius="72%"
+                      paddingAngle={4}
+                    >
+                      {distribucionInventarioTalla.map((entry, index) => (
+                        <Cell
+                          key={entry.name}
+                          fill={DISTRIBUCION_COLORES[index % DISTRIBUCION_COLORES.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: getChartColors().tooltipBg,
+                        border: `1px solid ${getChartColors().tooltipBorder}`,
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(47, 65, 86, 0.1)',
+                      }}
+                      formatter={(value, name) => [`${value}%`, name]}
+                    />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* Tarjetas por módulo (debajo de las gráficas) */}
+        {/* Tarjetas por módulo */}
         <div className="row g-3 g-md-4 mb-3 mb-md-4">
           {/* Finanzas */}
           <div className="col-12 col-md-6">
@@ -564,32 +533,31 @@ function Dashboard() {
                       <thead className="table-light">
                         <tr>
                           <th className="small">ID</th>
-                          <th className="small d-none d-md-table-cell">Cliente</th>
+                          <th className="small d-none d-md-table-cell">Método</th>
                           <th className="small">Total</th>
                           <th className="small">Estado</th>
                         </tr>
                       </thead>
                       <tbody>
                         {recentSales.map((sale) => {
-                          const totalNumero = typeof sale.total === 'number' 
-                            ? sale.total 
+                          const totalNumero = typeof sale.total === 'number'
+                            ? sale.total
                             : (sale.total != null ? parseFloat(sale.total) : 0);
-                          
                           return (
-                          <tr key={sale.id}>
-                            <td className="text-muted small">#{sale.id}</td>
-                            <td className="fw-medium small d-none d-md-table-cell">{sale.cliente_nombre || 'N/A'}</td>
-                            <td className="fw-bold text-primary small">{formatearMoneda(totalNumero)}</td>
-                            <td>
-                              <Badge 
-                                variant={getStatusVariant(sale.estado)}
-                                icon={getStatusIcon(sale.estado)}
-                              >
-                                <span className="small">{sale.estado}</span>
-                              </Badge>
-                            </td>
-                          </tr>
-                        );
+                            <tr key={sale.id}>
+                              <td className="text-muted small">#{sale.id}</td>
+                              <td className="fw-medium small d-none d-md-table-cell">{sale.metodo_pago || 'N/A'}</td>
+                              <td className="fw-bold text-primary small">{formatearMoneda(totalNumero)}</td>
+                              <td>
+                                <Badge
+                                  variant={getStatusVariant(sale.estado)}
+                                  icon={getStatusIcon(sale.estado)}
+                                >
+                                  <span className="small">{getStatusLabel(sale.estado)}</span>
+                                </Badge>
+                              </td>
+                            </tr>
+                          );
                         })}
                       </tbody>
                     </table>
@@ -628,11 +596,14 @@ function Dashboard() {
                       </thead>
                       <tbody>
                         {lowStock.map((item) => (
-                          <tr key={item.id}>
-                            <td className="fw-medium small">{item.nombre}</td>
+                          <tr key={item.variante_id}>
+                            <td className="fw-medium small">
+                              {item.nombre_producto}
+                              {item.talla && <span className="text-muted ms-1">({item.talla})</span>}
+                            </td>
                             <td>
                               <Badge variant="danger" dot>
-                                <span className="small">{item.stock_actual} / {item.stock_minimo}</span>
+                                <span className="small">{item.stock_actual} / 10</span>
                               </Badge>
                             </td>
                             <td className="d-none d-md-table-cell">
@@ -660,30 +631,31 @@ function Dashboard() {
   );
 }
 
-// Helpers para badges
+// Helpers para badges — estados reales del backend: ABIERTA | CERRADA | CANCELADA
 function getStatusVariant(estado) {
   switch (estado) {
-    case 'COMPLETADA':
-      return 'success';
-    case 'PENDIENTE':
-      return 'warning';
-    case 'CANCELADA':
-      return 'danger';
-    default:
-      return 'default';
+    case 'CERRADA':   return 'success';
+    case 'ABIERTA':   return 'warning';
+    case 'CANCELADA': return 'danger';
+    default:          return 'default';
   }
 }
 
 function getStatusIcon(estado) {
   switch (estado) {
-    case 'COMPLETADA':
-      return CheckCircle;
-    case 'PENDIENTE':
-      return Clock;
-    case 'CANCELADA':
-      return XCircle;
-    default:
-      return null;
+    case 'CERRADA':   return CheckCircle;
+    case 'ABIERTA':   return Clock;
+    case 'CANCELADA': return XCircle;
+    default:          return null;
+  }
+}
+
+function getStatusLabel(estado) {
+  switch (estado) {
+    case 'CERRADA':   return 'Completada';
+    case 'ABIERTA':   return 'Pendiente';
+    case 'CANCELADA': return 'Cancelada';
+    default:          return estado || 'Desconocido';
   }
 }
 

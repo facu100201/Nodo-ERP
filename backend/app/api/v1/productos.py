@@ -62,6 +62,13 @@ class ProductoCreateSchema(BaseModel):
     marca: str | None = None
 
 
+class ProductoUpdateSchema(BaseModel):
+    nombre: str | None = Field(None, min_length=1, max_length=200)
+    descripcion: str | None = None
+    categoria: str | None = None
+    marca: str | None = None
+
+
 class VarianteCreateSchema(BaseModel):
     producto_id: int
     sku: str = Field(..., min_length=1, max_length=50)
@@ -140,6 +147,31 @@ def obtener_producto(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Producto {producto_id} no encontrado",
         )
+    return producto
+
+
+@router.patch("/{producto_id}", response_model=ProductoResponse)
+def actualizar_producto(
+    producto_id: int,
+    producto_data: ProductoUpdateSchema,
+    current_user: Annotated[Usuario, Depends(require_cajero_or_admin)],
+    db: Session = Depends(get_db),
+):
+    """
+    Actualizar campos de un producto existente.
+    Requiere rol: CAJERO o ADMIN
+    """
+    producto = db.query(Producto).filter(Producto.id == producto_id).first()
+    if not producto:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Producto {producto_id} no encontrado",
+        )
+    update_data = producto_data.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(producto, key, value)
+    db.commit()
+    db.refresh(producto)
     return producto
 
 

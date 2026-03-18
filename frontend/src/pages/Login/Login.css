@@ -53,6 +53,8 @@ body.login-page-active {
   color: #fff;
   box-sizing: border-box;
   overflow: hidden;
+  clip-path: inset(0 round 20px);
+  isolation: isolate;
 }
 
 .login-title {
@@ -252,17 +254,6 @@ body.login-page-active {
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
 }
 
-/* Franja translúcida vertical (como en la captura) */
-.login-brand-panel::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: rgba(211, 220, 232, 0.55);
-  pointer-events: none;
-}
 
 
 /* PNG del logo */

@@ -107,6 +107,11 @@ export const productService = {
     return response.data;
   },
 
+  update: async (id, productData) => {
+    const response = await apiClient.patch(`/api/v1/productos/${id}`, productData);
+    return response.data;
+  },
+
   delete: async (id) => {
     const response = await apiClient.delete(`/api/v1/productos/${id}`);
     return response.data;
@@ -336,6 +341,22 @@ export const rrhhService = {
   // Ventas por sesión
   ventasSesion: async (params = {}) => {
     const response = await apiClient.get('/api/v1/rrhh/ventas-sesion', { params });
+    return response.data;
+  },
+};
+
+// ==================== DASHBOARD ====================
+export const dashboardService = {
+  resumen: async () => {
+    const response = await apiClient.get('/api/v1/dashboard/resumen');
+    return response.data;
+  },
+};
+
+// ==================== ASISTENTE IA ====================
+export const aiService = {
+  chat: async (message, context = null) => {
+    const response = await apiClient.post('/api/v1/ai/chat', { message, context }, { timeout: 30000 });
     return response.data;
   },
 };

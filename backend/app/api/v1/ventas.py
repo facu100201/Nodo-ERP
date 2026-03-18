@@ -119,7 +119,7 @@ def add_item_to_sale(
     ```
     """
     venta_service = VentaService(db)
-    return venta_service.add_item_to_sale(sale_id, item_data)
+    return venta_service.add_item_to_sale(venta_id, item_data)
 
 
 @router.get("/{venta_id}", response_model=VentaResponse)

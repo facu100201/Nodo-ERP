@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     
     # CORS
     CORS_ORIGINS: str = "*"  # En producción, especificar orígenes separados por coma
+
+    # Anthropic / IA
+    ANTHROPIC_API_KEY: str = ""
+    ANTHROPIC_MODEL: str = "claude-haiku-4-5"
     
     class Config:
         env_file = "backend/.env"

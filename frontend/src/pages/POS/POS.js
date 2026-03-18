@@ -70,25 +70,29 @@ function POS() {
 
   const buscarYAgregarProducto = async (e) => {
     e.preventDefault();
-    
+
     if (!codigoBarras) {
       mostrarMensaje('warning', 'Ingrese un código de barras');
       return;
     }
 
-    if (!ventaActual) {
-      await crearNuevaVenta();
-      // Esperar a que se cree la venta
-      setTimeout(() => agregarProducto(), 500);
-      return;
-    }
-
-    await agregarProducto();
-  };
-
-  const agregarProducto = async () => {
     try {
       setLoading(true);
+
+      // Crear venta si no existe, obteniendo el ID directamente de la respuesta
+      let ventaId;
+      if (!ventaActual) {
+        const venta = await salesService.create({
+          punto_venta_id: 1,
+          metodo_pago: 'EFECTIVO',
+          detalles: []
+        });
+        setVentaActual(venta);
+        setItems([]);
+        ventaId = venta.id;
+      } else {
+        ventaId = ventaActual.id;
+      }
 
       // Buscar producto
       const producto = await posService.buscarPorCodigo(codigoBarras);
@@ -100,18 +104,18 @@ function POS() {
       }
 
       // Agregar a venta
-      const ventaActualizada = await salesService.addItem(ventaActual.id, {
+      const ventaActualizada = await salesService.addItem(ventaId, {
         codigo_barras: codigoBarras,
         cantidad: cantidad
       });
 
       setVentaActual(ventaActualizada);
       setItems(ventaActualizada.detalles || []);
-      
+
       // Limpiar campos
       setCodigoBarras('');
       setCantidad(1);
-      
+
       mostrarMensaje('success', `Agregado: ${producto.nombre_producto} (${cantidad})`);
     } catch (error) {
       const detail = error.response?.data?.detail || error.message;

@@ -50,6 +50,7 @@ function AppRoutes() {
         <Route path="/cobranza" element={<Cobranza />} />
         <Route path="/rrhh" element={<RRHH />} />
         <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/login" element={<Navigate to="/dashboard" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

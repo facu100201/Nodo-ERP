@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { salesService, productService } from '../../services/apiService';
-import { DollarSign, Search, ShoppingCart, Plus, CheckCircle, XCircle, Trash2 } from 'lucide-react';
+import { DollarSign, Search, ShoppingCart, Plus, CheckCircle, XCircle } from 'lucide-react';
 import './Sales.css';
 
 function Sales() {
@@ -83,7 +83,7 @@ function Sales() {
     }
 
     try {
-      await salesService.complete(currentSale.id);
+      await salesService.cerrar(currentSale.id);
       setMessage({ type: 'success', text: 'Venta completada exitosamente' });
       
       // Reiniciar después de 2 segundos
@@ -106,7 +106,7 @@ function Sales() {
 
     if (window.confirm('¿Estás seguro de cancelar esta venta?')) {
       try {
-        await salesService.cancel(currentSale.id);
+        await salesService.cancelar(currentSale.id);
         setMessage({ type: 'success', text: '⚠️ Venta cancelada' });
         createNewSale();
       } catch (error) {
@@ -116,18 +116,6 @@ function Sales() {
     }
   };
 
-  const handleRemoveItem = async (productId) => {
-    if (!currentSale) return;
-
-    try {
-      const updatedSale = await salesService.removeItem(currentSale.id, productId);
-      setCurrentSale(updatedSale);
-      setMessage({ type: 'success', text: '✅ Producto eliminado' });
-    } catch (error) {
-      console.error('Error eliminando item:', error);
-      setMessage({ type: 'error', text: 'Error al eliminar producto' });
-    }
-  };
 
   return (
     <Layout>
@@ -255,14 +243,6 @@ function Sales() {
                         </div>
                         <div className="item-actions">
                           <p className="item-total">${item.subtotal?.toFixed(2)}</p>
-                          <button 
-                            className="btn-remove d-flex align-items-center justify-content-center"
-                            onClick={() => handleRemoveItem(item.producto_id)}
-                            type="button"
-                            aria-label="Eliminar"
-                          >
-                            <Trash2 size={18} />
-                          </button>
                         </div>
                       </div>
                     ))}
@@ -273,10 +253,10 @@ function Sales() {
                       <span>Subtotal:</span>
                       <span>${currentSale.subtotal?.toFixed(2)}</span>
                     </div>
-                    {currentSale.descuento_total > 0 && (
+                    {currentSale.descuento > 0 && (
                       <div className="summary-row">
                         <span>Descuentos:</span>
-                        <span className="text-discount">-${currentSale.descuento_total?.toFixed(2)}</span>
+                        <span className="text-discount">-${currentSale.descuento?.toFixed(2)}</span>
                       </div>
                     )}
                     <div className="summary-row summary-total">

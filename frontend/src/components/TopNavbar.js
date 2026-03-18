@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,8 +13,11 @@ import {
   Settings,
   CheckCircle,
   Moon,
-  Sun
+  Sun,
+  X,
+  Loader2,
 } from 'lucide-react';
+import { aiService } from '../services/apiService';
 
 const PAGE_TITLES = {
   '/dashboard':   { label: 'Dashboard',       subtitle: 'Resumen general del negocio' },
@@ -41,8 +44,17 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notiOpen, setNotiOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // IA state
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResponse, setAiResponse] = useState('');
+  const [aiError, setAiError] = useState('');
+  const [lastQuery, setLastQuery] = useState('');
+
   const userMenuRef = useRef(null);
   const notiRef = useRef(null);
+  const searchWrapperRef = useRef(null);
 
   const pageInfo = PAGE_TITLES[location.pathname] || { label: 'ERP', subtitle: '' };
 
@@ -81,10 +93,61 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
       if (notiRef.current && !notiRef.current.contains(e.target)) {
         setNotiOpen(false);
       }
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
+        setAiPanelOpen(false);
+        setSearchFocused(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  // Cerrar panel IA con Escape
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'Escape') {
+        setAiPanelOpen(false);
+        setSearchFocused(false);
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
+
+  const handleAiQuery = useCallback(async (query) => {
+    if (!query.trim()) return;
+    setLastQuery(query);
+    setAiLoading(true);
+    setAiError('');
+    setAiResponse('');
+    setAiPanelOpen(true);
+
+    try {
+      const result = await aiService.chat(query, {
+        modulo_actual: pageInfo.label,
+        usuario: user?.username,
+        rol: user?.rol,
+      });
+      setAiResponse(result.response);
+    } catch (err) {
+      const msg = err?.response?.data?.detail || 'Error al conectar con el asistente IA.';
+      setAiError(msg);
+    } finally {
+      setAiLoading(false);
+    }
+  }, [pageInfo.label, user]);
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter' && searchValue.trim()) {
+      handleAiQuery(searchValue);
+    }
+  };
+
+  const closeAiPanel = () => {
+    setAiPanelOpen(false);
+    setAiResponse('');
+    setAiError('');
+  };
 
   return (
     <header className="erp-topnav">
@@ -108,36 +171,89 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
       </div>
 
       <div className="erp-topnav__center">
-        {/* Searchbar */}
-        <motion.div
-          className={`erp-topnav__search ${searchFocused ? 'erp-topnav__search--focused' : ''}`}
-          animate={{ width: searchFocused ? 420 : 320 }}
-          transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-        >
-          <Search size={16} className="erp-topnav__search-icon" />
-          <input
-            type="text"
-            className="erp-topnav__search-input"
-            placeholder="Buscar o preguntarle al asistente IA…"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
-          />
+        {/* Searchbar + AI Panel wrapper */}
+        <div className="erp-topnav__search-wrapper" ref={searchWrapperRef}>
+          <motion.div
+            className={`erp-topnav__search ${searchFocused ? 'erp-topnav__search--focused' : ''}`}
+            animate={{ width: searchFocused ? 420 : 320 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <Search size={16} className="erp-topnav__search-icon" />
+            <input
+              type="text"
+              className="erp-topnav__search-input"
+              placeholder="Buscar o preguntarle al asistente IA…"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onKeyDown={handleSearchKeyDown}
+            />
+            <AnimatePresence>
+              {searchFocused && (
+                <motion.div
+                  className="erp-topnav__search-badge"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                >
+                  <Sparkles size={11} />
+                  IA
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Panel de respuesta IA */}
           <AnimatePresence>
-            {searchFocused && (
+            {aiPanelOpen && (
               <motion.div
-                className="erp-topnav__search-badge"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                className="erp-ai-panel"
+                initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ duration: 0.2 }}
               >
-                <Sparkles size={11} />
-                IA
+                <div className="erp-ai-panel__header">
+                  <div className="erp-ai-panel__title">
+                    <Sparkles size={14} />
+                    Asistente IA
+                  </div>
+                  <button className="erp-ai-panel__close" onClick={closeAiPanel} aria-label="Cerrar">
+                    <X size={14} />
+                  </button>
+                </div>
+
+                {lastQuery && (
+                  <div className="erp-ai-panel__query">
+                    <Search size={12} />
+                    {lastQuery}
+                  </div>
+                )}
+
+                <div className="erp-ai-panel__body">
+                  {aiLoading && (
+                    <div className="erp-ai-panel__loading">
+                      <Loader2 size={18} className="erp-ai-panel__spinner" />
+                      <span>Consultando al asistente…</span>
+                    </div>
+                  )}
+                  {aiError && !aiLoading && (
+                    <p className="erp-ai-panel__error">{aiError}</p>
+                  )}
+                  {aiResponse && !aiLoading && (
+                    <p className="erp-ai-panel__response">{aiResponse}</p>
+                  )}
+                </div>
+
+                {!aiLoading && (
+                  <div className="erp-ai-panel__footer">
+                    Presiona <kbd>Enter</kbd> para nueva consulta · <kbd>Esc</kbd> para cerrar
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </div>
 
       <div className="erp-topnav__right">
