@@ -18,7 +18,7 @@ BACKUP_NAME="${1:-backup_${DB_NAME}_${TIMESTAMP}}"
 mkdir -p "$BACKUP_DIR"
 
 echo "=========================================="
-echo "  Backup de Base de Datos - ERP YOMYOM"
+echo "  Backup de Base de Datos - ERP Nodo"
 echo "=========================================="
 echo ""
 echo "Base de datos: $DB_NAME"

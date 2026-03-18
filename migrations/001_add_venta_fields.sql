@@ -1,6 +1,6 @@
 -- Migración 001: Agregar campos de control a ventas
 -- Fecha: 2026-01-21
--- Propósito: Alinear tabla ventas con requisitos del documento YOMYOM
+-- Propósito: Alinear tabla ventas con requisitos del documento Nodo
 
 -- 1. Agregar campos de control a tabla ventas
 ALTER TABLE ventas ADD COLUMN IF NOT EXISTS subtotal NUMERIC(12,2) DEFAULT 0;

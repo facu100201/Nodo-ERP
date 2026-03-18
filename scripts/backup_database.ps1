@@ -23,7 +23,7 @@ if (-Not (Test-Path $BACKUP_DIR)) {
 }
 
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "  Backup de Base de Datos - ERP YOMYOM" -ForegroundColor Cyan
+Write-Host "  Backup de Base de Datos - ERP Nodo" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Base de datos: $DB_NAME" -ForegroundColor White

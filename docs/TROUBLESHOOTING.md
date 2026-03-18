@@ -1,6 +1,6 @@
 # 🔧 Guía de Solución de Problemas
 
-Esta guía cubre problemas comunes y sus soluciones para el Sistema ERP/POS YOMYOM.
+Esta guía cubre problemas comunes y sus soluciones para el Sistema ERP/POS Nodo.
 
 ## 📋 Tabla de Contenidos
 

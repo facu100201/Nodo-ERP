@@ -1,6 +1,6 @@
 # 📦 Guía de Instalación Completa
 
-Esta guía proporciona instrucciones detalladas para instalar y configurar el Sistema ERP/POS YOMYOM en diferentes entornos.
+Esta guía proporciona instrucciones detalladas para instalar y configurar el Sistema ERP/POS Nodo en diferentes entornos.
 
 ## 📋 Tabla de Contenidos
 

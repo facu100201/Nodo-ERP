@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Setup automatico de Metabase para ERP YOMYOM
+# Setup automatico de Metabase para ERP Nodo
 # Ejecutar despues de: docker compose -f docker/docker-compose.yml up -d
 # Uso: bash scripts/setup-metabase.sh
 # ============================================================================
@@ -97,11 +97,11 @@ else
                 \"password\": \"$MB_ADMIN_PASSWORD\",
                 \"first_name\": \"$MB_ADMIN_FIRST\",
                 \"last_name\": \"$MB_ADMIN_LAST\",
-                \"site_name\": \"ERP YOMYOM - Analitica\"
+                \"site_name\": \"ERP Nodo - Analitica\"
             },
             \"database\": {
                 \"engine\": \"postgres\",
-                \"name\": \"ERP YOMYOM\",
+                \"name\": \"ERP Nodo\",
                 \"details\": {
                     \"host\": \"$DB_HOST\",
                     \"port\": $DB_PORT,
@@ -112,7 +112,7 @@ else
                 }
             },
             \"prefs\": {
-                \"site_name\": \"ERP YOMYOM - Analitica\",
+                \"site_name\": \"ERP Nodo - Analitica\",
                 \"site_locale\": \"es\",
                 \"allow_tracking\": false
             }
@@ -190,7 +190,7 @@ try:
     if not isinstance(dbs, list):
         sys.exit(0)
     for db in dbs:
-        if db.get('engine') == 'postgres' and 'YOMYOM' in db.get('name',''):
+        if db.get('engine') == 'postgres' and 'Nodo' in db.get('name',''):
             print(db['id'])
             sys.exit(0)
     for db in dbs:
@@ -226,7 +226,7 @@ if [ -z "$DB_ID" ]; then
         -H "Content-Type: application/json" \
         -d "{
             \"engine\": \"postgres\",
-            \"name\": \"ERP YOMYOM\",
+            \"name\": \"ERP Nodo\",
             \"details\": {
                 \"host\": \"$DB_HOST\",
                 \"port\": $DB_PORT,
@@ -429,13 +429,13 @@ Q12=$(create_question \
     "bar")
 
 # ── 9. Crear coleccion para organizar ──
-info "Creando coleccion ERP YOMYOM..."
+info "Creando coleccion ERP Nodo..."
 
 COLLECTION_RESULT=$(curl -s -X POST "$METABASE_URL/api/collection" \
     -H "$AUTH_HEADER" \
     -H "Content-Type: application/json" \
     -d '{
-        "name": "ERP YOMYOM",
+        "name": "ERP Nodo",
         "description": "Dashboards y reportes del sistema ERP",
         "color": "#2f4156"
     }')

@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     ANTHROPIC_MODEL: str = "claude-haiku-4-5"
     
     class Config:
-        env_file = "backend/.env"
+        env_file = ".env"
         case_sensitive = True
         extra = "ignore"  # Ignorar variables extra en .env que no están definidas
 

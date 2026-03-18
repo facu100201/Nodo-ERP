@@ -16,8 +16,42 @@ import {
   Sun,
   X,
   Loader2,
+  Send,
 } from 'lucide-react';
 import { aiService } from '../services/apiService';
+
+/** Convierte markdown básico a elementos React (headings, bold, saltos de línea) */
+function renderInline(line) {
+  const parts = line.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, pi) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={pi}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
+function renderMarkdown(text) {
+  const lines = text.split('\n');
+  return lines.map((line, li) => {
+    const br = li < lines.length - 1;
+
+    // H3: ### texto
+    if (line.startsWith('### ')) {
+      return <React.Fragment key={li}><strong style={{ fontSize: '0.95em', display: 'block', marginTop: '0.4em' }}>{renderInline(line.slice(4))}</strong>{br && <br />}</React.Fragment>;
+    }
+    // H2: ## texto
+    if (line.startsWith('## ')) {
+      return <React.Fragment key={li}><strong style={{ fontSize: '1em', display: 'block', marginTop: '0.5em' }}>{renderInline(line.slice(3))}</strong>{br && <br />}</React.Fragment>;
+    }
+    // H1: # texto
+    if (line.startsWith('# ')) {
+      return <React.Fragment key={li}><strong style={{ fontSize: '1.05em', display: 'block', marginTop: '0.5em' }}>{renderInline(line.slice(2))}</strong>{br && <br />}</React.Fragment>;
+    }
+    // Línea normal
+    return <React.Fragment key={li}>{renderInline(line)}{br && <br />}</React.Fragment>;
+  });
+}
 
 const PAGE_TITLES = {
   '/dashboard':   { label: 'Dashboard',       subtitle: 'Resumen general del negocio' },
@@ -48,13 +82,28 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
   // IA state
   const [aiPanelOpen, setAiPanelOpen] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
-  const [aiResponse, setAiResponse] = useState('');
   const [aiError, setAiError] = useState('');
-  const [lastQuery, setLastQuery] = useState('');
+  const [chatHistory, setChatHistory] = useState([]);
+  const [followUpValue, setFollowUpValue] = useState('');
 
   const userMenuRef = useRef(null);
   const notiRef = useRef(null);
   const searchWrapperRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  // ── Log de conversaciones (localStorage) ──────────────────────────
+  const MAX_CONVERSATIONS = 3;
+  const MAX_MESSAGES = 50;
+
+  const saveConversation = (history) => {
+    if (!history.length) return;
+    try {
+      const stored = JSON.parse(localStorage.getItem('erp-ai-log') || '[]');
+      const trimmed = history.slice(-MAX_MESSAGES);
+      const updated = [...stored, { ts: Date.now(), messages: trimmed }].slice(-MAX_CONVERSATIONS);
+      localStorage.setItem('erp-ai-log', JSON.stringify(updated));
+    } catch (_) {}
+  };
 
   const pageInfo = PAGE_TITLES[location.pathname] || { label: 'ERP', subtitle: '' };
 
@@ -114,21 +163,22 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
     return () => document.removeEventListener('keydown', handler);
   }, []);
 
-  const handleAiQuery = useCallback(async (query) => {
+  const handleAiQuery = useCallback(async (query, prevHistory = []) => {
     if (!query.trim()) return;
-    setLastQuery(query);
     setAiLoading(true);
     setAiError('');
-    setAiResponse('');
     setAiPanelOpen(true);
 
+    const newHistory = [...prevHistory, { role: 'user', content: query }];
+    setChatHistory(newHistory);
+
     try {
-      const result = await aiService.chat(query, {
-        modulo_actual: pageInfo.label,
-        usuario: user?.username,
-        rol: user?.rol,
-      });
-      setAiResponse(result.response);
+      const result = await aiService.chat(
+        query,
+        { modulo_actual: pageInfo.label, usuario: user?.username, rol: user?.rol },
+        prevHistory,
+      );
+      setChatHistory([...newHistory, { role: 'assistant', content: result.response }]);
     } catch (err) {
       const msg = err?.response?.data?.detail || 'Error al conectar con el asistente IA.';
       setAiError(msg);
@@ -137,16 +187,32 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
     }
   }, [pageInfo.label, user]);
 
+  // Auto-scroll al último mensaje
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatHistory, aiLoading]);
+
   const handleSearchKeyDown = (e) => {
     if (e.key === 'Enter' && searchValue.trim()) {
-      handleAiQuery(searchValue);
+      saveConversation(chatHistory);
+      setChatHistory([]);
+      handleAiQuery(searchValue, []);
+      setSearchValue('');
     }
+  };
+
+  const handleFollowUp = () => {
+    if (!followUpValue.trim() || aiLoading) return;
+    const query = followUpValue;
+    setFollowUpValue('');
+    handleAiQuery(query, chatHistory);
   };
 
   const closeAiPanel = () => {
     setAiPanelOpen(false);
-    setAiResponse('');
-    setAiError('');
+    // NO borra chatHistory — se puede reabrir con el botón IA
   };
 
   return (
@@ -188,19 +254,15 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
               onFocus={() => setSearchFocused(true)}
               onKeyDown={handleSearchKeyDown}
             />
-            <AnimatePresence>
-              {searchFocused && (
-                <motion.div
-                  className="erp-topnav__search-badge"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                >
-                  <Sparkles size={11} />
-                  IA
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <button
+              className={`erp-topnav__search-badge${aiPanelOpen ? ' erp-topnav__search-badge--active' : ''}`}
+              onClick={() => setAiPanelOpen((v) => !v)}
+              aria-label="Asistente IA"
+              title={aiPanelOpen ? 'Cerrar asistente' : chatHistory.length ? 'Ver conversación' : 'Abrir asistente IA'}
+            >
+              <Sparkles size={11} />
+              IA
+            </button>
           </motion.div>
 
           {/* Panel de respuesta IA */}
@@ -223,33 +285,44 @@ function TopNavbar({ mobileOpen, setMobileOpen }) {
                   </button>
                 </div>
 
-                {lastQuery && (
-                  <div className="erp-ai-panel__query">
-                    <Search size={12} />
-                    {lastQuery}
-                  </div>
-                )}
-
-                <div className="erp-ai-panel__body">
+                <div className="erp-ai-panel__messages">
+                  {chatHistory.map((msg, i) => (
+                    <div key={i} className={`erp-ai-panel__message erp-ai-panel__message--${msg.role}`}>
+                      {msg.role === 'assistant' ? renderMarkdown(msg.content) : msg.content}
+                    </div>
+                  ))}
                   {aiLoading && (
                     <div className="erp-ai-panel__loading">
-                      <Loader2 size={18} className="erp-ai-panel__spinner" />
-                      <span>Consultando al asistente…</span>
+                      <Loader2 size={16} className="erp-ai-panel__spinner" />
+                      <span>Consultando…</span>
                     </div>
                   )}
                   {aiError && !aiLoading && (
                     <p className="erp-ai-panel__error">{aiError}</p>
                   )}
-                  {aiResponse && !aiLoading && (
-                    <p className="erp-ai-panel__response">{aiResponse}</p>
-                  )}
+                  <div ref={messagesEndRef} />
                 </div>
 
-                {!aiLoading && (
-                  <div className="erp-ai-panel__footer">
-                    Presiona <kbd>Enter</kbd> para nueva consulta · <kbd>Esc</kbd> para cerrar
-                  </div>
-                )}
+                <div className="erp-ai-panel__input-row">
+                  <input
+                    type="text"
+                    className="erp-ai-panel__followup-input"
+                    placeholder="Continúa la conversación…"
+                    value={followUpValue}
+                    onChange={(e) => setFollowUpValue(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleFollowUp()}
+                    disabled={aiLoading}
+                    autoFocus
+                  />
+                  <button
+                    className="erp-ai-panel__send-btn"
+                    onClick={handleFollowUp}
+                    disabled={aiLoading || !followUpValue.trim()}
+                    aria-label="Enviar"
+                  >
+                    <Send size={14} />
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

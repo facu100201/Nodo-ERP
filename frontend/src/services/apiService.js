@@ -355,8 +355,8 @@ export const dashboardService = {
 
 // ==================== ASISTENTE IA ====================
 export const aiService = {
-  chat: async (message, context = null) => {
-    const response = await apiClient.post('/api/v1/ai/chat', { message, context }, { timeout: 30000 });
+  chat: async (message, context = null, history = []) => {
+    const response = await apiClient.post('/api/v1/ai/chat', { message, context, history }, { timeout: 30000 });
     return response.data;
   },
 };

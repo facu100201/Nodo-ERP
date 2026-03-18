@@ -489,14 +489,23 @@
   gap: 3px;
   background: linear-gradient(135deg, var(--erp-accent), var(--erp-accent-hover));
   color: #fff;
-  font-size: var(--erp-fs-badge);          /* 0.72rem */
-  font-weight: var(--erp-fw-bold);         /* 700     */
+  font-size: var(--erp-fs-badge);
+  font-weight: var(--erp-fw-bold);
   padding: 0.15rem 0.4rem;
   border-radius: 5px;
   text-transform: uppercase;
-  letter-spacing: var(--erp-ls-ancho);     /* 0.04em  */
+  letter-spacing: var(--erp-ls-ancho);
   white-space: nowrap;
   flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.erp-topnav__search-badge:hover {
+  opacity: 0.88;
+}
+.erp-topnav__search-badge--active {
+  box-shadow: 0 0 0 2px rgba(245,158,11,0.4);
 }
 
 /* Right — Acciones */
@@ -687,9 +696,37 @@
   text-overflow: ellipsis;
 }
 
-.erp-ai-panel__body {
-  padding: 0.85rem;
-  min-height: 60px;
+.erp-ai-panel__messages {
+  padding: 0.75rem 0.85rem;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.erp-ai-panel__message {
+  font-size: var(--erp-fs-sm);
+  line-height: 1.55;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  max-width: 88%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.erp-ai-panel__message--user {
+  align-self: flex-end;
+  background: var(--erp-accent);
+  color: #fff;
+  border-bottom-right-radius: 3px;
+}
+
+.erp-ai-panel__message--assistant {
+  align-self: flex-start;
+  background: rgba(0,0,0,0.05);
+  color: var(--erp-primary);
+  border-bottom-left-radius: 3px;
 }
 
 .erp-ai-panel__loading {
@@ -698,6 +735,7 @@
   gap: 0.5rem;
   color: var(--erp-text-muted);
   font-size: var(--erp-fs-sm);
+  padding: 0.25rem 0;
 }
 
 @keyframes spin {
@@ -709,37 +747,76 @@
   color: var(--erp-accent);
 }
 
-.erp-ai-panel__response {
-  font-size: var(--erp-fs-sm);
-  color: var(--erp-primary);
-  line-height: 1.6;
-  margin: 0;
-  white-space: pre-wrap;
-}
-
 .erp-ai-panel__error {
   font-size: var(--erp-fs-sm);
   color: #ef4444;
   margin: 0;
 }
 
-.erp-ai-panel__footer {
-  padding: 0.45rem 0.85rem;
+.erp-ai-panel__input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
   border-top: 1px solid var(--erp-glass-border);
-  font-size: var(--erp-fs-badge);
-  color: var(--erp-text-muted);
   background: rgba(0,0,0,0.02);
 }
-.erp-ai-panel__footer kbd {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 0.3rem;
+
+.erp-ai-panel__followup-input {
+  flex: 1;
   border: 1px solid var(--erp-glass-border);
-  border-radius: 4px;
-  font-size: 0.65rem;
-  background: rgba(255,255,255,0.6);
-  color: var(--erp-primary);
+  border-radius: 8px;
+  padding: 0.4rem 0.65rem;
+  font-size: var(--erp-fs-sm);
   font-family: var(--erp-font);
+  background: var(--erp-glass-bg);
+  color: var(--erp-primary);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.erp-ai-panel__followup-input:focus {
+  border-color: var(--erp-accent);
+}
+.erp-ai-panel__followup-input:disabled {
+  opacity: 0.5;
+}
+
+.erp-ai-panel__send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: var(--erp-accent);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.erp-ai-panel__send-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Dark mode: panel IA ── */
+html[data-theme="dark"] .erp-ai-panel__message--assistant {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--erp-text-on-light);
+}
+html[data-theme="dark"] .erp-ai-panel__message--assistant strong {
+  color: #fbbf24;
+}
+html[data-theme="dark"] .erp-ai-panel__followup-input {
+  color: var(--erp-text-on-light);
+  background: rgba(255, 255, 255, 0.05);
+}
+html[data-theme="dark"] .erp-ai-panel__input-row {
+  background: rgba(255, 255, 255, 0.03);
+}
+html[data-theme="dark"] .erp-ai-panel__loading {
+  color: var(--erp-text-on-light);
 }
 
 /* ── Dropdowns (Notificaciones y Usuario) ── */

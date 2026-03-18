@@ -10,7 +10,7 @@ from app.models.usuario import Usuario
 
 router = APIRouter(prefix="/ai", tags=["IA"])
 
-SYSTEM_PROMPT = """Eres el asistente inteligente integrado en un ERP empresarial llamado YOMYOM.
+SYSTEM_PROMPT = """Eres el asistente inteligente integrado en un ERP empresarial llamado Nodo.
 Tu rol es ayudar a los usuarios a navegar el sistema, interpretar datos del negocio y dar recomendaciones accionables.
 
 Módulos disponibles en el ERP:
@@ -35,6 +35,7 @@ Reglas:
 class ChatRequest(BaseModel):
     message: str
     context: Optional[dict[str, Any]] = None
+    history: Optional[list[dict]] = None  # [{role: "user"|"assistant", content: "..."}]
 
 
 class ChatResponse(BaseModel):
@@ -68,11 +69,16 @@ def chat(
             )
             user_content = f"{request.message}\n\nDatos actuales del ERP:\n{context_lines}"
 
+        messages = []
+        if request.history:
+            messages.extend(request.history)
+        messages.append({"role": "user", "content": user_content})
+
         message = client.messages.create(
             model=settings.ANTHROPIC_MODEL,
             max_tokens=1024,
             system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_content}],
+            messages=messages,
         )
 
         return ChatResponse(
@@ -81,7 +87,7 @@ def chat(
         )
 
     except anthropic.AuthenticationError:
-        raise HTTPException(status_code=401, detail="API Key de Anthropic inválida.")
+        raise HTTPException(status_code=503, detail="API Key de Anthropic inválida o expirada.")
     except anthropic.RateLimitError:
         raise HTTPException(
             status_code=429, detail="Límite de peticiones alcanzado. Intenta en un momento."

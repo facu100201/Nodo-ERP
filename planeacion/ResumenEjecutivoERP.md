@@ -1,8 +1,8 @@
-# Resumen Ejecutivo — ERP/POS YOMYOM (Tienda física)
+# Resumen Ejecutivo — ERP Nodo (Tienda física)
 
 ## 1. Visión general del producto
 
-El **ERP/POS YOMYOM** es un sistema integral para operación de **tienda física**, diseñado para unificar en una sola solución los procesos críticos del negocio: **venta en caja**, **control centralizado de inventario**, **variantes de producto (talla/color)**, **precios menudeo/mayoreo**, **reportes operativos y gerenciales**, **cobranza (ventas a crédito)** y un módulo de **facturación** preparado para integrarse a un **PAC/SAT**.
+El **ERP Nodo** es un sistema integral para operación de **tienda física**, diseñado para unificar en una sola solución los procesos críticos del negocio: **venta en caja**, **control centralizado de inventario**, **variantes de producto (talla/color)**, **precios menudeo/mayoreo**, **reportes operativos y gerenciales**, **cobranza (ventas a crédito)** y un módulo de **facturación** preparado para integrarse a un **PAC/SAT**.
 
 El objetivo principal del sistema es garantizar una operación ágil y consistente en mostrador, mantener visibilidad confiable del stock en tiempo real y habilitar decisiones informadas a través de reportes claros, alineados a los requerimientos operativos descritos en el documento de necesidades del cliente.
 
@@ -50,7 +50,7 @@ El objetivo principal del sistema es garantizar una operación ágil y consisten
 
 ## 3. Alineación con el documento de necesidades (qué cubre)
 
-Con base en el documento de necesidades proporcionado por YOMYOM, la solución cubre los requerimientos funcionales clave:
+Con base en el documento de necesidades proporcionado por Nodo, la solución cubre los requerimientos funcionales clave:
 
 ### 3.1 Portal de ventas (Caja)
 
@@ -137,5 +137,5 @@ Estos puntos se consideran la siguiente fase para cerrar completamente el alcanc
 
 ## 7. Qué se entrega como producto (en términos comerciales)
 
-El ERP/POS YOMYOM se entrega como una solución lista para operar en tienda física con los módulos base (POS, almacén, cobranza, reportes) y con una ruta clara de evolución para integrar SAT real y ticket físico según hardware y proveedor de timbrado que el cliente elija.
+El ERP Nodo se entrega como una solución lista para operar en tienda física con los módulos base (POS, almacén, cobranza, reportes) y con una ruta clara de evolución para integrar SAT real y ticket físico según hardware y proveedor de timbrado que el cliente elija.
 

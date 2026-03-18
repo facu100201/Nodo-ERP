@@ -1,5 +1,5 @@
 """
-Script de datos de prueba para el ERP YOMYOM.
+Script de datos de prueba para el ERP Nodo.
 
 Inserta datos realistas en todas las tablas para que el Dashboard
 muestre KPIs con valores significativos.
@@ -48,21 +48,21 @@ def mes_offset(meses_atras: int) -> datetime:
 
 # ── Datos de productos de ropa ───────────────────────────────────────────────
 PRODUCTOS_DATA = [
-    {"nombre": "Playera Básica", "categoria": "Camisetas", "marca": "YOMYOM"},
-    {"nombre": "Polo Sport", "categoria": "Camisetas", "marca": "YOMYOM"},
-    {"nombre": "Pantalón Slim", "categoria": "Pantalones", "marca": "YOMYOM"},
-    {"nombre": "Pantalón Cargo", "categoria": "Pantalones", "marca": "YOMYOM"},
-    {"nombre": "Short Deportivo", "categoria": "Shorts", "marca": "YOMYOM"},
-    {"nombre": "Sudadera Clásica", "categoria": "Sudaderas", "marca": "YOMYOM"},
-    {"nombre": "Chamarra Bomber", "categoria": "Chamarras", "marca": "YOMYOM"},
-    {"nombre": "Vestido Casual", "categoria": "Vestidos", "marca": "YOMYOM"},
-    {"nombre": "Falda Midi", "categoria": "Faldas", "marca": "YOMYOM"},
-    {"nombre": "Blusa Floral", "categoria": "Blusas", "marca": "YOMYOM"},
-    {"nombre": "Jeans Skinny", "categoria": "Pantalones", "marca": "YOMYOM"},
-    {"nombre": "Leggings Sport", "categoria": "Deportivo", "marca": "YOMYOM"},
-    {"nombre": "Top Deportivo", "categoria": "Deportivo", "marca": "YOMYOM"},
-    {"nombre": "Hoodie Oversized", "categoria": "Sudaderas", "marca": "YOMYOM"},
-    {"nombre": "Camiseta Estampada", "categoria": "Camisetas", "marca": "YOMYOM"},
+    {"nombre": "Playera Básica", "categoria": "Camisetas", "marca": "Nodo"},
+    {"nombre": "Polo Sport", "categoria": "Camisetas", "marca": "Nodo"},
+    {"nombre": "Pantalón Slim", "categoria": "Pantalones", "marca": "Nodo"},
+    {"nombre": "Pantalón Cargo", "categoria": "Pantalones", "marca": "Nodo"},
+    {"nombre": "Short Deportivo", "categoria": "Shorts", "marca": "Nodo"},
+    {"nombre": "Sudadera Clásica", "categoria": "Sudaderas", "marca": "Nodo"},
+    {"nombre": "Chamarra Bomber", "categoria": "Chamarras", "marca": "Nodo"},
+    {"nombre": "Vestido Casual", "categoria": "Vestidos", "marca": "Nodo"},
+    {"nombre": "Falda Midi", "categoria": "Faldas", "marca": "Nodo"},
+    {"nombre": "Blusa Floral", "categoria": "Blusas", "marca": "Nodo"},
+    {"nombre": "Jeans Skinny", "categoria": "Pantalones", "marca": "Nodo"},
+    {"nombre": "Leggings Sport", "categoria": "Deportivo", "marca": "Nodo"},
+    {"nombre": "Top Deportivo", "categoria": "Deportivo", "marca": "Nodo"},
+    {"nombre": "Hoodie Oversized", "categoria": "Sudaderas", "marca": "Nodo"},
+    {"nombre": "Camiseta Estampada", "categoria": "Camisetas", "marca": "Nodo"},
 ]
 
 TALLAS = ["S", "M", "L"]
@@ -79,13 +79,13 @@ NOMBRES_CLIENTES = [
 ]
 
 NOMBRES_EMPLEADOS = [
-    ("Ana Sofía Vega", "ana.vega@yomyom.mx", "Ventas", "Cajera"),
-    ("Marco Aurelio Reyes", "m.reyes@yomyom.mx", "Ventas", "Cajero"),
-    ("Claudia Ximena Torres", "c.torres@yomyom.mx", "Almacén", "Encargada de Almacén"),
-    ("Héctor Manuel Ruiz", "h.ruiz@yomyom.mx", "Ventas", "Vendedor"),
-    ("Daniela Flores Ortiz", "d.flores@yomyom.mx", "Administración", "Contadora"),
-    ("Ernesto Salinas Mora", "e.salinas@yomyom.mx", "Ventas", "Cajero"),
-    ("Patricia Gutiérrez Cano", "p.gutierrez@yomyom.mx", "RRHH", "Coordinadora RRHH"),
+    ("Ana Sofía Vega", "ana.vega@nodo.mx", "Ventas", "Cajera"),
+    ("Marco Aurelio Reyes", "m.reyes@nodo.mx", "Ventas", "Cajero"),
+    ("Claudia Ximena Torres", "c.torres@nodo.mx", "Almacén", "Encargada de Almacén"),
+    ("Héctor Manuel Ruiz", "h.ruiz@nodo.mx", "Ventas", "Vendedor"),
+    ("Daniela Flores Ortiz", "d.flores@nodo.mx", "Administración", "Contadora"),
+    ("Ernesto Salinas Mora", "e.salinas@nodo.mx", "Ventas", "Cajero"),
+    ("Patricia Gutiérrez Cano", "p.gutierrez@nodo.mx", "RRHH", "Coordinadora RRHH"),
 ]
 
 
@@ -134,7 +134,7 @@ def seed():
             db.execute(text("""
                 INSERT INTO usuarios (nombre, email, password_hash, rol_id, activo)
                 VALUES (:nombre, :email, :hash, 1, TRUE)
-            """), {"nombre": "Admin YOMYOM", "email": "admin@yomyom.mx", "hash": admin_hash})
+            """), {"nombre": "Admin Nodo", "email": "admin@nodo.mx", "hash": admin_hash})
             db.commit()
 
             # Cajeros/empleados
@@ -488,8 +488,8 @@ def seed():
         print(f"\n  Stock total:    {int(stock_total):,} prendas")
         print(f"  Ingresos mes:   ${float(ventas_mes):,.2f} MXN")
         print("\n  Credenciales de prueba:")
-        print("    admin@yomyom.mx     → Admin123!")
-        print("    ana.vega@yomyom.mx  → Cajero123!")
+        print("    admin@nodo.mx     → Admin123!")
+        print("    ana.vega@nodo.mx  → Cajero123!")
         print("=" * 55)
 
     except Exception as e:

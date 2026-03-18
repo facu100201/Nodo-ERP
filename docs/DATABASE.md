@@ -1,6 +1,6 @@
 # 🗄️ Guía de Base de Datos
 
-Documentación completa sobre la base de datos del Sistema ERP/POS YOMYOM.
+Documentación completa sobre la base de datos del Sistema ERP/POS Nodo.
 
 ## 📋 Tabla de Contenidos
 

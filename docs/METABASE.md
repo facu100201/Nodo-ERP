@@ -1,6 +1,6 @@
 # Metabase - Plataforma de Analitica
 
-Metabase es la herramienta de Business Intelligence integrada en el ERP YOMYOM. Permite crear dashboards interactivos, visualizaciones y reportes avanzados directamente desde la base de datos PostgreSQL.
+Metabase es la herramienta de Business Intelligence integrada en el ERP Nodo. Permite crear dashboards interactivos, visualizaciones y reportes avanzados directamente desde la base de datos PostgreSQL.
 
 ## Inicio Rapido
 
@@ -37,7 +37,7 @@ Navegar a la seccion **Analitica** en el sidebar del ERP (http://localhost:3000/
 | Campo    | Valor                    |
 |----------|--------------------------|
 | URL      | http://localhost:3001    |
-| Email    | admin@erp-yomyom.com    |
+| Email    | admin@erp.nodo.mx    |
 | Password | Metabase123!             |
 
 > Cambiar estas credenciales en produccion.
@@ -132,7 +132,7 @@ Navegar a la seccion **Analitica** en el sidebar del ERP (http://localhost:3000/
 | Variable          | Default                | Descripcion                     |
 |-------------------|------------------------|---------------------------------|
 | METABASE_URL      | http://localhost:3001  | URL de Metabase                 |
-| MB_ADMIN_EMAIL    | admin@erp-yomyom.com  | Email del admin                 |
+| MB_ADMIN_EMAIL    | admin@erp.nodo.mx  | Email del admin                 |
 | MB_ADMIN_PASSWORD | Metabase123!           | Password del admin              |
 | DB_HOST           | localhost              | Host de PostgreSQL              |
 | DB_PORT           | 5432                   | Puerto de PostgreSQL            |

@@ -1,6 +1,6 @@
 # 🤝 Guía de Contribución
 
-Gracias por tu interés en contribuir al Sistema ERP/POS YOMYOM. Esta guía te ayudará a entender cómo contribuir de manera efectiva.
+Gracias por tu interés en contribuir al Sistema ERP/POS Nodo. Esta guía te ayudará a entender cómo contribuir de manera efectiva.
 
 ## 📋 Tabla de Contenidos
 

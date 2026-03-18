@@ -1,6 +1,6 @@
 # ⚡ Referencia Rápida - Comandos y Atajos
 
-Guía rápida de comandos, endpoints y atajos útiles para el Sistema ERP/POS YOMYOM.
+Guía rápida de comandos, endpoints y atajos útiles para el Sistema ERP/POS Nodo.
 
 ## 📋 Tabla de Contenidos
 

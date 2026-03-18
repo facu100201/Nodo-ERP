@@ -1,4 +1,4 @@
-# 🏪 Sistema ERP/POS YOMYOM - COMPLETO
+# 🏪 Sistema ERP/POS Nodo - COMPLETO
 
 Sistema integral de ERP y Punto de Venta construido a medida según especificaciones del cliente.
 
@@ -75,7 +75,7 @@ docker compose -f docker/docker-compose.yml up -d
 Sistema completo con **Clean Architecture** y **8 módulos funcionales**:
 
 ```
-Sistema ERP YOMYOM/
+Sistema ERP Nodo/
 ├── Backend (FastAPI)
 │   ├── 🔐 Autenticación (JWT + Roles)
 │   ├── 🛒 POS (Punto de Venta)

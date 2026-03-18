@@ -1,6 +1,6 @@
 # 🧪 Guía de Testing
 
-Esta guía explica cómo escribir y ejecutar tests para el Sistema ERP/POS YOMYOM.
+Esta guía explica cómo escribir y ejecutar tests para el Sistema ERP/POS Nodo.
 
 ## 📋 Tabla de Contenidos
 

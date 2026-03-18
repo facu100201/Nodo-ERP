@@ -23,7 +23,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 ## [1.0.0] - 2026-01-21
 
 ### Agregado
-- Sistema completo ERP/POS YOMYOM
+- Sistema completo ERP/POS Nodo
 - Módulo POS (Punto de Venta) con lector RF
 - Módulo Almacén con control de stock y variantes
 - Módulo Reportes con exportación

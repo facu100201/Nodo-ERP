@@ -135,7 +135,7 @@ def verificar_estructura():
 def main():
     """Ejecutar verificación completa."""
     print("=" * 60)
-    print("  VERIFICACIÓN DE IMPLEMENTACIÓN - Sistema ERP YOMYOM")
+    print("  VERIFICACIÓN DE IMPLEMENTACIÓN - Sistema ERP Nodo")
     print("=" * 60)
     print()
     

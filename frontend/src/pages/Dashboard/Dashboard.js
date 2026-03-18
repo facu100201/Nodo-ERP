@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { salesService, inventoryService, dashboardService } from '../../services/apiService';
 import { formatearMoneda } from '../../utils/helpers';
 import { COLORES } from '../../utils/constants';
-import { DollarSign, TrendingUp, AlertTriangle, Package, ShoppingCart, BarChart3, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { DollarSign, AlertTriangle, Package, ShoppingCart, BarChart3, CheckCircle, Clock, XCircle } from 'lucide-react';
 import { Card, CardHeader, CardContent, Badge, Button, StatCardSkeleton, TableSkeleton } from '../../components/ui';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 

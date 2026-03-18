@@ -22,7 +22,7 @@ app = FastAPI(
     debug=settings.DEBUG,
     version="1.0.0",
     description="""
-    Backend profesional para sistema POS/Almacén - YOMYOM
+    Backend profesional para sistema POS/Almacén - ERP Nodo
     
     ## Características
     

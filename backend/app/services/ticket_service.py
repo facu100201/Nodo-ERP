@@ -29,7 +29,7 @@ class TicketService:
             QR code como string base64
         """
         # URL de facturación (ajustar según dominio real)
-        facturacion_url = f"https://erp.yomyom.com/facturar?venta={venta_id}&total={total}"
+        facturacion_url = f"https://erp.nodo.mx/facturar?venta={venta_id}&total={total}"
         
         # Generar QR
         qr = qrcode.QRCode(
@@ -164,7 +164,7 @@ class TicketService:
 </head>
 <body>
     <div class="header">
-        <div class="empresa">YOMYOM</div>
+        <div class="empresa">Nodo</div>
         <div class="info">Sistema ERP/POS</div>
         <div class="info">RFC: XAXX010101000</div>
     </div>
@@ -225,7 +225,7 @@ class TicketService:
         """
         lines = []
         lines.append("=" * 40)
-        lines.append("          YOMYOM - Sistema POS")
+        lines.append("          Nodo - Sistema POS")
         lines.append("          RFC: XAXX010101000")
         lines.append("=" * 40)
         lines.append("")
@@ -257,7 +257,7 @@ class TicketService:
         lines.append("     ¡Gracias por su compra!")
         lines.append("       Conserve su ticket")
         lines.append("")
-        lines.append(f"     Facture en: erp.yomyom.com/facturar")
+        lines.append(f"     Facture en: erp.nodo.mx/facturar")
         lines.append(f"     Ticket: {venta.id}")
         lines.append("")
         
