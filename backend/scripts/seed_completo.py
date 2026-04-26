@@ -97,18 +97,18 @@ EMPLEADOS_PERFIL = [
 ]
 
 CLIENTES = [
-    {"nombre": "Distribuidora Textil del Norte SA de CV",  "rfc": "DTN021205HK4", "telefono": "+52 81 1234 5678", "email": "compras@dtn.mx",              "direccion": "Av. Constitución 100, Monterrey, NL",        "limite_credito": 50_000.00},
-    {"nombre": "Ropa y Más SA de CV",                       "rfc": "RYM150320AB3", "telefono": "+52 33 9876 5432", "email": "pedidos@ropaymas.mx",          "direccion": "Calzada González 200, Guadalajara, JAL",    "limite_credito": 35_000.00},
-    {"nombre": "Boutique Elegance SA de CV",                "rfc": "BEL180715CD7", "telefono": "+52 55 5555 7890", "email": "ventas@boutique-elegance.mx",  "direccion": "Av. Masaryk 150, CDMX",                    "limite_credito": 20_000.00},
-    {"nombre": "Almacenes del Bajío SA de CV",              "rfc": "ABA120310EF9", "telefono": "+52 477 234 5678", "email": "compras@almacenesbajio.mx",    "direccion": "Blvd. López Mateos 345, León, GTO",         "limite_credito": 40_000.00},
-    {"nombre": "Manuel Hernández López",                    "rfc": "HELM870412GH6","telefono": "+52 55 1111 2222", "email": "manuel.hl@gmail.com",          "direccion": "Calle 5 de Mayo 67, CDMX",                 "limite_credito":  5_000.00},
-    {"nombre": "Tiendas Fashion Plus SA de CV",             "rfc": "TFP200101IJ2", "telefono": "+52 656 345 6789", "email": "compras@fashionplus.mx",       "direccion": "Blvd. Independencia 890, Juárez, CHI",      "limite_credito": 30_000.00},
-    {"nombre": "María Elena Rodríguez Vázquez",             "rfc": "ROVM790523KL8","telefono": "+52 55 3333 4444", "email": "mary.rodriguez@hotmail.com",   "direccion": "Col. Del Valle 234, CDMX",                 "limite_credito":  3_000.00},
-    {"nombre": "Importadora Textil Pacífico SA de CV",      "rfc": "ITP190808MN5", "telefono": "+52 322 123 4567", "email": "ventas@textilpacifico.mx",     "direccion": "Av. Juárez 456, Puerto Vallarta, JAL",     "limite_credito": 25_000.00},
-    {"nombre": "Carlos Alberto Fuentes Díaz",               "rfc": "FUDC920317OP1","telefono": "+52 55 7777 8888", "email": "carlos.fuentes@outlook.com",   "direccion": "Col. Satélite 567, Naucalpan, EDOMEX",     "limite_credito":  8_000.00},
-    {"nombre": "Grupo Confecciones Unidas SA de CV",        "rfc": "GCU111215QR3", "telefono": "+52 443 567 8901", "email": "info@confeccionesunidas.mx",   "direccion": "Av. Madero 100, Morelia, MICH",            "limite_credito": 45_000.00},
-    {"nombre": "Patricia Mendoza Gutiérrez",                "rfc": "MEGP850614ST4","telefono": "+52 55 9999 0000", "email": "patricia.m@yahoo.com.mx",      "direccion": "Col. Portales 789, CDMX",                  "limite_credito":  6_000.00},
-    {"nombre": "Ventas y Distribución Hernández SA de CV",  "rfc": "VDH170420UV0", "telefono": "+52 938 234 5678", "email": "pedidos@distrib-hdz.mx",       "direccion": "Calle Allende 234, Villahermosa, TAB",     "limite_credito": 28_000.00},
+    {"nombre": "Distribuidora Textil del Norte SA de CV",  "rfc": "DTN021205HK4", "telefono": "8112345678",  "email": "compras@dtn.mx",              "direccion": "Av. Constitución 100, Monterrey, NL",        "limite_credito": 50_000.00},
+    {"nombre": "Ropa y Más SA de CV",                       "rfc": "RYM150320AB3", "telefono": "3398765432",  "email": "pedidos@ropaymas.mx",          "direccion": "Calzada González 200, Guadalajara, JAL",    "limite_credito": 35_000.00},
+    {"nombre": "Boutique Elegance SA de CV",                "rfc": "BEL180715CD7", "telefono": "5555557890",  "email": "ventas@boutique-elegance.mx",  "direccion": "Av. Masaryk 150, CDMX",                    "limite_credito": 20_000.00},
+    {"nombre": "Almacenes del Bajío SA de CV",              "rfc": "ABA120310EF9", "telefono": "4772345678",  "email": "compras@almacenesbajio.mx",    "direccion": "Blvd. López Mateos 345, León, GTO",         "limite_credito": 40_000.00},
+    {"nombre": "Manuel Hernández López",                    "rfc": "HELM870412GH6","telefono": "5511112222",  "email": "manuel.hl@gmail.com",          "direccion": "Calle 5 de Mayo 67, CDMX",                 "limite_credito":  5_000.00},
+    {"nombre": "Tiendas Fashion Plus SA de CV",             "rfc": "TFP200101IJ2", "telefono": "6563456789",  "email": "compras@fashionplus.mx",       "direccion": "Blvd. Independencia 890, Juárez, CHI",      "limite_credito": 30_000.00},
+    {"nombre": "María Elena Rodríguez Vázquez",             "rfc": "ROVM790523KL8","telefono": "5533334444",  "email": "mary.rodriguez@hotmail.com",   "direccion": "Col. Del Valle 234, CDMX",                 "limite_credito":  3_000.00},
+    {"nombre": "Importadora Textil Pacífico SA de CV",      "rfc": "ITP190808MN5", "telefono": "3221234567",  "email": "ventas@textilpacifico.mx",     "direccion": "Av. Juárez 456, Puerto Vallarta, JAL",     "limite_credito": 25_000.00},
+    {"nombre": "Carlos Alberto Fuentes Díaz",               "rfc": "FUDC920317OP1","telefono": "5577778888",  "email": "carlos.fuentes@outlook.com",   "direccion": "Col. Satélite 567, Naucalpan, EDOMEX",     "limite_credito":  8_000.00},
+    {"nombre": "Grupo Confecciones Unidas SA de CV",        "rfc": "GCU111215QR3", "telefono": "4435678901",  "email": "info@confeccionesunidas.mx",   "direccion": "Av. Madero 100, Morelia, MICH",            "limite_credito": 45_000.00},
+    {"nombre": "Patricia Mendoza Gutiérrez",                "rfc": "MEGP850614ST4","telefono": "5599990000",  "email": "patricia.m@yahoo.com.mx",      "direccion": "Col. Portales 789, CDMX",                  "limite_credito":  6_000.00},
+    {"nombre": "Ventas y Distribución Hernández SA de CV",  "rfc": "VDH170420UV0", "telefono": "9382345678",  "email": "pedidos@distrib-hdz.mx",       "direccion": "Calle Allende 234, Villahermosa, TAB",     "limite_credito": 28_000.00},
 ]
 
 FISCAL = {
