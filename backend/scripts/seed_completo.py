@@ -378,34 +378,32 @@ def _seed_ventas(db, cajero_ids: list) -> list:
             impuesto  = round(subtotal * 0.16, 2)
             total     = round(subtotal + impuesto, 2)
 
-            venta = Venta(
-                punto_venta_id=1,
-                usuario_id=uid,
-                subtotal=subtotal,
-                descuento=0,
-                impuesto=impuesto,
-                total=total,
-                estado="CERRADA",
-                metodo_pago=metodo,
-                creada_en=fecha,
-                completed_at=fecha,
-            )
-            db.add(venta)
-            db.flush()
+            # SQL directo: Venta referencia puntos_venta (sin modelo ORM)
+            res = db.execute(text("""
+                INSERT INTO ventas
+                    (punto_venta_id, usuario_id, subtotal, descuento,
+                     impuesto, total, estado, metodo_pago, creada_en, completed_at)
+                VALUES
+                    (:pvid, :uid, :sub, 0, :imp, :tot,
+                     'CERRADA', :metodo, :fecha, :fecha)
+                RETURNING id
+            """), {"pvid": 1, "uid": uid, "sub": subtotal,
+                   "imp": impuesto, "tot": total,
+                   "metodo": metodo, "fecha": fecha})
+            venta_id = res.scalar()
 
+            # VentaDetalle vía SQL directo (activa triggers de precio y stock)
             for variante, qty, precio, subtotal_linea in lineas:
-                db.add(VentaDetalle(
-                    venta_id=venta.id,
-                    variante_id=variante.id,
-                    cantidad=qty,
-                    precio_unitario=precio,
-                    subtotal=subtotal_linea,
-                ))
-            db.flush()
+                db.execute(text("""
+                    INSERT INTO venta_detalle
+                        (venta_id, variante_id, cantidad, precio_unitario, subtotal)
+                    VALUES (:vid, :varid, :qty, :precio, :sub)
+                """), {"vid": venta_id, "varid": variante.id,
+                       "qty": qty, "precio": precio, "sub": subtotal_linea})
 
             mes_total += total
             ventas_meta.append({
-                "id": venta.id,
+                "id": venta_id,
                 "total": total,
                 "subtotal": subtotal,
                 "metodo": metodo,
