@@ -32,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 
 from passlib.context import CryptContext
+from sqlalchemy import text
 from app.core.database import SessionLocal
 from app.models.usuario import Usuario
 from app.models.empleado import Empleado, PeriodoNomina, DetalleNomina, LogAcceso
@@ -139,26 +140,35 @@ IPS = ["192.168.1.10", "192.168.1.11", "192.168.1.12", "10.0.0.5", "10.0.0.8"]
 # ─── Sección 1 : Usuarios ─────────────────────────────────────────────────────
 
 def _seed_usuarios(db) -> dict:
-    """Crea 6 usuarios adicionales. Retorna {email: id}."""
+    """
+    Crea 6 usuarios adicionales usando SQL directo para evitar el error
+    NoReferencedTableError en la tabla 'roles' (sin modelo ORM propio).
+    Retorna {email: id}.
+    """
     print("\n--- Usuarios adicionales ---")
     uid_map = {"admin@local.com": 1, "cajero@local.com": 2}
     for u in EXTRA_USUARIOS:
-        ex = db.query(Usuario).filter(Usuario.email == u["email"]).first()
-        if ex:
-            uid_map[u["email"]] = ex.id
+        row = db.execute(
+            text("SELECT id FROM usuarios WHERE email = :email"),
+            {"email": u["email"]},
+        ).fetchone()
+        if row:
+            uid_map[u["email"]] = row[0]
             print(f"  skip: {u['email']}")
             continue
-        nuevo = Usuario(
-            nombre=u["nombre"],
-            email=u["email"],
-            password_hash=pwd_context.hash("Temporal123!"),
-            rol_id=u["rol_id"],
-            activo=True,
+        hashed = pwd_context.hash("Temporal123!")
+        result = db.execute(
+            text("""
+                INSERT INTO usuarios (nombre, email, password_hash, rol_id, activo)
+                VALUES (:nombre, :email, :hash, :rol_id, true)
+                RETURNING id
+            """),
+            {"nombre": u["nombre"], "email": u["email"],
+             "hash": hashed, "rol_id": u["rol_id"]},
         )
-        db.add(nuevo)
-        db.flush()
-        uid_map[u["email"]] = nuevo.id
-        print(f"  + {u['nombre']} ({u['email']}) id={nuevo.id}")
+        new_id = result.scalar()
+        uid_map[u["email"]] = new_id
+        print(f"  + {u['nombre']} ({u['email']}) id={new_id}")
     db.commit()
     return uid_map
 
@@ -610,7 +620,7 @@ def _seed_logs_acceso(db, uid_map: dict):
 
 def _limpiar(db):
     print("\n=== Limpiando datos de seed_completo ===")
-    from sqlalchemy import text as T
+    T = text
     tablas = [
         "logs_acceso", "pagos_cuenta", "cuentas_por_cobrar",
         "factura_concepto_impuestos", "factura_conceptos",
