@@ -1,0 +1,24 @@
+# Normaliza line endings: LF en repositorio, conversión automática en checkout
+* text=auto
+
+# Scripts de shell siempre LF (nunca CRLF en Windows)
+*.sh text eol=lf
+
+# Scripts Python siempre LF
+*.py text eol=lf
+
+# Archivos de configuración siempre LF
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.env text eol=lf
+Dockerfile text eol=lf
+
+# Binarios — sin conversión
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.xlsx binary
+*.pdf binary
