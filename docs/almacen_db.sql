@@ -625,9 +625,14 @@ CREATE TABLE public.ventas (
     id integer NOT NULL,
     punto_venta_id integer NOT NULL,
     usuario_id integer NOT NULL,
+    subtotal numeric(12,2) DEFAULT 0,
+    descuento numeric(12,2) DEFAULT 0,
+    impuesto numeric(12,2) DEFAULT 0,
     total numeric(12,2) NOT NULL,
+    estado character varying(20) DEFAULT 'CERRADA',
     metodo_pago character varying(20) NOT NULL,
-    creada_en timestamp without time zone DEFAULT now(),
+    creada_en timestamp with time zone DEFAULT now(),
+    completed_at timestamp with time zone,
     CONSTRAINT ventas_metodo_pago_check CHECK (((metodo_pago)::text = ANY ((ARRAY['EFECTIVO'::character varying, 'TARJETA'::character varying])::text[]))),
     CONSTRAINT ventas_total_check CHECK ((total >= (0)::numeric))
 );

@@ -513,7 +513,7 @@ def _seed_facturas(db, ventas_meta: list, cfg: ConfiguracionFiscal, cliente_ids:
         forma_pago = "01" if venta_m["metodo"] == "EFECTIVO" else "04"
 
         factura = Factura(
-            fecha=_ts(2026, 1, 10 + i * 15),
+            fecha=_ts(2026, (i // 2) + 1, 10 + (i % 2) * 15),
             serie="A",
             folio=folio_num,
             estado="BORRADOR",
