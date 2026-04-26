@@ -793,7 +793,6 @@ COPY public.folios_sat (id, serie, folio_actual, activo) FROM stdin;
 --
 
 COPY public.inventario (id, variante_id, stock, actualizado_en) FROM stdin;
-1	1	5	2026-01-13 23:26:55.694197
 \.
 
 
@@ -870,7 +869,6 @@ INSERT INTO public.usuarios (id, nombre, email, password_hash, rol_id, activo, c
 --
 
 COPY public.variantes_producto (id, producto_id, sku, talla, color, precio_menudeo, precio_mayoreo, codigo_barras, activo) FROM stdin;
-1	1	PLY-BAS-M-NEG	M	Negro	600.00	500.00	7501234567890	t
 \.
 
 
