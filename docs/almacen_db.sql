@@ -328,15 +328,11 @@ CREATE TABLE public.productos (
     id integer NOT NULL,
     nombre character varying(150) NOT NULL,
     descripcion text,
+    categoria character varying(100),
+    marca character varying(100),
     activo boolean DEFAULT true,
-    creado_en timestamp without time zone DEFAULT now(),
-    producto character varying(150),
-    sku character varying(50),
-    talla character varying(20),
-    color character varying(30),
-    precio_menudeo numeric(10,2),
-    precio_mayoreo numeric(10,2),
-    codigo_barras character varying(100)
+    creado_en timestamp with time zone DEFAULT now(),
+    actualizado_en timestamp with time zone
 );
 
 
@@ -817,8 +813,7 @@ COPY public.movimientos_inventario (id, variante_id, tipo, cantidad, referencia,
 -- Data for Name: productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productos (id, nombre, descripcion, activo, creado_en, producto, sku, talla, color, precio_menudeo, precio_mayoreo, codigo_barras) FROM stdin;
-1	Playera Básica	\N	t	2026-01-13 23:24:18.822453	\N	\N	\N	\N	\N	\N	\N
+COPY public.productos (id, nombre, descripcion, categoria, marca, activo, creado_en) FROM stdin;
 \.
 
 
