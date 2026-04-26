@@ -1,0 +1,223 @@
+producto_id,producto,sku,talla,color,precio_menudeo,precio_mayoreo,codigo_barras,stock_inicial,activo
+1,Playera Básica Cuello Redondo,PLY-BAS-NEG-S,S,Negro,249.00,185.00,7500000000017,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-NEG-M,M,Negro,249.00,185.00,7500000000024,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-NEG-L,L,Negro,249.00,185.00,7500000000031,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-NEG-XL,XL,Negro,249.00,185.00,7500000000048,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-NEG-XXL,XXL,Negro,249.00,185.00,7500000000055,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-BLN-S,S,Blanco,249.00,185.00,7500000000062,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-BLN-M,M,Blanco,249.00,185.00,7500000000079,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-BLN-L,L,Blanco,249.00,185.00,7500000000086,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-BLN-XL,XL,Blanco,249.00,185.00,7500000000093,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-BLN-XXL,XXL,Blanco,249.00,185.00,7500000000109,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-GRS-S,S,Gris,249.00,185.00,7500000000116,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-GRS-M,M,Gris,249.00,185.00,7500000000123,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-GRS-L,L,Gris,249.00,185.00,7500000000130,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-GRS-XL,XL,Gris,249.00,185.00,7500000000147,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-GRS-XXL,XXL,Gris,249.00,185.00,7500000000154,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-AZN-S,S,Azul Navy,249.00,185.00,7500000000161,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-AZN-M,M,Azul Navy,249.00,185.00,7500000000178,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-AZN-L,L,Azul Navy,249.00,185.00,7500000000185,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-AZN-XL,XL,Azul Navy,249.00,185.00,7500000000192,50,true
+1,Playera Básica Cuello Redondo,PLY-BAS-AZN-XXL,XXL,Azul Navy,249.00,185.00,7500000000208,50,true
+2,Playera Polo Slim Fit,PLY-POL-BLN-S,S,Blanco,349.00,265.00,7500000000215,40,true
+2,Playera Polo Slim Fit,PLY-POL-BLN-M,M,Blanco,349.00,265.00,7500000000222,40,true
+2,Playera Polo Slim Fit,PLY-POL-BLN-L,L,Blanco,349.00,265.00,7500000000239,40,true
+2,Playera Polo Slim Fit,PLY-POL-BLN-XL,XL,Blanco,349.00,265.00,7500000000246,40,true
+2,Playera Polo Slim Fit,PLY-POL-BLN-XXL,XXL,Blanco,349.00,265.00,7500000000253,40,true
+2,Playera Polo Slim Fit,PLY-POL-AZN-S,S,Azul Navy,349.00,265.00,7500000000260,40,true
+2,Playera Polo Slim Fit,PLY-POL-AZN-M,M,Azul Navy,349.00,265.00,7500000000277,40,true
+2,Playera Polo Slim Fit,PLY-POL-AZN-L,L,Azul Navy,349.00,265.00,7500000000284,40,true
+2,Playera Polo Slim Fit,PLY-POL-AZN-XL,XL,Azul Navy,349.00,265.00,7500000000291,40,true
+2,Playera Polo Slim Fit,PLY-POL-AZN-XXL,XXL,Azul Navy,349.00,265.00,7500000000307,40,true
+2,Playera Polo Slim Fit,PLY-POL-NEG-S,S,Negro,349.00,265.00,7500000000314,40,true
+2,Playera Polo Slim Fit,PLY-POL-NEG-M,M,Negro,349.00,265.00,7500000000321,40,true
+2,Playera Polo Slim Fit,PLY-POL-NEG-L,L,Negro,349.00,265.00,7500000000338,40,true
+2,Playera Polo Slim Fit,PLY-POL-NEG-XL,XL,Negro,349.00,265.00,7500000000345,40,true
+2,Playera Polo Slim Fit,PLY-POL-NEG-XXL,XXL,Negro,349.00,265.00,7500000000352,40,true
+2,Playera Polo Slim Fit,PLY-POL-ROJ-S,S,Rojo,349.00,265.00,7500000000369,40,true
+2,Playera Polo Slim Fit,PLY-POL-ROJ-M,M,Rojo,349.00,265.00,7500000000376,40,true
+2,Playera Polo Slim Fit,PLY-POL-ROJ-L,L,Rojo,349.00,265.00,7500000000383,40,true
+2,Playera Polo Slim Fit,PLY-POL-ROJ-XL,XL,Rojo,349.00,265.00,7500000000390,40,true
+2,Playera Polo Slim Fit,PLY-POL-ROJ-XXL,XXL,Rojo,349.00,265.00,7500000000406,40,true
+3,Playera Oversize Lavada,PLY-OVR-GRS-S,S,Gris,299.00,225.00,7500000000413,35,true
+3,Playera Oversize Lavada,PLY-OVR-GRS-M,M,Gris,299.00,225.00,7500000000420,35,true
+3,Playera Oversize Lavada,PLY-OVR-GRS-L,L,Gris,299.00,225.00,7500000000437,35,true
+3,Playera Oversize Lavada,PLY-OVR-GRS-XL,XL,Gris,299.00,225.00,7500000000444,35,true
+3,Playera Oversize Lavada,PLY-OVR-BGE-S,S,Beige,299.00,225.00,7500000000451,35,true
+3,Playera Oversize Lavada,PLY-OVR-BGE-M,M,Beige,299.00,225.00,7500000000468,35,true
+3,Playera Oversize Lavada,PLY-OVR-BGE-L,L,Beige,299.00,225.00,7500000000475,35,true
+3,Playera Oversize Lavada,PLY-OVR-BGE-XL,XL,Beige,299.00,225.00,7500000000482,35,true
+3,Playera Oversize Lavada,PLY-OVR-NEG-S,S,Negro,299.00,225.00,7500000000499,35,true
+3,Playera Oversize Lavada,PLY-OVR-NEG-M,M,Negro,299.00,225.00,7500000000505,35,true
+3,Playera Oversize Lavada,PLY-OVR-NEG-L,L,Negro,299.00,225.00,7500000000512,35,true
+3,Playera Oversize Lavada,PLY-OVR-NEG-XL,XL,Negro,299.00,225.00,7500000000529,35,true
+3,Playera Oversize Lavada,PLY-OVR-VRO-S,S,Verde Olivo,299.00,225.00,7500000000536,35,true
+3,Playera Oversize Lavada,PLY-OVR-VRO-M,M,Verde Olivo,299.00,225.00,7500000000543,35,true
+3,Playera Oversize Lavada,PLY-OVR-VRO-L,L,Verde Olivo,299.00,225.00,7500000000550,35,true
+3,Playera Oversize Lavada,PLY-OVR-VRO-XL,XL,Verde Olivo,299.00,225.00,7500000000567,35,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-AZO-28,28,Azul Oscuro,549.00,420.00,7500000000574,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-AZO-30,30,Azul Oscuro,549.00,420.00,7500000000581,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-AZO-32,32,Azul Oscuro,549.00,420.00,7500000000598,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-AZO-34,34,Azul Oscuro,549.00,420.00,7500000000604,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-AZO-36,36,Azul Oscuro,549.00,420.00,7500000000611,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-NEG-28,28,Negro,549.00,420.00,7500000000628,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-NEG-30,30,Negro,549.00,420.00,7500000000635,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-NEG-32,32,Negro,549.00,420.00,7500000000642,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-NEG-34,34,Negro,549.00,420.00,7500000000659,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-NEG-36,36,Negro,549.00,420.00,7500000000666,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-GRC-28,28,Gris Claro,549.00,420.00,7500000000673,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-GRC-30,30,Gris Claro,549.00,420.00,7500000000680,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-GRC-32,32,Gris Claro,549.00,420.00,7500000000697,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-GRC-34,34,Gris Claro,549.00,420.00,7500000000703,30,true
+4,Pantalón de Mezclilla Slim,PNT-MEZ-GRC-36,36,Gris Claro,549.00,420.00,7500000000710,30,true
+5,Pantalón Cargo Táctico,PNT-CAR-NEG-S,S,Negro,499.00,380.00,7500000000727,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-NEG-M,M,Negro,499.00,380.00,7500000000734,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-NEG-L,L,Negro,499.00,380.00,7500000000741,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-NEG-XL,XL,Negro,499.00,380.00,7500000000758,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-NEG-XXL,XXL,Negro,499.00,380.00,7500000000765,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-VRO-S,S,Verde Olivo,499.00,380.00,7500000000772,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-VRO-M,M,Verde Olivo,499.00,380.00,7500000000789,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-VRO-L,L,Verde Olivo,499.00,380.00,7500000000796,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-VRO-XL,XL,Verde Olivo,499.00,380.00,7500000000802,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-VRO-XXL,XXL,Verde Olivo,499.00,380.00,7500000000819,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-BGE-S,S,Beige,499.00,380.00,7500000000826,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-BGE-M,M,Beige,499.00,380.00,7500000000833,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-BGE-L,L,Beige,499.00,380.00,7500000000840,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-BGE-XL,XL,Beige,499.00,380.00,7500000000857,25,true
+5,Pantalón Cargo Táctico,PNT-CAR-BGE-XXL,XXL,Beige,499.00,380.00,7500000000864,25,true
+6,Pantalón Jogger Premium,PNT-JOG-NEG-S,S,Negro,399.00,300.00,7500000000871,40,true
+6,Pantalón Jogger Premium,PNT-JOG-NEG-M,M,Negro,399.00,300.00,7500000000888,40,true
+6,Pantalón Jogger Premium,PNT-JOG-NEG-L,L,Negro,399.00,300.00,7500000000895,40,true
+6,Pantalón Jogger Premium,PNT-JOG-NEG-XL,XL,Negro,399.00,300.00,7500000000901,40,true
+6,Pantalón Jogger Premium,PNT-JOG-NEG-XXL,XXL,Negro,399.00,300.00,7500000000918,40,true
+6,Pantalón Jogger Premium,PNT-JOG-GRS-S,S,Gris,399.00,300.00,7500000000925,40,true
+6,Pantalón Jogger Premium,PNT-JOG-GRS-M,M,Gris,399.00,300.00,7500000000932,40,true
+6,Pantalón Jogger Premium,PNT-JOG-GRS-L,L,Gris,399.00,300.00,7500000000949,40,true
+6,Pantalón Jogger Premium,PNT-JOG-GRS-XL,XL,Gris,399.00,300.00,7500000000956,40,true
+6,Pantalón Jogger Premium,PNT-JOG-GRS-XXL,XXL,Gris,399.00,300.00,7500000000963,40,true
+6,Pantalón Jogger Premium,PNT-JOG-AZN-S,S,Azul Navy,399.00,300.00,7500000000970,40,true
+6,Pantalón Jogger Premium,PNT-JOG-AZN-M,M,Azul Navy,399.00,300.00,7500000000987,40,true
+6,Pantalón Jogger Premium,PNT-JOG-AZN-L,L,Azul Navy,399.00,300.00,7500000000994,40,true
+6,Pantalón Jogger Premium,PNT-JOG-AZN-XL,XL,Azul Navy,399.00,300.00,7500000001007,40,true
+6,Pantalón Jogger Premium,PNT-JOG-AZN-XXL,XXL,Azul Navy,399.00,300.00,7500000001014,40,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-NEG-S,S,Negro,279.00,210.00,7500000001021,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-NEG-M,M,Negro,279.00,210.00,7500000001038,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-NEG-L,L,Negro,279.00,210.00,7500000001045,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-NEG-XL,XL,Negro,279.00,210.00,7500000001052,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-NEG-XXL,XXL,Negro,279.00,210.00,7500000001069,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-AZN-S,S,Azul Navy,279.00,210.00,7500000001076,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-AZN-M,M,Azul Navy,279.00,210.00,7500000001083,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-AZN-L,L,Azul Navy,279.00,210.00,7500000001090,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-AZN-XL,XL,Azul Navy,279.00,210.00,7500000001106,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-AZN-XXL,XXL,Azul Navy,279.00,210.00,7500000001113,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-GRS-S,S,Gris,279.00,210.00,7500000001120,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-GRS-M,M,Gris,279.00,210.00,7500000001137,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-GRS-L,L,Gris,279.00,210.00,7500000001144,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-GRS-XL,XL,Gris,279.00,210.00,7500000001151,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-GRS-XXL,XXL,Gris,279.00,210.00,7500000001168,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-ROJ-S,S,Rojo,279.00,210.00,7500000001175,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-ROJ-M,M,Rojo,279.00,210.00,7500000001182,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-ROJ-L,L,Rojo,279.00,210.00,7500000001199,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-ROJ-XL,XL,Rojo,279.00,210.00,7500000001205,45,true
+7,Short Deportivo 7 pulgadas,SHT-DEP-ROJ-XXL,XXL,Rojo,279.00,210.00,7500000001212,45,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-AZC-28,28,Azul Claro,349.00,265.00,7500000001229,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-AZC-30,30,Azul Claro,349.00,265.00,7500000001236,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-AZC-32,32,Azul Claro,349.00,265.00,7500000001243,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-AZC-34,34,Azul Claro,349.00,265.00,7500000001250,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-NEG-28,28,Negro,349.00,265.00,7500000001267,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-NEG-30,30,Negro,349.00,265.00,7500000001274,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-NEG-32,32,Negro,349.00,265.00,7500000001281,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-NEG-34,34,Negro,349.00,265.00,7500000001298,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-BLR-28,28,Blanco Roto,349.00,265.00,7500000001304,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-BLR-30,30,Blanco Roto,349.00,265.00,7500000001311,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-BLR-32,32,Blanco Roto,349.00,265.00,7500000001328,20,true
+8,Short de Mezclilla 5 pulgadas,SHT-MEZ-BLR-34,34,Blanco Roto,349.00,265.00,7500000001335,20,true
+9,Sudadera con Capucha Fleece,SUD-CAP-NEG-S,S,Negro,649.00,490.00,7500000001342,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-NEG-M,M,Negro,649.00,490.00,7500000001359,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-NEG-L,L,Negro,649.00,490.00,7500000001366,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-NEG-XL,XL,Negro,649.00,490.00,7500000001373,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-NEG-XXL,XXL,Negro,649.00,490.00,7500000001380,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-GRS-S,S,Gris,649.00,490.00,7500000001397,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-GRS-M,M,Gris,649.00,490.00,7500000001403,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-GRS-L,L,Gris,649.00,490.00,7500000001410,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-GRS-XL,XL,Gris,649.00,490.00,7500000001427,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-GRS-XXL,XXL,Gris,649.00,490.00,7500000001434,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-AZN-S,S,Azul Navy,649.00,490.00,7500000001441,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-AZN-M,M,Azul Navy,649.00,490.00,7500000001458,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-AZN-L,L,Azul Navy,649.00,490.00,7500000001465,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-AZN-XL,XL,Azul Navy,649.00,490.00,7500000001472,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-AZN-XXL,XXL,Azul Navy,649.00,490.00,7500000001489,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-VRO-S,S,Verde Olivo,649.00,490.00,7500000001496,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-VRO-M,M,Verde Olivo,649.00,490.00,7500000001502,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-VRO-L,L,Verde Olivo,649.00,490.00,7500000001519,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-VRO-XL,XL,Verde Olivo,649.00,490.00,7500000001526,30,true
+9,Sudadera con Capucha Fleece,SUD-CAP-VRO-XXL,XXL,Verde Olivo,649.00,490.00,7500000001533,30,true
+10,Sudadera Crewneck Clásica,SUD-CRW-NEG-S,S,Negro,549.00,415.00,7500000001540,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-NEG-M,M,Negro,549.00,415.00,7500000001557,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-NEG-L,L,Negro,549.00,415.00,7500000001564,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-NEG-XL,XL,Negro,549.00,415.00,7500000001571,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-NEG-XXL,XXL,Negro,549.00,415.00,7500000001588,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BLN-S,S,Blanco,549.00,415.00,7500000001595,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BLN-M,M,Blanco,549.00,415.00,7500000001601,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BLN-L,L,Blanco,549.00,415.00,7500000001618,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BLN-XL,XL,Blanco,549.00,415.00,7500000001625,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BLN-XXL,XXL,Blanco,549.00,415.00,7500000001632,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-GRS-S,S,Gris,549.00,415.00,7500000001649,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-GRS-M,M,Gris,549.00,415.00,7500000001656,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-GRS-L,L,Gris,549.00,415.00,7500000001663,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-GRS-XL,XL,Gris,549.00,415.00,7500000001670,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-GRS-XXL,XXL,Gris,549.00,415.00,7500000001687,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BGE-S,S,Beige,549.00,415.00,7500000001694,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BGE-M,M,Beige,549.00,415.00,7500000001700,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BGE-L,L,Beige,549.00,415.00,7500000001717,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BGE-XL,XL,Beige,549.00,415.00,7500000001724,25,true
+10,Sudadera Crewneck Clásica,SUD-CRW-BGE-XXL,XXL,Beige,549.00,415.00,7500000001731,25,true
+11,Chamarra Bomber Satín,CHA-BOM-NEG-S,S,Negro,899.00,680.00,7500000001748,20,true
+11,Chamarra Bomber Satín,CHA-BOM-NEG-M,M,Negro,899.00,680.00,7500000001755,20,true
+11,Chamarra Bomber Satín,CHA-BOM-NEG-L,L,Negro,899.00,680.00,7500000001762,20,true
+11,Chamarra Bomber Satín,CHA-BOM-NEG-XL,XL,Negro,899.00,680.00,7500000001779,20,true
+11,Chamarra Bomber Satín,CHA-BOM-NEG-XXL,XXL,Negro,899.00,680.00,7500000001786,20,true
+11,Chamarra Bomber Satín,CHA-BOM-VRO-S,S,Verde Olivo,899.00,680.00,7500000001793,20,true
+11,Chamarra Bomber Satín,CHA-BOM-VRO-M,M,Verde Olivo,899.00,680.00,7500000001809,20,true
+11,Chamarra Bomber Satín,CHA-BOM-VRO-L,L,Verde Olivo,899.00,680.00,7500000001816,20,true
+11,Chamarra Bomber Satín,CHA-BOM-VRO-XL,XL,Verde Olivo,899.00,680.00,7500000001823,20,true
+11,Chamarra Bomber Satín,CHA-BOM-VRO-XXL,XXL,Verde Olivo,899.00,680.00,7500000001830,20,true
+11,Chamarra Bomber Satín,CHA-BOM-AZN-S,S,Azul Navy,899.00,680.00,7500000001847,20,true
+11,Chamarra Bomber Satín,CHA-BOM-AZN-M,M,Azul Navy,899.00,680.00,7500000001854,20,true
+11,Chamarra Bomber Satín,CHA-BOM-AZN-L,L,Azul Navy,899.00,680.00,7500000001861,20,true
+11,Chamarra Bomber Satín,CHA-BOM-AZN-XL,XL,Azul Navy,899.00,680.00,7500000001878,20,true
+11,Chamarra Bomber Satín,CHA-BOM-AZN-XXL,XXL,Azul Navy,899.00,680.00,7500000001885,20,true
+12,Chamarra Cortavientos Ligera,CHA-COR-NEG-S,S,Negro,749.00,565.00,7500000001892,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-NEG-M,M,Negro,749.00,565.00,7500000001908,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-NEG-L,L,Negro,749.00,565.00,7500000001915,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-NEG-XL,XL,Negro,749.00,565.00,7500000001922,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-NEG-XXL,XXL,Negro,749.00,565.00,7500000001939,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-AZN-S,S,Azul Navy,749.00,565.00,7500000001946,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-AZN-M,M,Azul Navy,749.00,565.00,7500000001953,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-AZN-L,L,Azul Navy,749.00,565.00,7500000001960,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-AZN-XL,XL,Azul Navy,749.00,565.00,7500000001977,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-AZN-XXL,XXL,Azul Navy,749.00,565.00,7500000001984,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-ROJ-S,S,Rojo,749.00,565.00,7500000001991,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-ROJ-M,M,Rojo,749.00,565.00,7500000002005,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-ROJ-L,L,Rojo,749.00,565.00,7500000002012,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-ROJ-XL,XL,Rojo,749.00,565.00,7500000002029,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-ROJ-XXL,XXL,Rojo,749.00,565.00,7500000002036,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-GRS-S,S,Gris,749.00,565.00,7500000002043,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-GRS-M,M,Gris,749.00,565.00,7500000002050,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-GRS-L,L,Gris,749.00,565.00,7500000002067,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-GRS-XL,XL,Gris,749.00,565.00,7500000002074,15,true
+12,Chamarra Cortavientos Ligera,CHA-COR-GRS-XXL,XXL,Gris,749.00,565.00,7500000002081,15,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-BLN-2628,26-28,Blanco,159.00,120.00,7500000002098,60,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-BLN-2931,29-31,Blanco,159.00,120.00,7500000002104,60,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-NEG-2628,26-28,Negro,159.00,120.00,7500000002111,60,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-NEG-2931,29-31,Negro,159.00,120.00,7500000002128,60,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-GRS-2628,26-28,Gris,159.00,120.00,7500000002135,60,true
+13,Calcetines Deportivos Acolchados Pack 3,CAL-DEP-GRS-2931,29-31,Gris,159.00,120.00,7500000002142,60,true
+14,Gorra Snapback Estructurada,GOR-SNP-NEG-UNI,Única,Negro,299.00,225.00,7500000002159,35,true
+14,Gorra Snapback Estructurada,GOR-SNP-AZN-UNI,Única,Azul Navy,299.00,225.00,7500000002166,35,true
+14,Gorra Snapback Estructurada,GOR-SNP-ROJ-UNI,Única,Rojo,299.00,225.00,7500000002173,35,true
+14,Gorra Snapback Estructurada,GOR-SNP-GRS-UNI,Única,Gris,299.00,225.00,7500000002180,35,true
+15,Gorra de Béisbol Dad Hat,GOR-DAD-BGE-UNI,Única,Beige,249.00,185.00,7500000002197,40,true
+15,Gorra de Béisbol Dad Hat,GOR-DAD-NEG-UNI,Única,Negro,249.00,185.00,7500000002203,40,true
+15,Gorra de Béisbol Dad Hat,GOR-DAD-BLN-UNI,Única,Blanco,249.00,185.00,7500000002210,40,true
+15,Gorra de Béisbol Dad Hat,GOR-DAD-VRO-UNI,Única,Verde Olivo,249.00,185.00,7500000002227,40,true

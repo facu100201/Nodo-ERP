@@ -24,13 +24,13 @@ _COLUMNAS_REQUERIDAS = frozenset({
     'precio_menudeo', 'precio_mayoreo', 'codigo_barras',
 })
 
-# Valores que se interpretan como True para la columna "activo"
+# Valores que se interpretan como True para las columnas booleanas
 _VALORES_VERDADERO = frozenset({'1', 'true', 't', 'si', 'sí', 'y', 'yes'})
 
 # Cabecera oficial de la plantilla Excel
 _CABECERA_PLANTILLA = [
     'producto_id', 'producto', 'sku', 'talla', 'color',
-    'precio_menudeo', 'precio_mayoreo', 'codigo_barras', 'activo',
+    'precio_menudeo', 'precio_mayoreo', 'codigo_barras', 'stock_inicial', 'activo',
 ]
 
 
@@ -364,6 +364,13 @@ class ProductoService:
         except (ValueError, TypeError) as e:
             return False, {'linea': idx, 'sku': sku, 'error': f"Precio inválido: {e}"}
 
+        try:
+            stock_inicial = int(float(row.get('stock_inicial', '') or 0))
+            if stock_inicial < 0:
+                stock_inicial = 0
+        except (ValueError, TypeError):
+            stock_inicial = 0
+
         activo_raw = row.get('activo', '').strip().lower()
         activo = (activo_raw in _VALORES_VERDADERO) if activo_raw else True
 
@@ -387,6 +394,13 @@ class ProductoService:
                     activo=activo,
                 )
                 self.db.add(variante)
+                self.db.flush()
+
+                # Siempre crea el registro de inventario (stock 0 si no se especifica)
+                self.db.add(Inventario(
+                    variante_id=variante.id,
+                    stock=stock_inicial,
+                ))
                 self.db.flush()
 
             return True, None
@@ -426,13 +440,13 @@ class ProductoService:
             cell.alignment = header_align
 
         # Fila de ejemplo
-        ejemplo = [1, 'Playera Básica', 'PLY-M-NEG-001', 'M', 'Negro',
-                   600.00, 500.00, '7501234567890', 'true']
+        ejemplo = [1, 'Playera Básica', 'PLY-BAS-NEG-M-001', 'M', 'Negro',
+                   249.00, 185.00, '7501000000001', 50, 'true']
         for col, val in enumerate(ejemplo, start=1):
             ws.cell(row=2, column=col, value=val)
 
         # Anchos de columna
-        anchos = [12, 25, 20, 8, 12, 16, 16, 18, 8]
+        anchos = [12, 25, 22, 8, 12, 16, 16, 18, 13, 8]
         for col_idx, ancho in enumerate(anchos, start=1):
             letra = ws.cell(row=1, column=col_idx).column_letter
             ws.column_dimensions[letra].width = ancho

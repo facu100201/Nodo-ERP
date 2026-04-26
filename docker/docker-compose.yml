@@ -34,11 +34,15 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/almacen_db
     volumes:
       - ../backend/app:/app/app
+      - ../backend/scripts:/app/scripts
       - ../backend/requirements.txt:/requirements.txt
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "pip install -q -r /requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: >
+      sh -c "pip install -q -r /requirements.txt &&
+             python scripts/seed_textil.py &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
   frontend:
     build:
