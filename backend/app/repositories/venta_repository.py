@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import text
 from typing import Optional, List
 from datetime import datetime
 from app.models.venta import Venta, VentaDetalle, EstadoVentaEnum
@@ -6,15 +7,28 @@ from app.models.venta import Venta, VentaDetalle, EstadoVentaEnum
 
 class VentaRepository:
     """Repositorio para operaciones de Venta."""
-    
+
     def __init__(self, db: Session):
         self.db = db
-    
+
     def create(self, venta: Venta) -> Venta:
-        """Crear una nueva venta."""
-        self.db.add(venta)
-        self.db.flush()  # Flush para obtener el ID sin commit
-        return venta
+        """Crear una nueva venta usando SQL directo (evita FK a puntos_venta sin modelo ORM)."""
+        result = self.db.execute(
+            text("""
+                INSERT INTO ventas (punto_venta_id, usuario_id, metodo_pago, estado,
+                                    subtotal, descuento, impuesto, total)
+                VALUES (:pvid, :uid, :metodo, :estado, 0, 0, 0, 0)
+                RETURNING id
+            """),
+            {
+                "pvid": venta.punto_venta_id,
+                "uid": venta.usuario_id,
+                "metodo": venta.metodo_pago,
+                "estado": venta.estado,
+            }
+        )
+        new_id = result.scalar()
+        return self.get_by_id(new_id)
     
     def get_by_id(self, venta_id: int) -> Optional[Venta]:
         """
@@ -36,10 +50,23 @@ class VentaRepository:
         ).with_for_update().first()
     
     def add_detalle(self, detalle: VentaDetalle) -> VentaDetalle:
-        """Agregar un detalle a una venta."""
-        self.db.add(detalle)
-        self.db.flush()
-        return detalle
+        """Agregar un detalle a una venta usando SQL directo."""
+        result = self.db.execute(
+            text("""
+                INSERT INTO venta_detalle (venta_id, variante_id, cantidad, precio_unitario, subtotal)
+                VALUES (:vid, :varid, :qty, :precio, :sub)
+                RETURNING id
+            """),
+            {
+                "vid": detalle.venta_id,
+                "varid": detalle.variante_id,
+                "qty": detalle.cantidad,
+                "precio": detalle.precio_unitario,
+                "sub": detalle.subtotal,
+            }
+        )
+        new_id = result.scalar()
+        return self.db.query(VentaDetalle).filter(VentaDetalle.id == new_id).first()
     
     def update_totales(
         self,
@@ -49,44 +76,32 @@ class VentaRepository:
         impuesto: float,
         total: float
     ) -> bool:
-        """Actualizar totales de una venta."""
-        venta = self.get_by_id_with_lock(venta_id)
-        
-        if not venta:
-            return False
-        
-        venta.subtotal = subtotal
-        venta.descuento = descuento
-        venta.impuesto = impuesto
-        venta.total = total
-        
-        self.db.flush()
-        return True
-    
+        """Actualizar totales de una venta usando SQL directo."""
+        result = self.db.execute(
+            text("""
+                UPDATE ventas
+                SET subtotal=:sub, descuento=:desc, impuesto=:imp, total=:tot
+                WHERE id=:vid
+            """),
+            {"sub": subtotal, "desc": descuento, "imp": impuesto, "tot": total, "vid": venta_id}
+        )
+        return result.rowcount > 0
+
     def completar_venta(self, venta_id: int) -> bool:
-        """Marcar una venta como cerrada."""
-        venta = self.get_by_id_with_lock(venta_id)
-        
-        if not venta:
-            return False
-        
-        venta.estado = EstadoVentaEnum.CERRADA.value
-        venta.completed_at = datetime.utcnow()
-        
-        self.db.flush()
-        return True
-    
+        """Marcar una venta como cerrada usando SQL directo."""
+        result = self.db.execute(
+            text("UPDATE ventas SET estado='CERRADA', completed_at=now() WHERE id=:vid"),
+            {"vid": venta_id}
+        )
+        return result.rowcount > 0
+
     def cancelar_venta(self, venta_id: int) -> bool:
-        """Cancelar una venta."""
-        venta = self.get_by_id_with_lock(venta_id)
-        
-        if not venta:
-            return False
-        
-        venta.estado = EstadoVentaEnum.CANCELADA.value
-        
-        self.db.flush()
-        return True
+        """Cancelar una venta usando SQL directo."""
+        result = self.db.execute(
+            text("UPDATE ventas SET estado='CANCELADA' WHERE id=:vid"),
+            {"vid": venta_id}
+        )
+        return result.rowcount > 0
     
     def list_ventas(
         self,

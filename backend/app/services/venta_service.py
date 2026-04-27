@@ -79,18 +79,19 @@ class VentaService:
             impuesto = Decimal("0")  # Configurar según normativa
             total = subtotal_total - descuento_total + impuesto
             
-            # Actualizar totales
-            self.venta_repo.update_totales(
-                venta.id,
-                float(subtotal_total),
-                float(descuento_total),
-                float(impuesto),
-                float(total)
-            )
-            
-            # Completar venta
-            self.venta_repo.completar_venta(venta.id)
-            
+            # Actualizar totales y cerrar solo si hay detalles
+            if venta_data.detalles:
+                impuesto = Decimal("0")
+                total = subtotal_total - descuento_total + impuesto
+                self.venta_repo.update_totales(
+                    venta.id,
+                    float(subtotal_total),
+                    float(descuento_total),
+                    float(impuesto),
+                    float(total)
+                )
+                self.venta_repo.completar_venta(venta.id)
+
             # Commit transacción
             self.db.commit()
             
