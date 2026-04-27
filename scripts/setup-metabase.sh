@@ -157,11 +157,13 @@ ok "Embedding publico habilitado."
 info "Verificando conexion a base de datos..."
 
 extract_json_id() {
-    # Extrae el campo "id" de nivel superior de un JSON de base de datos
-    # $1 = JSON string
+    # Extrae el campo "id" de nivel superior de un objeto JSON
+    # Usa jq > python > grep como fallback
     local JSON="$1"
     local RESULT=""
-    if [ -n "$PYTHON_CMD" ]; then
+    if command -v jq >/dev/null 2>&1; then
+        RESULT=$(echo "$JSON" | jq -r '.id // empty' 2>/dev/null || true)
+    elif [ -n "$PYTHON_CMD" ]; then
         RESULT=$(echo "$JSON" | $PYTHON_CMD -c "
 import sys, json
 try:
@@ -171,7 +173,7 @@ except:
     pass
 " 2>/dev/null || true)
     fi
-    # Fallback: grep para objeto simple (respuesta de CREATE o GET /database/:id)
+    # Fallback grep — solo para respuestas simples como /database/:id
     if [ -z "$RESULT" ]; then
         RESULT=$(echo "$JSON" | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
     fi
@@ -181,7 +183,14 @@ except:
 parse_postgres_id() {
     local JSON="$1"
     local RESULT=""
-    if [ -n "$PYTHON_CMD" ]; then
+    if command -v jq >/dev/null 2>&1; then
+        # Prefer postgres DB with "Nodo" in name, fallback to first postgres
+        RESULT=$(echo "$JSON" | jq -r '
+            (.data // .) | arrays |
+            map(select(.engine == "postgres")) |
+            (map(select(.name | test("Nodo"; "i"))) + .) | .[0].id // empty
+        ' 2>/dev/null || true)
+    elif [ -n "$PYTHON_CMD" ]; then
         RESULT=$(echo "$JSON" | $PYTHON_CMD -c "
 import sys, json
 try:
@@ -201,16 +210,9 @@ except:
     pass
 " 2>/dev/null || true)
     fi
-    # Fallback grep: busca el id justo antes de engine:postgres
+    # Fallback grep
     if [ -z "$RESULT" ]; then
-        RESULT=$(echo "$JSON" | grep -o '"id":[0-9]*[^}]*"engine":"postgres"' | head -1 | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
-        # Si el patron anterior no matchea, intentar al reves
-        if [ -z "$RESULT" ]; then
-            RESULT=$(echo "$JSON" | tr ',' '\n' | grep '"engine":"postgres"' | head -1 || true)
-            if [ -n "$RESULT" ]; then
-                RESULT=$(echo "$JSON" | tr '{' '\n' | grep '"engine":"postgres"' | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
-            fi
-        fi
+        RESULT=$(echo "$JSON" | tr '{' '\n' | grep '"engine":"postgres"' | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
     fi
     echo "$RESULT"
 }

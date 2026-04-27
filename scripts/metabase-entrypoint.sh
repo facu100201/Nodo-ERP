@@ -18,5 +18,5 @@ if [ -f "$CONFIG" ]; then
 fi
 
 echo "[INFO] Configurando Metabase por primera vez..."
-apk add --no-cache bash curl > /dev/null 2>&1
+apk add --no-cache bash curl jq > /dev/null 2>&1
 bash /scripts/setup-metabase.sh
