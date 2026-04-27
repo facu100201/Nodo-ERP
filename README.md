@@ -13,37 +13,43 @@ Sistema integral de ERP y Punto de Venta con módulos de ventas, inventario, RRH
 
 ## Instalación y primer arranque
 
-### 1. Clonar el repositorio
+### 1. Configurar Git (solo Windows — hacer una sola vez)
+
+```bash
+git config --global core.autocrlf false
+```
+
+> Evita que Git convierta los scripts `.sh` a CRLF en Windows, lo que causaría errores dentro de los contenedores Linux.
+
+### 2. Clonar el repositorio
 
 ```bash
 git clone https://github.com/ERP-nodo/ERP.git
 cd ERP
 ```
 
-### 2. Permisos al script de inicialización de BD
+### 3. Dar permisos al script de inicialización de BD
 
 ```bash
 chmod +x docs/00_create_metabase_db.sh
 ```
 
-> **Nota Windows (Git Bash / MINGW64):** este paso es necesario para que PostgreSQL pueda ejecutar el script al arrancar por primera vez.
-
-### 3. Configurar variables de entorno
+### 4. Configurar variables de entorno
 
 ```bash
 cp backend/.env.example backend/.env
 ```
 
-El archivo `.env` ya tiene valores por defecto funcionales para desarrollo local. No es necesario editarlo.
+El archivo `.env` ya tiene valores funcionales para desarrollo local. No es necesario editarlo.
 
-### 4. Construir y levantar los contenedores
+### 5. Construir y levantar los contenedores
 
 ```bash
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml up -d
 ```
 
-### 5. Verificar que todo esté corriendo
+### 6. Verificar que todo esté corriendo
 
 ```bash
 docker compose -f docker/docker-compose.yml ps
@@ -51,7 +57,7 @@ docker compose -f docker/docker-compose.yml ps
 
 Deberías ver 5 contenedores: `pos_db`, `pos_backend`, `pos_frontend`, `pos_metabase`, `pos_metabase_setup`.
 
-### 6. Esperar la inicialización completa
+### 7. Esperar la inicialización completa
 
 El backend ejecuta las seeds automáticamente al iniciar. Monitorea con:
 
@@ -121,6 +127,26 @@ docker compose -f docker/docker-compose.yml up -d
 
 ```bash
 chmod +x docs/00_create_metabase_db.sh
+docker compose -f docker/docker-compose.yml down -v
+docker compose -f docker/docker-compose.yml up -d
+```
+
+### `/bin/bash^M: bad interpreter` — Scripts con saltos de línea Windows (CRLF)
+
+```bash
+git config --global core.autocrlf false
+git rm --cached docs/00_create_metabase_db.sh
+git checkout docs/00_create_metabase_db.sh
+docker compose -f docker/docker-compose.yml down -v
+docker compose -f docker/docker-compose.yml up -d
+```
+
+### `metabase_db does not exist` — BD inicializada a medias
+
+El volumen quedó incompleto de un arranque fallido anterior:
+
+```bash
+docker compose -f docker/docker-compose.yml down -v
 docker compose -f docker/docker-compose.yml up -d
 ```
 
