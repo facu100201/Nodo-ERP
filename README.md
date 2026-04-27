@@ -102,6 +102,13 @@ docker compose -f docker/docker-compose.yml up -d
 
 Docker Compose solo reinicia los contenedores que cambiaron.
 
+Si los cambios incluyen modificaciones al backend (modelos, servicios, seeds), fuerza la recreación del contenedor para que apliquen:
+
+```bash
+git pull origin main
+docker compose -f docker/docker-compose.yml up -d --force-recreate backend
+```
+
 ---
 
 ## Reconstrucción completa (base de datos limpia)
