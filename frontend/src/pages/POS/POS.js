@@ -62,7 +62,9 @@ function POS() {
       setItems([]);
       mostrarMensaje('success', 'Venta creada');
     } catch (error) {
-      mostrarMensaje('error', 'Error al crear venta: ' + (error.response?.data?.detail || error.message));
+      const d = error.response?.data?.detail;
+      const msg = Array.isArray(d) ? d.map(e => e.msg).join(', ') : (d || error.message);
+      mostrarMensaje('error', 'Error al crear venta: ' + msg);
     } finally {
       setLoading(false);
     }
@@ -118,8 +120,9 @@ function POS() {
 
       mostrarMensaje('success', `Agregado: ${producto.nombre_producto} (${cantidad})`);
     } catch (error) {
-      const detail = error.response?.data?.detail || error.message;
-      mostrarMensaje('error', 'Error: ' + detail);
+      const d = error.response?.data?.detail;
+      const msg = Array.isArray(d) ? d.map(e => e.msg).join(', ') : (d || error.message);
+      mostrarMensaje('error', 'Error: ' + msg);
     } finally {
       setLoading(false);
     }

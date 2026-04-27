@@ -27,7 +27,7 @@ class VentaCreate(BaseModel):
     """Schema para crear una venta completa (ALINEADO con BD)."""
     punto_venta_id: int = Field(..., description="ID del punto de venta")
     metodo_pago: str = Field(..., description="EFECTIVO o TARJETA")
-    detalles: List[VentaDetalleCreate] = Field(..., min_length=1)
+    detalles: List[VentaDetalleCreate] = Field(default=[])
 
 
 class VentaResponse(BaseModel):
