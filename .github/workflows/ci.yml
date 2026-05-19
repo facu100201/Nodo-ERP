@@ -43,7 +43,7 @@ jobs:
           cache-dependency-path: backend/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt pytest httpx
+        run: pip install -r backend/requirements.txt pytest "httpx<0.28"
 
       - name: Load database schema
         run: psql -h localhost -U postgres -d almacen_db -f docs/almacen_db.sql
@@ -66,11 +66,11 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: frontend/package.json
 
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci
+        run: npm install
 
       - name: Build
         working-directory: frontend
